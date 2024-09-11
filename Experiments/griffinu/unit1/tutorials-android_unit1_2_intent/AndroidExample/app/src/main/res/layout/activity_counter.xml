@@ -20,12 +20,12 @@
 
     <Button
         android:id="@+id/counter_increase_btn"
-        android:layout_width="250dp"
+        android:layout_width="150dp"
         android:layout_height="80dp"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:text="Increase">
-    </Button>
+        android:text="Increase"
+        android:translationX="-100dp"></Button>
 
     <Button
         android:id="@+id/counter_decrease_btn"
@@ -45,5 +45,13 @@
         android:text="Back to Main" >
 
     </Button>
+
+    <Button
+        android:id="@+id/counter_increase_btn_add10"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:text="increase +10"
+        android:translationX="230dp"
+        android:translationY="-270dp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

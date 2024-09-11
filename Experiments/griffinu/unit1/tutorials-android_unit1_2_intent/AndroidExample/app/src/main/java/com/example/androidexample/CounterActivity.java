@@ -15,6 +15,8 @@ public class CounterActivity extends AppCompatActivity {
     private Button decreaseBtn; // define decrease button variable
     private Button backBtn;     // define back button variable
 
+    private Button increaseBtnadd10; // EXPERIMENT CHANGE
+
     private int counter = 0;    // counter variable
 
     @Override
@@ -28,12 +30,21 @@ public class CounterActivity extends AppCompatActivity {
         decreaseBtn = findViewById(R.id.counter_decrease_btn);
         backBtn = findViewById(R.id.counter_back_btn);
 
+        //EXPERIMENT CHANGE
+        increaseBtnadd10 = findViewById(R.id.counter_increase_btn_add10);
+
         /* when increase btn is pressed, counter++, reset number textview */
         increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 numberTxt.setText(String.valueOf(++counter));
             }
+        });
+
+        /* when increase 10 btn is pressed, counter+=10, reset number textview*/
+        increaseBtnadd10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { numberTxt.setText(String.valueOf(counter+=10)); }
         });
 
         /* when decrease btn is pressed, counter--, reset number textview */
