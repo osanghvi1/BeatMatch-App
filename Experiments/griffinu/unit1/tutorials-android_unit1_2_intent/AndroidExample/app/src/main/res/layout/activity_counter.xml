@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".MainActivity"
@@ -25,16 +25,17 @@
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
         android:text="Increase"
-        android:translationX="-100dp"></Button>
+        android:translationX="-100dp"
+        tools:visibility="visible"></Button>
 
     <Button
         android:id="@+id/counter_decrease_btn"
-        android:layout_width="250dp"
+        android:layout_width="150dp"
         android:layout_height="80dp"
-        android:layout_gravity="center"
+        android:layout_gravity="center|left"
         android:layout_marginTop="10dp"
-        android:text="Decrease">
-    </Button>
+        android:text="Decrease"
+        android:translationX="30dp"></Button>
 
     <Button
         android:id="@+id/counter_back_btn"
@@ -53,5 +54,15 @@
         android:text="increase +10"
         android:translationX="230dp"
         android:translationY="-270dp" />
+
+    <Button
+        android:id="@+id/counter_decrease_btn_Sub10"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center|right"
+        android:layout_marginTop="10dp"
+        android:text="Decrease -10"
+        android:translationX="-30dp"
+        android:translationY="-270dp"></Button>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
