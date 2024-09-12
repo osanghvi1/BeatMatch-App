@@ -49,10 +49,8 @@ public class SignupActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String confirm = confirmEditText.getText().toString();
-                if (!password.contains("1234567890") && password.contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ")){
-                    Toast.makeText(getApplicationContext(), "Password must contain a number and an uppercase letter", Toast.LENGTH_LONG).show();
-                }
-                else if (password.equals(confirm)){
+
+                if (password.equals(confirm)){
                     Toast.makeText(getApplicationContext(), "Signing up", Toast.LENGTH_LONG).show();
                 }
                 else {
