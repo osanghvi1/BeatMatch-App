@@ -18,9 +18,9 @@ class WelcomeController {
     //generated when something is specified after the numbers and the '/', and will
     //display the text after the dash as a name for the greeting
     @GetMapping("/{name}")
-
-    //chage: if the string contains any numbers, 
     public String welcome(@PathVariable String name) {
         return "Hello and welcome to COMS 309: " + name;
     }
+
+
 }

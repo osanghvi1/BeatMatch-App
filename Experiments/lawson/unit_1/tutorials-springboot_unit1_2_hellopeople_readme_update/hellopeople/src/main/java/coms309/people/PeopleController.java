@@ -23,7 +23,7 @@ public class PeopleController {
 
     // Note that there is only ONE instance of PeopleController in 
     // Springboot system.
-    HashMap<String, Person> peopleList = new  HashMap<>();
+    HashMap<String, User> userList = new  HashMap<>();
 
     //CRUDL (create/read/update/delete/list)
     // use POST, GET, PUT, DELETE, GET methods for CRUDL
@@ -34,9 +34,9 @@ public class PeopleController {
     // Springboot automatically converts the list to JSON format 
     // in this case because of @ResponseBody
     // Note: To LIST, we use the GET method
-    @GetMapping("/people")
-    public @ResponseBody HashMap<String,Person> getAllPersons() {
-        return peopleList;
+    @GetMapping("/users")
+    public @ResponseBody HashMap<String,User> getAllUsers() {
+        return userList;
     }
 
     // THIS IS THE CREATE OPERATION
@@ -45,11 +45,10 @@ public class PeopleController {
     // It returns a string message in THIS example.
     // in this case because of @ResponseBody
     // Note: To CREATE we use POST method
-    @PostMapping("/people")
-    public @ResponseBody String createPerson(@RequestBody Person person) {
-        System.out.println(person);
-        peopleList.put(person.getFirstName(), person);
-        return "New person "+ person.getFirstName() + " Saved";
+    @PostMapping("/user/create")
+    public @ResponseBody String createUser(@RequestBody User user) {
+        userList.put(user.getUsername(), user);
+        return "New user "+ user.getUsername() + " Saved";
     }
 
     // THIS IS THE READ OPERATION
@@ -58,10 +57,10 @@ public class PeopleController {
     // springboot automatically converts Person to JSON format when we return it
     // in this case because of @ResponseBody
     // Note: To READ we use GET method
-    @GetMapping("/people/{firstName}")
-    public @ResponseBody Person getPerson(@PathVariable String firstName) {
-        Person p = peopleList.get(firstName);
-        return p;
+    @GetMapping("/users/{username}")
+    public @ResponseBody User getUser(@PathVariable String username) {
+        User u = userList.get(username);
+        return u;
     }
 
     // THIS IS THE UPDATE OPERATION
@@ -71,10 +70,10 @@ public class PeopleController {
     // Here we are returning what we sent to the method
     // in this case because of @ResponseBody
     // Note: To UPDATE we use PUT method
-    @PutMapping("/people/{firstName}")
-    public @ResponseBody Person updatePerson(@PathVariable String firstName, @RequestBody Person p) {
-        peopleList.replace(firstName, p);
-        return peopleList.get(firstName);
+    @PutMapping("/users/{username}")
+    public @ResponseBody User updateUser(@PathVariable String username, @RequestBody User u) {
+        userList.replace(username, u);
+        return userList.get(username);
     }
 
     // THIS IS THE DELETE OPERATION
@@ -83,10 +82,10 @@ public class PeopleController {
     // in this case because of @ResponseBody
     // Note: To DELETE we use delete method
     
-    @DeleteMapping("/people/{firstName}")
-    public @ResponseBody HashMap<String, Person> deletePerson(@PathVariable String firstName) {
-        peopleList.remove(firstName);
-        return peopleList;
+    @DeleteMapping("/users/{username}")
+    public @ResponseBody HashMap<String, User> deleteUser(@PathVariable String username) {
+        userList.remove(username);
+        return userList;
     }
 }
 
