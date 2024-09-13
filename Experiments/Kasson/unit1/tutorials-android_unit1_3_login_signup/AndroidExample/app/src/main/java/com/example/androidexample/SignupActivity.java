@@ -51,10 +51,10 @@ public class SignupActivity extends AppCompatActivity {
                 String confirm = confirmEditText.getText().toString();
 
                 if (password.equals(confirm)){
-                    Toast.makeText(getApplicationContext(), "Signing up", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Welcome to BeatMatch!", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Password don't match", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Password doesn't match previous password, please try again.", Toast.LENGTH_LONG).show();
                 }
             }
         });
