@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView messageText;     // define message textview variable
     private Button counterButton;     // define counter button variable
+    private Button Bestbtn;
+    private Button SuckBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
         /* initialize UI elements */
         messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
         counterButton = findViewById(R.id.main_counter_btn);// link to counter button in the Main activity XML
-
         /* extract data passed into this activity from another activity */
         Bundle extras = getIntent().getExtras();
-        if(extras == null) {
-            messageText.setText("Intent Example");
+        if (extras == null) {
+            messageText.setText("Song Rating");
+
         } else {
             String number = extras.getString("NUM");  // this will come from LoginActivity
-            messageText.setText("The number was " + number);
+            messageText.setText("You rated the song a " + number + " out of 10");
         }
 
         /* click listener on counter button pressed */
@@ -43,5 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 }

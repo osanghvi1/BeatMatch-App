@@ -42,7 +42,29 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:text="Back to Main" >
+        android:text="Done">
+
+    </Button>
+
+    <Button
+        android:id="@+id/Suck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Not for me"
+        android:translationX="260dp"
+        android:translationY="-5dp" >
+
+    </Button>
+
+    <Button
+        android:id="@+id/Best"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:text="Favorite"
+        android:translationX="50dp"
+        android:translationY="-50dp" >
 
     </Button>
 
