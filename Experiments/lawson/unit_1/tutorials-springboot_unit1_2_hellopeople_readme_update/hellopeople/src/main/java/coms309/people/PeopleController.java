@@ -59,8 +59,7 @@ public class PeopleController {
     // Note: To READ we use GET method
     @GetMapping("/users/{username}")
     public @ResponseBody User getUser(@PathVariable String username) {
-        User u = userList.get(username);
-        return u;
+        return userList.get(username);
     }
 
     // THIS IS THE UPDATE OPERATION
