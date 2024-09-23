@@ -64,4 +64,12 @@
         android:translationX="-30dp"
         android:translationY="-270dp"></Button>
 
+    <Button
+        android:id="@+id/counter_settings_button"
+        android:layout_width="110dp"
+        android:layout_height="60dp"
+        android:text="Settings"
+        android:translationX="300dp"
+        android:translationY="-820dp" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>

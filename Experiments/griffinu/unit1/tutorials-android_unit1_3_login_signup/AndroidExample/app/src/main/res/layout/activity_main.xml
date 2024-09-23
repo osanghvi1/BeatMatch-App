@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8E909E"
+    android:background="#91E450"
     android:backgroundTintMode="add"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="50dp"
-        android:text="Home Page"
+        android:text="BeatMatch"
         android:textAllCaps="true"
         android:textColor="#000403"
         android:textSize="50dp"
