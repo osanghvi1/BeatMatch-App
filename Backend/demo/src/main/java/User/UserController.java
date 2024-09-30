@@ -9,11 +9,33 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class UserController {
+import java.util.List;
 
-@Autowired
-    private UserRepository userRepository;
+    @RestController
+    public class UserController {
+
+    @Autowired
+        private UserRepository userRepository;
+
+    private String success = "{\"message\":\"success\"}";
+    private String failure = "{\"message\":\"failure\"}";
+
+    @GetMapping(path = "/users")
+    public List<User> getAllUsers() {return userRepository.findAll();}
+
+    @GetMapping(path = "/users/{id}")
+    User getUserById( @PathVariable int id){
+        return userRepository.findById(id);
+    }
+
+    @PostMapping(path = "/createUser")
+    String createUser(@RequestBody User user){
+        if (user == null){
+            return failure;
+        }
+        userRepository.save(user);
+        return success;
+    }
 
 
 

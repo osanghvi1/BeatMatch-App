@@ -19,19 +19,15 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    private int securityChoice;
-    private String securityAnswer;
     private int accountVisibility;
     private int accountStatus;
 
-    public User(String firstName, String lastName, String email, String username, int password, int securityChoice, String securityAnswer, int accountVisibility, int accountStatus) {
+    public User(String firstName, String lastName, String email, String username, int password, int accountVisibility, int accountStatus) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.userName = username;
         this.password = password;
-        this.securityChoice = securityChoice;
-        this.securityAnswer = securityAnswer;
         this.accountVisibility = accountVisibility;
         this.accountStatus = accountStatus;
     }
@@ -53,10 +49,6 @@ public class User {
 
     public String getLastName() {return lastName;}
 
-    public int getSecurityChoice() {return securityChoice;}
-
-    public String getSecurityAnswer() {return securityAnswer;}
-
     public int getAccountVisibility() {return accountVisibility;}
 
     public int getAccountStatus() {return accountStatus;}
@@ -72,10 +64,6 @@ public class User {
     public void setFirstName(String firstName) {this.firstName = firstName;}
 
     public void setLastName(String lastName) {this.lastName = lastName;}
-
-    public void setSecurityChoice(int securityChoice) {this.securityChoice = securityChoice;}
-
-    public void setSecurityAnswer(String securityAnswer) {this.securityAnswer = securityAnswer;}
 
     public void setAccountVisibility(int accountVisibility) {this.accountVisibility = accountVisibility;}
 
