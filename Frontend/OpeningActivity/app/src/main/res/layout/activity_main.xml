@@ -19,7 +19,6 @@
         android:text="The Ultimate Music Discovery App"
         android:textSize="24sp"
         android:textColor="#FFFFFF"
-        android:textAppearance="bold"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
