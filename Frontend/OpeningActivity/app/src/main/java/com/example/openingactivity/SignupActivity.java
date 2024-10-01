@@ -56,8 +56,8 @@ public class SignupActivity extends AppCompatActivity {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        sendGetRequest("http://10.0.2.2:8080/mytestapi");
-                    }
+                        sendGetRequest("https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser");
+                    } //"http://10.0.2.2:8080/mytestapi"
                 });
             }
         });
@@ -75,7 +75,7 @@ public class SignupActivity extends AppCompatActivity {
                 // Create JSON object for POST request
                 JSONObject json = new JSONObject();
                 try {
-                    json.put("id", 13); // Example static ID
+                    json.put("id", 1); // Example static ID
                     json.put("firstName", firstName);
                     json.put("lastName", lastName);
                     json.put("email", email);
@@ -87,7 +87,7 @@ public class SignupActivity extends AppCompatActivity {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        sendPostRequest("http://10.0.2.2:8080/createUser", json.toString());
+                        sendPostRequest("https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser", json.toString()); //"http://10.0.2.2:8080/createUser"
                     }
                 });
             }

@@ -1,64 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#FFFFFF"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#1C1C1C"
+    android:orientation="vertical"
+    tools:context=".SignupActivity"
+    android:padding="16dp">
 
-
-
-    <!-- Input fields for POST request -->
-    <EditText
-        android:id="@+id/input_first_name"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="First Name" />
-
-
-    <EditText
-        android:id="@+id/input_last_name"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Last Name" />
-
-
-    <EditText
-        android:id="@+id/input_email"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Email" />
-
-
-    <!-- Button to POST data -->
-    <Button
-        android:id="@+id/button_post"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black"
-        android:textColor="@android:color/white"
-        android:text="Sign Up" />
-
-    <!-- Button to GET data -->
-
-    <Button
-        android:id="@+id/button_get"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:background="@android:color/black"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Send GET Request"
-        android:textColor="@android:color/white" />
-
-    <!-- TextView to display GET response -->
 
     <TextView
-        android:id="@+id/text_get_response"
-        android:layout_width="match_parent"
+        android:id="@+id/signupText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Response will appear here" />
-
-
-</LinearLayout>
+        android:layout_marginStart="175dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="162dp"
+        android:text="Sign Up"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
