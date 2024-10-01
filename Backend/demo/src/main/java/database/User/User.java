@@ -1,4 +1,4 @@
-package User;
+package database.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
