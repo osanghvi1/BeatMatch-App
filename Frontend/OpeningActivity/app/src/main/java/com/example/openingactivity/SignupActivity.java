@@ -27,10 +27,9 @@ import java.util.concurrent.Executors;
 public class SignupActivity extends AppCompatActivity {
 
 
-    EditText inputFirstName, inputLastName, inputEmail;
-    EditText inputPassword, inputPasswordConfirm;
+    EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
-    Button buttonGet, buttonPost;
+    Button buttonGet, buttonPost, buttonBack;
     ExecutorService executorService;
 
 
@@ -39,13 +38,14 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-
+        buttonBack = findViewById(R.id.Signup_Back_Button);
         inputFirstName = findViewById(R.id.input_first_name);
         inputLastName = findViewById(R.id.input_last_name);
         inputEmail = findViewById(R.id.input_email);
         textGetResponse = findViewById(R.id.text_get_response);
         buttonGet = findViewById(R.id.button_get);
         buttonPost = findViewById(R.id.button_post);
+        inputUsername = findViewById(R.id.input_username);
         inputPassword = findViewById(R.id.input_password);
         inputPasswordConfirm = findViewById(R.id.input_password_confirm);
 
@@ -53,6 +53,14 @@ public class SignupActivity extends AppCompatActivity {
         // Initialize the ExecutorService with a single thread pool
         executorService = Executors.newSingleThreadExecutor();
 
+
+        // Button to take us back
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // Button to send GET request
         buttonGet.setOnClickListener(new View.OnClickListener() {
@@ -77,10 +85,13 @@ public class SignupActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
                 String passwordConfirm = inputPasswordConfirm.getText().toString();
+                String username = inputUsername.getText().toString();
 
                 if (!password.equals(passwordConfirm)) {
                     // Handle password mismatch
                     textGetResponse.setText("Passwords do not match");
+                } else if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty() || username.isEmpty()){
+                    textGetResponse.setText("Please fill in all fields");
                 } else {
                     textGetResponse.setText("Response will appear here");
 
@@ -89,6 +100,7 @@ public class SignupActivity extends AppCompatActivity {
                     JSONObject json = new JSONObject();
                     try {
                         json.put("id", 1); // Example static ID
+                        json.put("username", username);
                         json.put("firstName", firstName);
                         json.put("lastName", lastName);
                         json.put("email", email);
