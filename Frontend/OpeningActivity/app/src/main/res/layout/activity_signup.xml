@@ -9,7 +9,6 @@
     android:padding="16dp"
     tools:context=".SignupActivity">
 
-
     <Button
         android:id="@+id/Signup_Back_Button"
         android:layout_width="wrap_content"
@@ -17,6 +16,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="back"
+        android:background="@drawable/custom_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,6 +28,7 @@
         android:layout_marginTop="32dp"
         android:text="Sign Up"
         android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -40,12 +42,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="16dp"
-
-        android:background="@drawable/custom_white_text_field"
         android:hint="Last Name"
+        android:background="@drawable/custom_white_text_field"
         android:textAlignment="center"
-
-        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/input_first_name"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,10 +57,9 @@
         android:layout_marginTop="120dp"
         android:layout_marginEnd="8dp"
 
-        android:background="@drawable/custom_white_text_field"
         android:hint="First Name"
         android:textAlignment="center"
-
+        android:background="@drawable/custom_white_text_field"
         android:textColor="#000000"
         app:layout_constraintEnd_toStartOf="@+id/input_last_name"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,10 +73,9 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
 
-        android:background="@drawable/custom_white_text_field"
         android:hint="Email"
         android:textAlignment="center"
-
+        android:background="@drawable/custom_white_text_field"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,15 +87,12 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
-
         android:layout_marginEnd="16dp"
         android:background="@drawable/custom_white_text_field"
-        android:hint="Password"
-
-        android:textAlignment="center"
         android:textColor="#000000"
+        android:hint="Enter Password"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_email" />
 
@@ -108,13 +102,12 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
-
         android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_white_text_field"
         android:hint="Confirm Password"
 
         android:textAlignment="center"
         android:textColor="#000000"
+        android:background="@drawable/custom_white_text_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,6 +141,20 @@
         android:layout_marginEnd="166dp"
         android:layout_marginBottom="189dp"
         android:text="response will appear here"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="108dp"
+        android:text="Sign Up"
+        android:background="@drawable/custom_signup_button"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -80,8 +81,6 @@ public class SignupActivity extends AppCompatActivity {
                 if (!password.equals(passwordConfirm)) {
                     // Handle password mismatch
                     textGetResponse.setText("Passwords do not match");
-                    inputPassword.setTextColor(android.graphics.Color.RED);
-                    return;
                 } else {
                     textGetResponse.setText("Response will appear here");
 
@@ -122,7 +121,7 @@ public class SignupActivity extends AppCompatActivity {
 
             // Write JSON data to the output stream
             OutputStream os = conn.getOutputStream();
-            os.write(jsonData.getBytes("UTF-8"));
+            os.write(jsonData.getBytes(StandardCharsets.UTF_8));
             os.flush();
             os.close();
 
