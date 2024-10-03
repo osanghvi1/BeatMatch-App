@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
@@ -45,7 +44,7 @@ public class SignupActivity extends AppCompatActivity {
         textGetResponse = findViewById(R.id.text_get_response);
         buttonGet = findViewById(R.id.button_get);
         buttonPost = findViewById(R.id.button_post);
-        inputUsername = findViewById(R.id.input_username);
+        inputUsername = findViewById(R.id.signup_input_username);
         inputPassword = findViewById(R.id.input_password);
         inputPasswordConfirm = findViewById(R.id.input_password_confirm);
 
@@ -90,7 +89,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (!password.equals(passwordConfirm)) {
                     // Handle password mismatch
                     textGetResponse.setText("Passwords do not match");
-                } else if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty() || username.isEmpty()){
+                } else if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || username.isEmpty()){
                     textGetResponse.setText("Please fill in all fields");
                 } else {
                     textGetResponse.setText("Response will appear here");
