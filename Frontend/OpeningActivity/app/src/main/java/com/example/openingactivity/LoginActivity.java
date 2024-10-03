@@ -33,10 +33,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = inputUsername.getText().toString();
+                String password = inputPassword.getText().toString();
 
+                // Handle the login button click
+            }
+        });
 
-
-
+        buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle the forgot password button click
+            }
+        });
+        
     }
 
 
