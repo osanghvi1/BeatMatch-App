@@ -16,9 +16,9 @@ public class ForgotPasswordApplication {
     CommandLineRunner initForgotPassword(ForgotPasswordRepository forgotPasswordRepository) {
         return args -> {
             // Creating dummy ForgotPassword entities
-            ForgotPassword forgotPassword1 = new ForgotPassword("john_doe", "What is your pet's name?","Coupa", "What is your first car?","Acura");
-            ForgotPassword forgotPassword2 = new ForgotPassword("jane_doe", "What city were you born in?","New York", "What is your favorite book?","Harry Potter");
-            ForgotPassword forgotPassword3 = new ForgotPassword("justin_time", "What was your first job?","IT", "What is your favorite color?","Blue");
+            ForgotPassword forgotPassword1 = new ForgotPassword("oms", "What is your pet's name?","Coupa", "What is your first car?","Acura");
+            ForgotPassword forgotPassword2 = new ForgotPassword("sang", "What city were you born in?","New York", "What is your favorite book?","Harry Potter");
+            ForgotPassword forgotPassword3 = new ForgotPassword("vi", "What was your first job?","IT", "What is your favorite color?","Blue");
 
             // Saving ForgotPassword entities
             forgotPasswordRepository.save(forgotPassword1);
