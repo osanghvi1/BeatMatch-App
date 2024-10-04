@@ -1,9 +1,6 @@
 package com.example.forgotpassword;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class ForgotPassword {
@@ -12,6 +9,8 @@ public class ForgotPassword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
+    @Column(unique = true)  // This ensures that usernames are unique in the database
     private String username;
     private String securityQuestion1;
     private String ansSecurityQuestion1;
