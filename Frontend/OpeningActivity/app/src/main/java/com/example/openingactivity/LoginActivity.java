@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Handle the forgot password button click
             }
         });
-        
+
     }
 
 

@@ -23,8 +23,21 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SignupActivity extends AppCompatActivity {
 
+
+
+public class SignupActivity extends AppCompatActivity {
+    //server IP : 10.90.74.200
+
+    // URLs for GET and POST requests
+    final String GET_URL = "http://10.90.74.200:8080/users";
+    //"lport@coms-3090-049.class.las.iastate.edu/users"
+    //final String GET_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser";
+    //"http://10.0.2.2:8080/createUser"
+
+    //final String POST_URL = "http://10.90.74.200:8080/createUser";
+    //"http://coms-3090-049.class.las.iastate.edu:8080/createUser"
+    final String POST_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser";
 
     EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
@@ -68,8 +81,8 @@ public class SignupActivity extends AppCompatActivity {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        sendGetRequest("https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser");
-                    } //"http://10.0.2.2:8080/mytestapi"
+                        sendGetRequest(GET_URL);
+                    }
                 });
             }
         });
@@ -92,18 +105,22 @@ public class SignupActivity extends AppCompatActivity {
                 } else if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || username.isEmpty()){
                     textGetResponse.setText("Please fill in all fields");
                 } else {
-                    textGetResponse.setText("Response will appear here");
+                    textGetResponse.setText("POST sent");
 
 
                     // Create JSON object for POST request
                     JSONObject json = new JSONObject();
+
+                    // first name last name email username password visibility status
                     try {
-                        json.put("id", 1); // Example static ID
-                        json.put("username", username);
+                        //json.put("id", 100); // Example static ID
                         json.put("firstName", firstName);
                         json.put("lastName", lastName);
                         json.put("email", email);
+                        json.put("username", username);
                         json.put("password", password);
+                        json.put("visibility", 1); //Example static visibility
+                        json.put("status", 1); //Example static status
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -112,7 +129,7 @@ public class SignupActivity extends AppCompatActivity {
                     executorService.execute(new Runnable() {
                         @Override
                         public void run() {
-                            sendPostRequest("https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser", json.toString()); //"http://10.0.2.2:8080/createUser"
+                            sendPostRequest(POST_URL, json.toString());
                         }
                     });
                 }
