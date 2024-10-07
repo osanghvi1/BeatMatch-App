@@ -19,15 +19,29 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+
+
 public class SignupActivity extends AppCompatActivity {
+    //server IP : 10.90.74.200
 
+    // URLs for GET and POST requests
+    final String GET_URL = "http://10.90.74.200:8080/users";
+    //"lport@coms-3090-049.class.las.iastate.edu/users"
+    //final String GET_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser";
+    //"http://10.0.2.2:8080/createUser"
 
-    EditText inputFirstName, inputLastName, inputEmail;
+    final String POST_URL = "http://10.90.74.200:8080/createUser";
+    //"http://coms-3090-049.class.las.iastate.edu:8080/createUser"
+    //final String POST_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser";
+
+    EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
-    Button buttonGet, buttonPost;
+    Button buttonGet, buttonPost, buttonBack;
     ExecutorService executorService;
 
 
@@ -36,18 +50,29 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-
+        buttonBack = findViewById(R.id.Signup_Back_Button);
         inputFirstName = findViewById(R.id.input_first_name);
         inputLastName = findViewById(R.id.input_last_name);
         inputEmail = findViewById(R.id.input_email);
         textGetResponse = findViewById(R.id.text_get_response);
         buttonGet = findViewById(R.id.button_get);
         buttonPost = findViewById(R.id.button_post);
+        inputUsername = findViewById(R.id.signup_input_username);
+        inputPassword = findViewById(R.id.input_password);
+        inputPasswordConfirm = findViewById(R.id.input_password_confirm);
 
 
         // Initialize the ExecutorService with a single thread pool
         executorService = Executors.newSingleThreadExecutor();
 
+
+        // Button to take us back
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // Button to send GET request
         buttonGet.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +81,8 @@ public class SignupActivity extends AppCompatActivity {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        sendGetRequest("https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser");
-                    } //"http://10.0.2.2:8080/mytestapi"
+                        sendGetRequest(GET_URL);
+                    }
                 });
             }
         });
@@ -70,26 +95,44 @@ public class SignupActivity extends AppCompatActivity {
                 String firstName = inputFirstName.getText().toString();
                 String lastName = inputLastName.getText().toString();
                 String email = inputEmail.getText().toString();
+                String password = inputPassword.getText().toString();
+                String passwordConfirm = inputPasswordConfirm.getText().toString();
+                String username = inputUsername.getText().toString();
+
+                if (!password.equals(passwordConfirm)) {
+                    // Handle password mismatch
+                    textGetResponse.setText("Passwords do not match");
+                } else if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || username.isEmpty()){
+                    textGetResponse.setText("Please fill in all fields");
+                } else {
+                    textGetResponse.setText("POST sent");
 
 
-                // Create JSON object for POST request
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("id", 1); // Example static ID
-                    json.put("firstName", firstName);
-                    json.put("lastName", lastName);
-                    json.put("email", email);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    // Create JSON object for POST request
+                    JSONObject json = new JSONObject();
 
-
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendPostRequest("https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser", json.toString()); //"http://10.0.2.2:8080/createUser"
+                    // first name last name email username password visibility status
+                    try {
+                        //json.put("id", 100); // Example static ID
+                        json.put("firstName", firstName);
+                        json.put("lastName", lastName);
+                        json.put("email", email);
+                        json.put("username", username);
+                        json.put("password", password);
+                        json.put("visibility", 1); //Example static visibility
+                        json.put("status", 1); //Example static status
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                });
+
+
+                    executorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendPostRequest(POST_URL, json.toString());
+                        }
+                    });
+                }
             }
         });
     }
@@ -106,7 +149,7 @@ public class SignupActivity extends AppCompatActivity {
 
             // Write JSON data to the output stream
             OutputStream os = conn.getOutputStream();
-            os.write(jsonData.getBytes("UTF-8"));
+            os.write(jsonData.getBytes(StandardCharsets.UTF_8));
             os.flush();
             os.close();
 
@@ -162,6 +205,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
             String result = content.toString();
+            System.out.println(result);
             Log.d("GET RESPONSE", result); // Log the response for debugging
 
 
