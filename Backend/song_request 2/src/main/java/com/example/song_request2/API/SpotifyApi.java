@@ -1,4 +1,4 @@
-package API;
+package com.example.song_request2.API;
 
 public class SpotifyApi {
     // Replace these with your actual client ID, redirect URI, and scopes

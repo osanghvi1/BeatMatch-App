@@ -1,4 +1,4 @@
-package Liked_Song;
+package com.example.song_request2.Liked_Song;
 
 import jakarta.persistence.*;
 

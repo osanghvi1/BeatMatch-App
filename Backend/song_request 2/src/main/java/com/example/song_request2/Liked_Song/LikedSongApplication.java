@@ -1,4 +1,4 @@
-package Liked_Song;
+package com.example.song_request2.Liked_Song;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,9 +16,9 @@ public class LikedSongApplication {
     CommandLineRunner initLikedSongs(LikedSongRepository likedSongRepository) {
         return args -> {
             // Creating dummy LikedSongs entities
-            LikedSongs song1 = new LikedSongs(1, "Shape of You", "Pop");
-            LikedSongs song2 = new LikedSongs(2, "Blinding Lights", "Synthwave");
-            LikedSongs song3 = new LikedSongs(3, "Levitating", "Disco Pop");
+            LikedSongs song1 = new LikedSongs(4, "Shape of You", "Pop");
+            LikedSongs song2 = new LikedSongs(5, "Blinding Lights", "Synthwave");
+            LikedSongs song3 = new LikedSongs(6, "Levitating", "Disco Pop");
 
             // Saving LikedSongs entities
             likedSongRepository.save(song1);
