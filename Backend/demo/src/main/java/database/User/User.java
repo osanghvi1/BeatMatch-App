@@ -15,14 +15,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
     private String userName;
-    private int password;
+    private String password;
     private String email;
     private String firstName;
     private String lastName;
     private int accountVisibility;
     private int accountStatus;
 
-    public User(String firstName, String lastName, String email, String username, int password, int accountVisibility, int accountStatus) {
+    public User(String firstName, String lastName, String email, String username, String password, int accountVisibility, int accountStatus) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -39,7 +39,7 @@ public class User {
     // ================ Getters and setters ==========================//
     public int getUserID() {return userID;}
 
-    public int getPassword() {return password;}
+    public String getPassword() {return password;}
 
     public String getUserName() {return userName;}
 
@@ -55,7 +55,7 @@ public class User {
 
     public void setUserID(int userID) {this.userID = userID;}
 
-    public void setPassword(int password) {this.password = password;}
+    public void setPassword(String password) {this.password = password;}
 
     public void setUserName(String userName) {this.userName = userName;}
 
