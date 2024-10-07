@@ -8,10 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface LikedSongRepository extends JpaRepository<LikedSongs, Integer> {
-    Optional<LikedSongs> findBySongid(int Songid);
+
+    // Updated method to match the entity field name (songId)
+    Optional<LikedSongs> findBySongId(int songId);
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM LikedSongs ls WHERE ls.Songid = :Songid")
-    void deleteBySongid(int Songid);
+    @Query("DELETE FROM LikedSongs ls WHERE ls.songId = :songId")
+    void deleteBySongId(int songId);
 }

@@ -20,10 +20,10 @@ public class LikedSongController {
         return likedSongRepository.findAll();
     }
 
-    // Get a liked song by Songid
-    @GetMapping(path = "/likedSongs/{Songid}")
-    public LikedSongs getLikedSongBySongid(@PathVariable int Songid) {
-        Optional<LikedSongs> likedSong = likedSongRepository.findBySongid(Songid);
+    // Get a liked song by songId
+    @GetMapping(path = "/likedSongs/{songId}")
+    public LikedSongs getLikedSongBySongId(@PathVariable int songId) {
+        Optional<LikedSongs> likedSong = likedSongRepository.findBySongId(songId);
         return likedSong.orElse(null); // Returns null if not found
     }
 
@@ -37,12 +37,12 @@ public class LikedSongController {
         return success;
     }
 
-    // Update an existing liked song by Songid
-    @PutMapping(path = "/likedSongs/{Songid}")
-    public LikedSongs updateLikedSong(@PathVariable int Songid, @RequestBody LikedSongs request) {
-        Optional<LikedSongs> likedSongOptional = likedSongRepository.findBySongid(Songid);
+    // Update an existing liked song by songId
+    @PutMapping(path = "/likedSongs/{songId}")
+    public LikedSongs updateLikedSong(@PathVariable int songId, @RequestBody LikedSongs request) {
+        Optional<LikedSongs> likedSongOptional = likedSongRepository.findBySongId(songId);
         if (!likedSongOptional.isPresent()) {
-            return null; // If the record with the given Songid doesn't exist
+            return null; // If the record with the given songId doesn't exist
         }
         LikedSongs likedSong = likedSongOptional.get();
 
@@ -56,14 +56,14 @@ public class LikedSongController {
         return likedSong;
     }
 
-    // Delete a liked song by Songid
-    @DeleteMapping(path = "/likedSongs/{Songid}")
-    public String deleteLikedSongBySongid(@PathVariable int Songid) {
-        Optional<LikedSongs> likedSong = likedSongRepository.findBySongid(Songid);
+    // Delete a liked song by songId
+    @DeleteMapping(path = "/likedSongs/{songId}")
+    public String deleteLikedSongBySongId(@PathVariable int songId) {
+        Optional<LikedSongs> likedSong = likedSongRepository.findBySongId(songId);
         if (!likedSong.isPresent()) {
             return failure; // If the record with the given ID doesn't exist
         }
-        likedSongRepository.deleteBySongid(Songid);
+        likedSongRepository.deleteBySongId(songId);
         return success;
     }
 }

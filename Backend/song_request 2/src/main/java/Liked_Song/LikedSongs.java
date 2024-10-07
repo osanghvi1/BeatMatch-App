@@ -7,53 +7,53 @@ public class LikedSongs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Songid;
+    private int songId; // Use camelCase naming
 
-    private String SongName;
-    private String SongGenre;
+    private String songName;
+    private String songGenre;
 
-    @Column(unique = true)  // This ensures that the UserID is unique per song
-    private int UserID;
+    @Column(unique = true)  // This ensures that the userID is unique per song
+    private int userID;
 
     // Constructors
-    public LikedSongs(int UserID, String SongName, String SongGenre) {
-        this.UserID = UserID;
-        this.SongName = SongName;
-        this.SongGenre = SongGenre;
+    public LikedSongs(int userID, String songName, String songGenre) {
+        this.userID = userID;
+        this.songName = songName;
+        this.songGenre = songGenre;
     }
 
     public LikedSongs() {}
 
     // Getters and Setters
-    public int getSongid() {
-        return Songid;
+    public int getSongId() {
+        return songId;
     }
 
-    public void setSongid(int Songid) {
-        this.Songid = Songid;
+    public void setSongId(int songId) {
+        this.songId = songId;
     }
 
     public int getUserID() {
-        return UserID;
+        return userID;
     }
 
-    public void setUserID(int UserID) {
-        this.UserID = UserID;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getSongName() {
-        return SongName;
+        return songName;
     }
 
-    public void setSongName(String SongName) {
-        this.SongName = SongName;
+    public void setSongName(String songName) {
+        this.songName = songName;
     }
 
     public String getSongGenre() {
-        return SongGenre;
+        return songGenre;
     }
 
-    public void setSongGenre(String SongGenre) {
-        this.SongGenre = SongGenre;
+    public void setSongGenre(String songGenre) {
+        this.songGenre = songGenre;
     }
 }
