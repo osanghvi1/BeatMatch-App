@@ -29,8 +29,10 @@ public class LoginActivity extends AppCompatActivity {
 
     final String GET_URL = "http://10.90.74.200:8080";
 
+    public int USER_ID;
+
     Button buttonBack, buttonLogin, buttonForgotPassword;
-    EditText inputUsername, inputPassword;
+    EditText inputEmail, inputPassword;
     TextView textView;
 
 
@@ -43,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonBack = findViewById(R.id.login_back_button);
         buttonLogin = findViewById(R.id.button_login);
         buttonForgotPassword = findViewById(R.id.button_forgot_password);
-        inputUsername = findViewById(R.id.login_input_username);
+        inputEmail = findViewById(R.id.login_input_username);
         inputPassword = findViewById(R.id.login_input_password);
         textView = findViewById(R.id.textView2);
 
@@ -58,14 +60,14 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = inputUsername.getText().toString();
+                String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
 
                 // Handle the login button click
 
-                if (!username.isEmpty() && !password.isEmpty()) {
+                if (!email.isEmpty() && !password.isEmpty()) {
                     // Send GET request
-                    sendGetRequest(GET_URL + "/user/" + username);
+                    sendGetRequest(GET_URL + "/user/" + email + "/" + password);  //url/user/email/password
                 } else {
                     textView.setText("please fill in all fields*");
                 }
@@ -81,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //method that sets TextView to nothing when username field is typed in
-        inputUsername.setOnKeyListener(new View.OnKeyListener() {
+        inputEmail.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 textView.setText("");
@@ -101,7 +103,37 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void sendGetRequest(String s) {
+    // Method to send GET Request
+    private void sendGetRequest(String urlString) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+
+            in.close();
+            urlConnection.disconnect();
+
+
+            String result = content.toString();
+            Log.d("GET RESPONSE", result); // Log the response for debugging
+
+            //if statement to read status code returned from server
+            
+            // Update intent to next page
+
+        } catch (Exception e) {
+            Log.e("GET ERROR", e.getMessage(), e); // Log any errors
+            e.printStackTrace();
+        }
     }
 
 
