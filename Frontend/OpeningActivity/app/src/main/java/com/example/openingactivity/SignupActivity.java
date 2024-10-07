@@ -35,9 +35,9 @@ public class SignupActivity extends AppCompatActivity {
     //final String GET_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser";
     //"http://10.0.2.2:8080/createUser"
 
-    //final String POST_URL = "http://10.90.74.200:8080/createUser";
+    final String POST_URL = "http://10.90.74.200:8080/createUser";
     //"http://coms-3090-049.class.las.iastate.edu:8080/createUser"
-    final String POST_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser";
+    //final String POST_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser";
 
     EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
@@ -205,6 +205,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
             String result = content.toString();
+            System.out.println(result);
             Log.d("GET RESPONSE", result); // Log the response for debugging
 
 
