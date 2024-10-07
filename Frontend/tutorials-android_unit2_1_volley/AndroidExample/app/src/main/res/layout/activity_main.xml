@@ -7,7 +7,7 @@
     <EditText
         android:id="@+id/songInput"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Enter song title" />
 
     <Button
@@ -20,5 +20,22 @@
         android:id="@+id/resultView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp" />
+        android:paddingTop="16dp"
+        android:visibility="gone" />
+
+    <!-- Adding ScrollView to handle multiple song results -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true">
+
+        <!-- LinearLayout to dynamically add song details and Like buttons -->
+        <LinearLayout
+            android:id="@+id/songListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
 </LinearLayout>

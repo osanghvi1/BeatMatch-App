@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+import android.view.Gravity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText songInput;
     private Button searchButton;
     private TextView resultView;
+    private LinearLayout songListLayout;
 
     private static final String API_BASE_URL = "https://api.deezer.com/search/track?q=";
 
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         songInput = findViewById(R.id.songInput);
         searchButton = findViewById(R.id.searchButton);
         resultView = findViewById(R.id.resultView);
+        songListLayout = findViewById(R.id.songListLayout);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,14 +80,37 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
         try {
             DeezerResponse deezerResponse = gson.fromJson(response, DeezerResponse.class);
-            StringBuilder results = new StringBuilder();
+
+            // Clear previous results
+            songListLayout.removeAllViews();
+
             for (DeezerResponse.Track track : deezerResponse.getData()) {
-                results.append("Title: ").append(track.getTitle()).append("\n")
-                        .append("Artist: ").append(track.getArtist()).append("\n")
-                        .append("Album: ").append(track.getAlbum()).append("\n")
-                        .append("Cover: ").append(track.getCover()).append("\n\n");
+                // Create a TextView for each song's details
+                TextView songDetails = new TextView(this);
+                songDetails.setText("Title: " + track.getTitle() + "\n"
+                        + "Artist: " + track.getArtist() + "\n"
+                        + "Album: " + track.getAlbum() + "\n"
+                        + "Cover: " + track.getCover());
+                songDetails.setPadding(16, 16, 16, 16);
+
+                // Create a "Like" button for each song
+                Button likeButton = new Button(this);
+                likeButton.setText("Like");
+                likeButton.setGravity(Gravity.CENTER);
+
+                // Add a listener to the Like button
+                likeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, "Liked: " + track.getTitle(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // Add the TextView and Button to the layout
+                songListLayout.addView(songDetails);
+                songListLayout.addView(likeButton);
             }
-            resultView.setText(results.toString());
+
         } catch (JsonSyntaxException e) {
             Log.e("JSON Error", e.toString());
             resultView.setText("Error parsing response");
