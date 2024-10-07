@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface LikedSongRepository extends JpaRepository<LikedSongs, Integer> {
 
-    // Updated method to match the entity field name (songId)
-    Optional<LikedSongs> findBySongId(int songId);
+    // Updated method to use long type for songId
+    Optional<LikedSongs> findBySongId(long songId);
 
     @Transactional
     @Modifying
     @Query("DELETE FROM LikedSongs ls WHERE ls.songId = :songId")
-    void deleteBySongId(int songId);
+    void deleteBySongId(long songId);
 }

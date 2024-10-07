@@ -1,44 +1,42 @@
 package com.example.song_request2.Liked_Song;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class LikedSongs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int songId; // Use camelCase naming
+    private int id; // Primary key for the liked song entry
 
+    private long songId; // Deezer Track ID
     private String songName;
     private String songGenre;
-
-    @Column(unique = true)  // This ensures that the userID is unique per song
-    private int userID;
-
-    // Constructors
-    public LikedSongs(int userID, String songName, String songGenre) {
-        this.userID = userID;
-        this.songName = songName;
-        this.songGenre = songGenre;
-    }
+    private int userID; // Assuming userID is an integer for this example
 
     public LikedSongs() {}
 
+    public LikedSongs(long songId, String songName, String songGenre, int userID) {
+        this.songId = songId;
+        this.songName = songName;
+        this.songGenre = songGenre;
+        this.userID = userID;
+    }
+
     // Getters and Setters
-    public int getSongId() {
+    public int getId() {
+        return id;
+    }
+
+    public long getSongId() {
         return songId;
     }
 
-    public void setSongId(int songId) {
+    public void setSongId(long songId) {
         this.songId = songId;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     public String getSongName() {
@@ -55,5 +53,13 @@ public class LikedSongs {
 
     public void setSongGenre(String songGenre) {
         this.songGenre = songGenre;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }
