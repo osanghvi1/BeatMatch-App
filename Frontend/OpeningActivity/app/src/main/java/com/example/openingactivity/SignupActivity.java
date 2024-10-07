@@ -1,5 +1,6 @@
 package com.example.openingactivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -117,10 +118,10 @@ public class SignupActivity extends AppCompatActivity {
                         json.put("firstName", firstName);
                         json.put("lastName", lastName);
                         json.put("email", email);
-                        json.put("username", username);
+                        json.put("userName", username);
                         json.put("password", password);
-                        json.put("visibility", 1); //Example static visibility
-                        json.put("status", 1); //Example static status
+                        json.put("accountVisibility", 1); //Example static visibility
+                        json.put("accountStatus", 1); //Example static status
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -132,6 +133,12 @@ public class SignupActivity extends AppCompatActivity {
                             sendPostRequest(POST_URL, json.toString());
                         }
                     });
+
+                    //Change intent to Login
+                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                    finish();
+                    startActivity(intent);
+
                 }
             }
         });

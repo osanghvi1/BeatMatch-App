@@ -1,11 +1,27 @@
 package com.example.openingactivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,6 +56,8 @@ public class LoginActivity extends AppCompatActivity {
                 String password = inputPassword.getText().toString();
 
                 // Handle the login button click
+
+
             }
         });
 
@@ -50,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
+        }
 
 
 }
