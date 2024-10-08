@@ -10,7 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class StartupActivity extends AppCompatActivity {
 
     Button Login_Button, Signup_Button;
 
@@ -33,14 +33,12 @@ public class MainActivity extends AppCompatActivity {
         Login_Button.setOnClickListener(v -> {
             // Handle login button click
             Intent myIntent = new Intent(this, LoginActivity.class);
-            finish();
             startActivity(myIntent);
         });
 
         Signup_Button.setOnClickListener(v -> {
             // Handle signup button click
             Intent myIntent = new Intent(this, SignupActivity.class);
-            finish();
             startActivity(myIntent);
         });
 

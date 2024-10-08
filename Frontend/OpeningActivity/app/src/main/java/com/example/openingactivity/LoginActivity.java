@@ -29,11 +29,11 @@ public class LoginActivity extends AppCompatActivity {
 
     final String GET_URL = "http://10.90.74.200:8080";
 
-    public int USER_ID;
+    public static int USER_ID;
 
     Button buttonBack, buttonLogin, buttonForgotPassword;
     EditText inputEmail, inputPassword;
-    TextView textView;
+    TextView textView, textGetResponse;
 
 
     @Override
@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         inputEmail = findViewById(R.id.login_input_username);
         inputPassword = findViewById(R.id.login_input_password);
         textView = findViewById(R.id.textView2);
+        textGetResponse = findViewById(R.id.text_get_response);
 
         // Button to take us back
         buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +69,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (!email.isEmpty() && !password.isEmpty()) {
                     // Send GET request
                     sendGetRequest(GET_URL + "/user/" + email + "/" + password);  //url/user/email/password
+
+                    // Switch Activity to ProfileActivity + display user information.
+                    // Store user ID for easier lookup in other activities.
+                    // global variable?
+
                 } else {
                     textView.setText("please fill in all fields*");
                 }
@@ -105,35 +111,43 @@ public class LoginActivity extends AppCompatActivity {
 
     // Method to send GET Request
     private void sendGetRequest(String urlString) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlString, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("GET RESPONSE", response.toString());
+                        try {
+                            // Check if the response contains the "success" key indicating if the user exists or not
+                            if (response.has("success")) {
+                                // Extract the user information and status from the JSON response
+                                JSONObject user = response.getJSONObject("ID");
+                                //store the users ID for later use.
+                                USER_ID = user.getInt("ID");
+                                String firstName = user.getString("firstName");
+                                String lastName = user.getString("lastName");
+                                String email = user.getString("email");
+                                // Update the TextView with the student details and status from the response
+                                textGetResponse.setText(
+                                        "Student Info:" + "\nFirst Name: " + firstName + "\nLast Name: " + lastName + "\nEmail: " + email);
+                            } else {
+                                // Handle the case when the student doesn't exist (i.e., 404 Not Found)
+                                String message = response.getString("message");
+                                String status = response.getString("status");
+                                textGetResponse.setText("Response: " + message + "\nStatus: " + status);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            textGetResponse.setText("Error parsing response");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("GET ERROR", error.toString());
+                error.printStackTrace();
+                textGetResponse.setText("Error: " + error.toString());
             }
-
-
-            in.close();
-            urlConnection.disconnect();
-
-
-            String result = content.toString();
-            Log.d("GET RESPONSE", result); // Log the response for debugging
-
-            //if statement to read status code returned from server
-            
-            // Update intent to next page
-
-        } catch (Exception e) {
-            Log.e("GET ERROR", e.getMessage(), e); // Log any errors
-            e.printStackTrace();
-        }
+        });
     }
 
 
