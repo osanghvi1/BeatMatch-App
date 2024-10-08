@@ -42,7 +42,7 @@ public class SignupActivity extends AppCompatActivity {
 
     EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
-    Button buttonGet, buttonPost, buttonBack;
+    Button buttonBack, buttonSignup, buttonGet, buttonPost;
     ExecutorService executorService;
 
 
@@ -52,6 +52,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         buttonBack = findViewById(R.id.Signup_Back_Button);
+        buttonSignup = findViewById(R.id.button_signup);
         inputFirstName = findViewById(R.id.input_first_name);
         inputLastName = findViewById(R.id.input_last_name);
         inputEmail = findViewById(R.id.input_email);
@@ -90,7 +91,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
         // Button to send POST request
-        buttonPost.setOnClickListener(new View.OnClickListener() {
+        buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String firstName = inputFirstName.getText().toString();
@@ -135,6 +136,8 @@ public class SignupActivity extends AppCompatActivity {
                     });
 
                     //Change intent to Login
+                    //TODO if user already exists do not switch intent
+                    //TODO splash message that signup was successful
                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                     finish();
                     startActivity(intent);
