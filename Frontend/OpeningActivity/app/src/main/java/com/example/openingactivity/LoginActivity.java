@@ -69,10 +69,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (!email.isEmpty() && !password.isEmpty()) {
                     // Send GET request
                     sendGetRequest(GET_URL + "/user/" + email + "/" + password);  //url/user/email/password
-
+                    //TODO
                     // Switch Activity to ProfileActivity + display user information.
                     // Store user ID for easier lookup in other activities.
-                    // global variable?
+                    // global variable? or user class?
+                    //
 
                 } else {
                     textView.setText("please fill in all fields*");
@@ -120,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Check if the response contains the "success" key indicating if the user exists or not
                             if (response.has("success")) {
                                 // Extract the user information and status from the JSON response
+                                //TODO find out to extract user ID from json object, talk to lawson about naming convention
                                 JSONObject user = response.getJSONObject("ID");
                                 //store the users ID for later use.
                                 USER_ID = user.getInt("ID");
