@@ -10,7 +10,7 @@
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".GenreSuggestions"
             android:exported="true"> <!-- Add this line -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
