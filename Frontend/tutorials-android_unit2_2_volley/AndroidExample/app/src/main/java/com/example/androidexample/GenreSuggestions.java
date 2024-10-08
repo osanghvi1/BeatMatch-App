@@ -15,7 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-public class MainActivity extends AppCompatActivity {
+public class GenreSuggestions extends AppCompatActivity {
 
     private EditText genreInput;
     private Button suggestButton;
