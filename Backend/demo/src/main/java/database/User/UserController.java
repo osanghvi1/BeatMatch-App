@@ -28,6 +28,16 @@ import java.util.List;
         return userRepository.findById(id);
     }
 
+    @GetMapping(path = "/users/{email}/{password}")
+    String getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
+        if (userRepository.findByEmailAndPassword(email, password) != null) {
+            return "Success! UserID for specified email: " + userRepository.findByEmailAndPassword(email, password).getUserID();
+        }
+        else{
+            return "Failed to Authenticate User";
+        }
+    }
+
     @PostMapping(path = "/createUser")
     String createUser(@RequestBody User user){
         if (user == null){
@@ -36,42 +46,6 @@ import java.util.List;
         userRepository.save(user);
         return success;
     }
-
-
-
-
-
-//to create a user
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
