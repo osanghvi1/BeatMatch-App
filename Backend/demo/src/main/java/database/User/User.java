@@ -1,12 +1,6 @@
 package database.User;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -16,7 +10,10 @@ public class User {
     private int userID;
     private String userName;
     private String password;
+
+    @Column(name = "email", unique = true)
     private String email;
+
     private String firstName;
     private String lastName;
     private int accountVisibility;
@@ -32,8 +29,7 @@ public class User {
         this.accountStatus = accountStatus;
     }
 
-    public User() {
-    }
+    public User() {}
 
 
     // ================ Getters and setters ==========================//
