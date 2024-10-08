@@ -31,7 +31,7 @@ public class SongRequest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_songreq);
 
         songInput = findViewById(R.id.songInput);
         searchButton = findViewById(R.id.searchButton);
