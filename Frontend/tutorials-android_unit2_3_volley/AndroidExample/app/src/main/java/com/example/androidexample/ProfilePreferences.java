@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfilePreferences extends AppCompatActivity {
 
     private EditText etPop;
     private EditText etRock;
@@ -19,7 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.profile_preferences);
 
         etPop = findViewById(R.id.etPop);
         etRock = findViewById(R.id.etRock);

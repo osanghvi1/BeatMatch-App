@@ -7,11 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,7 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class GenrePreferences extends AppCompatActivity {
 
     private EditText etPopGenre, etRockGenre, etHipHopGenre;
     private Button btnSaveGenres, btnGoToProfile;
@@ -33,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.genre_preferences);
 
         etPopGenre = findViewById(R.id.etGenre1);
         etRockGenre = findViewById(R.id.etGenre2);
@@ -61,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("hiphop", hiphopGenre);
                     editor.apply();
 
-                    Toast.makeText(MainActivity.this, "Genres saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GenrePreferences.this, "Genres saved!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Please enter valid genres!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GenrePreferences.this, "Please enter valid genres!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         btnGoToProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(GenrePreferences.this, ProfilePreferences.class);
                 startActivity(intent);
             }
         });
@@ -93,14 +89,14 @@ public class MainActivity extends AppCompatActivity {
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(MainActivity.this, "Error fetching genres", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GenrePreferences.this, "Error fetching genres", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Failed to fetch Deezer genres", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GenrePreferences.this, "Failed to fetch Deezer genres", Toast.LENGTH_SHORT).show();
                     }
                 });
 
