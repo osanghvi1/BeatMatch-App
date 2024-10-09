@@ -1,4 +1,4 @@
-package com.example.androidexample;
+package com.example.openingactivity;
 //http://10.90.74.200:8080;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.example.androidexample;
+package com.example.openingactivity;
 
 public class Genre {
     public int id;

@@ -1,4 +1,4 @@
-package com.example.androidexample;
+package com.example.openingactivity;
 import java.util.List;
 
 public class GenreResponse {

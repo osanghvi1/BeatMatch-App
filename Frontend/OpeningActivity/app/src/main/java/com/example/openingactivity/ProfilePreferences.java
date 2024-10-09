@@ -1,4 +1,4 @@
-package com.example.androidexample;
+package com.example.openingactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.example.androidexample;
+package com.example.openingactivity;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
