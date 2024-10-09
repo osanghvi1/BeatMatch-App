@@ -15,6 +15,7 @@ public class ProfilePreferences extends AppCompatActivity {
     private EditText etHipHop;
     private Button btnUpdate;
     private TextView tvMessage;
+    private Button btnBack; // Add back button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class ProfilePreferences extends AppCompatActivity {
         etHipHop = findViewById(R.id.etHipHop);
         btnUpdate = findViewById(R.id.btnUpdate);
         tvMessage = findViewById(R.id.tvMessage);
+        btnBack = findViewById(R.id.btnBack); // Initialize back button
 
         // Load saved genres from SharedPreferences
         loadGenres();
@@ -35,6 +37,15 @@ public class ProfilePreferences extends AppCompatActivity {
             public void onClick(View v) {
                 saveGenres();
                 tvMessage.setText("Genres updated successfully!");
+            }
+        });
+
+        // Handle back button click
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the previous page
+                finish(); // Ends the current activity and returns to the previous one
             }
         });
     }
