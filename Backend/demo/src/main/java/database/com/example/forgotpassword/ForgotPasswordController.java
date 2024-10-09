@@ -4,6 +4,7 @@ import database.User.User;
 import database.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -32,18 +33,29 @@ public class ForgotPasswordController {
         return forgotPassword.orElse(null); // Returns null if not found
     }
 
-    // Get a ForgotPassword record by email and retrieve the user's password from User table
-    @GetMapping(path = "/forgetPassword/email/{email}")
-    public String getForgetPasswordByemail(@PathVariable String email) {
-        ForgotPassword forgotPassword = forgotPasswordRepository.findByemail(email);
+    // Validate security questions and return the password
+    @PostMapping(path = "/forgetPassword/validate")
+    public String validateSecurityQuestions(@RequestBody ForgotPassword forgotPasswordRequest) {
+        // Fetch the ForgotPassword record by email
+        ForgotPassword forgotPassword = forgotPasswordRepository.findByemail(forgotPasswordRequest.getEmail());
 
-        // Fetch the password from the User table
-        User user = userRepository.findByemail(email);
-        if (user != null) {
-            String password = user.getPassword(); // Fetch the password from the User entity
-            return "{\"forgotPassword\": " + forgotPassword.toString() + ", \"password\": \"" + password + "\"}";
-        } else {
+        if (forgotPassword == null) {
             return "{\"message\": \"User not found\"}";
+        }
+
+        // Validate the answers to the security questions
+        if (forgotPassword.getansSecurityQuestion1().equals(forgotPasswordRequest.getansSecurityQuestion1()) &&
+                forgotPassword.getansSecurityQuestion2().equals(forgotPasswordRequest.getansSecurityQuestion2())) {
+
+            // Fetch the password from the User entity
+            User user = userRepository.findByemail(forgotPasswordRequest.getEmail());
+            if (user != null) {
+                return "{\"email\": \"" + forgotPasswordRequest.getEmail() + "\", \"password\": \"" + user.getPassword() + "\"}";
+            } else {
+                return "{\"message\": \"User not found\"}";
+            }
+        } else {
+            return "{\"message\": \"Security answers do not match\"}";
         }
     }
 
