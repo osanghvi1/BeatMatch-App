@@ -7,7 +7,15 @@
     android:gravity="center"
     android:background="@drawable/gradient_background">
 
-    <!-- Input fields for genres -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Your Top 3 Favorite Genres"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="24dp" />
+
     <EditText
         android:id="@+id/etGenre1"
         android:layout_width="match_parent"
@@ -61,4 +69,5 @@
         android:textColor="#fff"
         android:paddingHorizontal="24dp"
         android:paddingVertical="12dp" />
+
 </LinearLayout>
