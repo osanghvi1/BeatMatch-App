@@ -139,7 +139,7 @@ public class SignupActivity extends AppCompatActivity {
                     //Change intent to Login
                     //TODO if user already exists do not switch intent
                     //TODO splash message that signup was successful
-                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(SignupActivity.this, GenrePreferences.class);
                     finish();
                     startActivity(intent);
 
