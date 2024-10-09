@@ -19,10 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class MainActivity extends AppCompatActivity {
+public class SongRequest extends AppCompatActivity {
 
     private EditText songInput;
     private Button searchButton;
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_songreq);
 
         songInput = findViewById(R.id.songInput);
         searchButton = findViewById(R.id.searchButton);
@@ -102,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 likeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "Liked: " + track.getTitle(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SongRequest.this, "Liked: " + track.getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
