@@ -47,15 +47,7 @@ import java.util.List;
         return success;
     }
 
-        @GetMapping(path = "/users/email/{email}")
-        public String getUserPasswordByUsername(@PathVariable String username) {
-            User user = userRepository.findByemail(username);  // Use findByUserName here
-            if (user != null) {
-                return "Password for user " + username + ": " + user.getPassword();
-            } else {
-                return "User not found";
-            }
-        }
+
 
 
 }
