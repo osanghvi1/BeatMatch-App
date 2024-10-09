@@ -12,7 +12,7 @@ public class ApiService {
     private static final String API_BASE_URL = "https://api.deezer.com";
 
     // Method to search for a track by name and return the track ID of the first result
-    public int searchTrack(String trackName) throws JSONException {
+    public long searchTrack(String trackName) throws JSONException {
         // Create a RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
 
@@ -29,9 +29,21 @@ public class ApiService {
         if (dataArray.length() > 0) {
             // Get the first track from the search results
             JSONObject track = dataArray.getJSONObject(0);
-            return track.getInt("id");
+            return track.getLong("id");  // Change to long to handle large numbers
         } else {
             throw new JSONException("No tracks found for the search query.");
         }
+    }
+
+    // Method to fetch track details by trackID
+    public void getTrackDetailsById(long trackID) {
+        RestTemplate restTemplate = new RestTemplate();
+        String trackDetailsUrl = API_BASE_URL + "/track/" + trackID;
+
+        // Make a GET request to fetch track details
+        ResponseEntity<String> trackResponse = restTemplate.getForEntity(trackDetailsUrl, String.class);
+
+        // Print the track details
+        System.out.println("Track Details: " + trackResponse.getBody());
     }
 }

@@ -23,7 +23,10 @@ public class SongRequestApplication {
             ApiService deezerApiService = new ApiService();
             try {
                 // Retrieve the trackID for the dummy data by searching for the track "Levitating"
-                int trackID = deezerApiService.searchTrack("Levitating");
+                long trackID = deezerApiService.searchTrack("Levitating");  // Now using long for trackID
+
+                // Fetch and print the track details using the trackID
+                deezerApiService.getTrackDetailsById(trackID);
 
                 // Creating dummy LikedSongs entities with the dynamic trackID
                 LikedSongs song1 = new LikedSongs(trackID, "Levitating", "Pop", 1); // Dynamic trackID
