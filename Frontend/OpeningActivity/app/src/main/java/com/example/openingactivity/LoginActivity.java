@@ -76,9 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                     });
 
                     //TODO
-                    // Switch Activity to ProfileActivity + display user information.
-                    // Store user ID for easier lookup in other activities.
-                    // global variable? or user class?
+                    //user class?
                     //
 
                 } else {
