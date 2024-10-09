@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@drawable/gradient_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Your Top 3 Favorite Genres"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="24dp" />
+
+    <EditText
+        android:id="@+id/etGenre1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Genre"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:textColor="#000"
+        android:textColorHint="#777"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etGenre2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Genre"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:textColor="#000"
+        android:textColorHint="#777"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etGenre3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Genre"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:textColor="#000"
+        android:textColorHint="#777"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnSaveGenres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Genres"
+        android:backgroundTint="#26A69A"
+        android:textColor="#fff"
+        android:layout_marginBottom="16dp"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp" />
+
+    <Button
+        android:id="@+id/btnGoToProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Profile"
+        android:backgroundTint="#388E3C"
+        android:textColor="#fff"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp" />
+
+</LinearLayout>
