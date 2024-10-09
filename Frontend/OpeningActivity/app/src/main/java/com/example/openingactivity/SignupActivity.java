@@ -31,10 +31,11 @@ public class SignupActivity extends AppCompatActivity {
     //server IP : 10.90.74.200
 
     // URLs for GET and POST requests
-    final String GET_URL = "http://10.90.74.200:8080/users";
+    //final String GET_URL = "http://10.90.74.200:8080/users";
     //"lport@coms-3090-049.class.las.iastate.edu/users"
     //final String GET_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser";
     //"http://10.0.2.2:8080/createUser"
+    final String GET_URL = "http://10.90.74.200:8080/users";
 
     final String POST_URL = "http://10.90.74.200:8080/createUser";
     //"http://coms-3090-049.class.las.iastate.edu:8080/createUser"
