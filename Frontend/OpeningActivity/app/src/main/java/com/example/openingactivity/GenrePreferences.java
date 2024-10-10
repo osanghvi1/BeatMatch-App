@@ -110,8 +110,8 @@ public class GenrePreferences extends AppCompatActivity {
 
                     // Create a new JSONObject to hold UserID and genreData
                     JSONObject requestData = new JSONObject();
-                    requestData.put("userId", user.getUserID());
-                    requestData.put("email", user.getUserEmail());
+                    requestData.put("userId", ("" + user.getUserID()));
+                    requestData.put("email", ("" + user.getUserEmail()));
                     requestData.put("genres", genreData);  // Add genres
 
                     // Write the combined JSON data to the output stream

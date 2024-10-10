@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 public class ProfileActivity extends AppCompatActivity {
 
     TextView textGetUser, textGetEmail;
-    Button deleteButton;
+    Button deleteButton, updateAnswer1, updateAnswer2;
     ExecutorService executorService;
 
     @Override
@@ -26,6 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
         textGetUser = findViewById(R.id.text_get_user_ID);
         textGetEmail = findViewById(R.id.text_get_user_email);
         deleteButton = findViewById(R.id.button_delete_account);
+        updateAnswer1 = findViewById(R.id.button_answer_1_update);
+        updateAnswer2 = findViewById(R.id.button_answer_2_update);
 
         executorService = Executors.newSingleThreadExecutor();
 
@@ -38,6 +40,20 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO delete account
+            }
+        });
+
+        updateAnswer1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO update answer 1
+            }
+        });
+
+        updateAnswer2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO update answer 2
             }
         });
     }
