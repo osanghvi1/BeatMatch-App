@@ -30,6 +30,7 @@ public class GenrePreferences extends AppCompatActivity {
 
     private EditText etPopGenre, etRockGenre, etHipHopGenre;
     private Button btnSaveGenres, btnGoToProfile;
+    private Button btnGoToProfileDebug;
     private List<String> allowedGenres = new ArrayList<>(); // List to hold Deezer genres
 
     @Override
@@ -42,6 +43,7 @@ public class GenrePreferences extends AppCompatActivity {
         etHipHopGenre = findViewById(R.id.etGenre3);
         btnSaveGenres = findViewById(R.id.btnSaveGenres);
         btnGoToProfile = findViewById(R.id.btnGoToProfile);
+        btnGoToProfileDebug = findViewById(R.id.btnGoToProfileDebug);
 
         // Fetch allowed genres from Deezer API
         fetchDeezerGenres();
@@ -80,6 +82,14 @@ public class GenrePreferences extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GenrePreferences.this, ProfilePreferences.class);
+                startActivity(intent);
+            }
+        });
+
+        btnGoToProfileDebug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GenrePreferences.this, ProfileActivity.class);
                 startActivity(intent);
             }
         });
