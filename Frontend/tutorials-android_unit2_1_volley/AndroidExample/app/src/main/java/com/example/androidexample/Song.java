@@ -20,6 +20,9 @@ public class Song {
     public String getCover() {
         return album != null ? album.getCover() : null;
     }
+    public Long getSongID() {
+        return album != null ? album.getSongID() : null;
+    }
 
     public static class Artist {
         private String name;
@@ -39,6 +42,11 @@ public class Song {
 
         public String getCover() {
             return cover;
+        }
+
+        public Long getSongID() {
+            Long SongID = getSongID();
+            return SongID;
         }
     }
 }

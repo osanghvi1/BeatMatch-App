@@ -15,9 +15,13 @@ import android.view.Gravity;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SongRequest extends AppCompatActivity {
 
@@ -27,6 +31,9 @@ public class SongRequest extends AppCompatActivity {
     private LinearLayout songListLayout;
 
     private static final String API_BASE_URL = "https://api.deezer.com/search/track?q=";
+    private static final String SERVER_URL = "http://10.90.74.200:8080/likedSongs"; // Replace with your server URL
+
+    private int userId = 1; // Example user ID, replace with actual user ID retrieval
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +107,7 @@ public class SongRequest extends AppCompatActivity {
                 likeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(SongRequest.this, "Liked: " + track.getTitle(), Toast.LENGTH_SHORT).show();
+                        likeSong(userId, track.getSongID());
                     }
                 });
 
@@ -113,5 +120,43 @@ public class SongRequest extends AppCompatActivity {
             Log.e("JSON Error", e.toString());
             resultView.setText("Error parsing response");
         }
+    }
+
+    private void likeSong(int userId, String songId) {
+        // Create a JSON object with user ID and song ID
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userId", userId);
+            jsonObject.put("songId", songId);
+        } catch (JSONException e) {
+            Log.e("JSON Error", e.toString());
+            Toast.makeText(SongRequest.this, "Error creating JSON data", Toast.LENGTH_SHORT).show();
+            return;  // Exit if JSON creation fails
+        }
+
+        // Create a POST request to send the like
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                SERVER_URL,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle the server response here
+                        Toast.makeText(SongRequest.this, "Song liked successfully!", Toast.LENGTH_SHORT).show();
+                        Log.d("Like Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Volley Error", error.toString());
+                        Toast.makeText(SongRequest.this, "Failed to like song", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        // Add the request to the request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 }
