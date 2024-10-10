@@ -237,7 +237,7 @@ public class ProfilePreferences extends AppCompatActivity {
 
                     // Create a new JSONObject to hold UserID and genreData
                     JSONObject requestData = new JSONObject();
-                    requestData.put("email", ("" + user.getUserEmail()));
+                    requestData.put("email", user.getUserEmail());
                     requestData.put("userId", ("" + user.getUserID()));  // Add UserID
                     requestData.put("genres", genreData);  // Add genres
 
