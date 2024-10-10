@@ -3,6 +3,7 @@ package com.example.androidexample;
 import java.util.List;
 
 public class DeezerResponse {
+
     private List<Track> data;
 
     public List<Track> getData() {
@@ -13,21 +14,26 @@ public class DeezerResponse {
         private String title;
         private Artist artist;
         private Album album;
+        private String id; // This is the song ID in Deezer's API
 
         public String getTitle() {
             return title;
         }
 
         public String getArtist() {
-            return artist != null ? artist.getName() : "Unknown Artist";
+            return artist.getName();
         }
 
         public String getAlbum() {
-            return album != null ? album.getTitle() : "Unknown Album";
+            return album.getTitle();
         }
 
         public String getCover() {
-            return album != null ? album.getCover() : "No cover available";
+            return album.getCover();
+        }
+
+        public String getSongID() {
+            return id;
         }
 
         public static class Artist {

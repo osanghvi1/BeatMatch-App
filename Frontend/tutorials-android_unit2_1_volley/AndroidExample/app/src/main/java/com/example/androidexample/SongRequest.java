@@ -87,7 +87,8 @@ public class SongRequest extends AppCompatActivity {
                 songDetails.setText("Title: " + track.getTitle() + "\n"
                         + "Artist: " + track.getArtist() + "\n"
                         + "Album: " + track.getAlbum() + "\n"
-                        + "Cover: " + track.getCover());
+                        + "Cover: " + track.getCover() + "\n"
+                        + "SongID: " + track.getSongID());
                 songDetails.setPadding(16, 16, 16, 16);
 
                 // Create a "Like" button for each song
