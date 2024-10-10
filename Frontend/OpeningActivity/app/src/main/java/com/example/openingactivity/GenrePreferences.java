@@ -15,8 +15,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,19 +56,25 @@ public class GenrePreferences extends AppCompatActivity {
 
                 // Only save genres that are allowed
                 if (isValidGenre(popGenre) && isValidGenre(rockGenre) && isValidGenre(hiphopGenre)) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("pop", popGenre);
-                    editor.putString("rock", rockGenre);
-                    editor.putString("hiphop", hiphopGenre);
-                    editor.apply();
+                    JSONObject genreData = new JSONObject();
+                    try {
+                        genreData.put(popGenre, etPopGenre.getText().toString());
+                        genreData.put(rockGenre, etRockGenre.getText().toString());
+                        genreData.put(hiphopGenre, etHipHopGenre.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                    Toast.makeText(GenrePreferences.this, "Genres saved!", Toast.LENGTH_SHORT).show();
+                    // Send the POST request
+                    sendPostRequest(genreData);
                 } else {
                     Toast.makeText(GenrePreferences.this, "Please enter valid genres!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+// Method to send POST request
+
 
         btnGoToProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +83,54 @@ public class GenrePreferences extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void sendPostRequest(final JSONObject genreData) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://10.90.74.200:8080/userGenres/create;");  // Replace with your endpoint
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json; utf-8");
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setDoOutput(true);
+
+                    // Write the JSON data to the output stream
+                    try(OutputStream os = conn.getOutputStream()) {
+                        byte[] input = genreData.toString().getBytes("utf-8");
+                        os.write(input, 0, input.length);
+                    }
+
+                    // Get the response
+                    try(BufferedReader br = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                        StringBuilder response = new StringBuilder();
+                        String responseLine;
+                        while ((responseLine = br.readLine()) != null) {
+                            response.append(responseLine.trim());
+                        }
+
+                        // Handle the response on the main thread
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(GenrePreferences.this, "Genres saved!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(GenrePreferences.this, "Failed to save genres!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     private void fetchDeezerGenres() {
