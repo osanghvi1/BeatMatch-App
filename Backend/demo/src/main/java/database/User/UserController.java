@@ -39,15 +39,12 @@ import java.util.List;
     }
 
     @PostMapping(path = "/createUser")
-    String createUser(@RequestBody User user){
+    int createUser(@RequestBody User user){
         if (user == null){
-            return failure;
+            return -1;
         }
         userRepository.save(user);
-        return success;
+        return user.getUserID();
     }
-
-
-
 
 }

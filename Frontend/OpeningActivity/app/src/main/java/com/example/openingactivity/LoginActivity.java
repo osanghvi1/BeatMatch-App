@@ -25,8 +25,6 @@ public class LoginActivity extends AppCompatActivity {
 
     final String GET_URL = "http://10.90.74.200:8080";
 
-    public static int USER_ID;
-
     Button buttonBack, buttonLogin, buttonForgotPassword;
     EditText inputEmail, inputPassword;
     TextView textView, textGetResponse;
@@ -63,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
+                user.setUserEmail(email);
 
                 // Handle the login button click
 
@@ -89,7 +88,9 @@ public class LoginActivity extends AppCompatActivity {
         buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle the forgot password button click
+                // Change intent to new forgot password screen
+                Intent intent = new Intent(LoginActivity.this, ForgotPassword.class);
+                startActivity(intent);
             }
         });
 

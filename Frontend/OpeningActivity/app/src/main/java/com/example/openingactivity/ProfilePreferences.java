@@ -3,6 +3,7 @@ package com.example.openingactivity;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,11 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +31,7 @@ public class ProfilePreferences extends AppCompatActivity {
     private TextView tvMessage;
     private Button btnBack;
     private List<String> allowedGenres = new ArrayList<>(); // List to hold Deezer genres
+    private String updateUrl = "http://10.90.74.200:8080/updateGenres"; // Replace with your server URL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +52,7 @@ public class ProfilePreferences extends AppCompatActivity {
         // Fetch allowed genres from Deezer API
         fetchDeezerGenres();
 
+        // Handle update button click
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +69,7 @@ public class ProfilePreferences extends AppCompatActivity {
         });
     }
 
+    // Load genres from shared preferences
     private void loadGenres() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
         etPop.setText(sharedPreferences.getString("pop", ""));
@@ -78,6 +77,7 @@ public class ProfilePreferences extends AppCompatActivity {
         etHipHop.setText(sharedPreferences.getString("hiphop", ""));
     }
 
+    // Fetch allowed genres from Deezer API
     private void fetchDeezerGenres() {
         String deezerGenreUrl = "https://api.deezer.com/genre";
 
@@ -109,163 +109,79 @@ public class ProfilePreferences extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(genreRequest);
     }
 
+    // Method to check if a genre is valid using Deezer's genre list
+    private boolean isValidGenre(String genre) {
+        return allowedGenres.contains(genre.trim());
+    }
 
+    // Method to handle updating of genres
     private void updateGenres() {
         // Get entered genres from EditText fields
-        final String popGenre = etPop.getText().toString();
-        final String rockGenre = etRock.getText().toString();
-        final String hiphopGenre = etHipHop.getText().toString();
+        String popGenre = etPop.getText().toString();
+        String rockGenre = etRock.getText().toString();
+        String hiphopGenre = etHipHop.getText().toString();
 
-        // Fetch genres from Deezer API and then validate the input
-        fetchDeezerGenres(new GenreCallback() {
-            @Override
-            public void onGenresFetched(List<String> deezerGenres) {
-                if (isValidGenre(popGenre, deezerGenres) && isValidGenre(rockGenre, deezerGenres) && isValidGenre(hiphopGenre, deezerGenres)) {
-                    // Proceed with sending the PUT request and saving to SharedPreferences
-                    JSONObject genreData = new JSONObject();
-                    try {
-                        genreData.put(popGenre, etPop.getText().toString());
-                        genreData.put(rockGenre, etRock.getText().toString());
-                        genreData.put(hiphopGenre, etHipHop.getText().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    // Send the PUT request
-                    sendPutRequest(genreData);
-
-                    // Save valid genres in SharedPreferences (optional, if needed locally)
-                    SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(popGenre, etPop.getText().toString());
-                    editor.putString(rockGenre, etRock.getText().toString());
-                    editor.putString(hiphopGenre, etHipHop.getText().toString());
-                    editor.apply();
-
-                    Toast.makeText(ProfilePreferences.this, "Genres saved!", Toast.LENGTH_SHORT).show();
-                    tvMessage.setText("Genres updated successfully!");
-                } else {
-                    Toast.makeText(ProfilePreferences.this, "Please enter valid genres!", Toast.LENGTH_SHORT).show();
-                    tvMessage.setText("Invalid genre(s) entered.");
-                }
+        // Validate genres
+        if (isValidGenre(popGenre) && isValidGenre(rockGenre) && isValidGenre(hiphopGenre)) {
+            // Proceed with sending the PUT request and saving to SharedPreferences
+            JSONObject genreData = new JSONObject();
+            try {
+                genreData.put("pop", popGenre);
+                genreData.put("rock", rockGenre);
+                genreData.put("hiphop", hiphopGenre);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
+            // Send the PUT request
+            sendPutRequest(updateUrl, genreData);
+
+            // Save valid genres in SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("pop", popGenre);
+            editor.putString("rock", rockGenre);
+            editor.putString("hiphop", hiphopGenre);
+            editor.apply();
+
+            Toast.makeText(ProfilePreferences.this, "Genres updated!", Toast.LENGTH_SHORT).show();
+            tvMessage.setText("Genres updated successfully!");
+        } else {
+            Toast.makeText(ProfilePreferences.this, "Please enter valid genres!", Toast.LENGTH_SHORT).show();
+            tvMessage.setText("Invalid genre(s) entered.");
+        }
+    }
+
+    // Method to send the PUT request to update the genres
+    private void sendPutRequest(String url, JSONObject jsonData) {
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Extract the "message" and "status" from the JSON response
+                            String message = response.getString("message");
+                            String status = response.getString("status");
+
+                            // Log response and show message to the user
+                            Log.d("PUT RESPONSE", response.toString());
+                            tvMessage.setText("Updated Genres: " + message + "\nStatus: " + status);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            tvMessage.setText("Error parsing response");
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void onError() {
-                Toast.makeText(ProfilePreferences.this, "Failed to fetch genres from Deezer!", Toast.LENGTH_SHORT).show();
+            //hello
+            public void onErrorResponse(VolleyError error) {
+                Log.e("PUT ERROR", error.toString());
+                error.printStackTrace();
+                tvMessage.setText("Error: " + error.toString());
             }
         });
-    }
 
-    // Method to fetch genres from Deezer API
-    private void fetchDeezerGenres(final GenreCallback callback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("https://api.deezer.com/genre");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setRequestProperty("Accept", "application/json");
-
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String inputLine;
-                    StringBuilder response = new StringBuilder();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    // Parse the JSON response
-                    JSONObject jsonResponse = new JSONObject(response.toString());
-                    JSONArray genresArray = jsonResponse.getJSONArray("data");
-
-                    List<String> genreList = new ArrayList<>();
-                    for (int i = 0; i < genresArray.length(); i++) {
-                        JSONObject genreObject = genresArray.getJSONObject(i);
-                        genreList.add(genreObject.getString("name"));
-                    }
-
-                    // Callback to return the genres
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.onGenresFetched(genreList);
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.onError();
-                        }
-                    });
-                }
-            }
-        }).start();
-    }
-
-    // Interface for the Deezer genre callback
-    interface GenreCallback {
-        void onGenresFetched(List<String> deezerGenres);
-
-        void onError();
-    }
-
-    // Method to check if a genre is valid using Deezer's genre list
-    private boolean isValidGenre(String genre, List<String> deezerGenres) {
-        return deezerGenres.contains(genre.trim());
-    }
-
-    // Method to send the PUT request (same as before)
-    private void sendPutRequest(final JSONObject genreData) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // Replace with your actual API endpoint
-                    URL url = new URL("http://10.90.74.200:8080/userGenres/update");  // Targeting your server URL
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("PUT"); // Use PUT for update
-                    conn.setRequestProperty("Content-Type", "application/json; utf-8");
-                    conn.setRequestProperty("Accept", "application/json");
-                    conn.setDoOutput(true);
-
-                    // Write the JSON data to the output stream
-                    try (OutputStream os = conn.getOutputStream()) {
-                        byte[] input = genreData.toString().getBytes("utf-8");
-                        os.write(input, 0, input.length);
-                    }
-
-                    // Get the response
-                    try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                        StringBuilder response = new StringBuilder();
-                        String responseLine;
-                        while ((responseLine = br.readLine()) != null) {
-                            response.append(responseLine.trim());
-                        }
-
-                        // Handle the response on the main thread
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(ProfilePreferences.this, "Genres updated on server!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(ProfilePreferences.this, "Failed to update genres on server!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-        }).start();
+        // Add the request to the request queue
+        VolleySingleton.getInstance(this).addToRequestQueue(putRequest);
     }
 }
