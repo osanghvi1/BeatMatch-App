@@ -10,13 +10,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * Main class for the Application
  */
-@SpringBootApplication
+@SpringBootApplicatio
 @EnableJpaRepositories
 @EntityScan(basePackages = {"database.GenrePreferences", "database.com.example.forgotpassword", "database.User"})  // Ensure entity scanning
 public class Main {
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
+
     }
 
     // Uncomment this section if you need to add dummy users and laptops

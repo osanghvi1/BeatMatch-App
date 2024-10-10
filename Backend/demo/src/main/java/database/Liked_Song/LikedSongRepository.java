@@ -1,4 +1,4 @@
-package com.example.song_request2.Liked_Song;
+package database.Liked_Song;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
