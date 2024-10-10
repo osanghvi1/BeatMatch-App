@@ -2,7 +2,7 @@ package com.example.openingactivity;
 
 public class user {
 
-    public int UserID;
+    public static int UserID;
 
 
     //constructor
@@ -12,7 +12,7 @@ public class user {
 
 
     //getters and setters
-    public int getUserID() {
+    public static int getUserID() {
         return UserID;
     }
 
