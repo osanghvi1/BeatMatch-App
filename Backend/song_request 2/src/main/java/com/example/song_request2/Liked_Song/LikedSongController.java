@@ -21,10 +21,10 @@ public class LikedSongController {
         return likedSongRepository.findAll();
     }
 
-    // Get a liked song by songId
-    @GetMapping("/{songId}")
-    public LikedSongs getLikedSongBySongId(@PathVariable long songId) {
-        Optional<LikedSongs> likedSong = likedSongRepository.findBySongId(songId);
+    // Get a liked song by songID
+    @GetMapping("/{songID}")
+    public LikedSongs getLikedSongBySongId(@PathVariable long songID) {
+        Optional<LikedSongs> likedSong = likedSongRepository.findBySongID(songID);
         return likedSong.orElse(null); // Returns null if not found
     }
 
@@ -38,41 +38,41 @@ public class LikedSongController {
         return success;
     }
 
-    // POST request to like a song (this is the /like endpoint you mentioned)
+    // POST request to like a song
     @PostMapping("/like")
     public String likeSong(@RequestBody LikedSongs likedSong) {
-        // Save the liked song to the repository
         likedSongRepository.save(likedSong);
         return "{\"message\":\"Song liked successfully\"}";
     }
 
-    // Update an existing liked song by songId
-    @PutMapping("/{songId}")
-    public LikedSongs updateLikedSong(@PathVariable long songId, @RequestBody LikedSongs request) {
-        Optional<LikedSongs> likedSongOptional = likedSongRepository.findBySongId(songId);
+    // Update an existing liked song by songID
+    @PutMapping("/{songID}")
+    public LikedSongs updateLikedSong(@PathVariable long songID, @RequestBody LikedSongs request) {
+        Optional<LikedSongs> likedSongOptional = likedSongRepository.findBySongID(songID);
         if (!likedSongOptional.isPresent()) {
-            return null; // If the record with the given songId doesn't exist
+            return null; // If the record with the given songID doesn't exist
         }
         LikedSongs likedSong = likedSongOptional.get();
-
-        // Update fields from the request body
-        likedSong.setSongName(request.getSongName());
-        likedSong.setSongGenre(request.getSongGenre());
         likedSong.setUserID(request.getUserID());
 
-        // Save the updated record
         likedSongRepository.save(likedSong);
         return likedSong;
     }
 
-    // Delete a liked song by songId
-    @DeleteMapping("/{songId}")
-    public String deleteLikedSongBySongId(@PathVariable long songId) {
-        Optional<LikedSongs> likedSong = likedSongRepository.findBySongId(songId);
+    // Delete a liked song by songID
+    @DeleteMapping("/{songID}")
+    public String deleteLikedSongBySongID(@PathVariable long songID) {
+        Optional<LikedSongs> likedSong = likedSongRepository.findBySongID(songID);
         if (!likedSong.isPresent()) {
             return failure; // If the record with the given ID doesn't exist
         }
-        likedSongRepository.deleteBySongId(songId);
+        likedSongRepository.deleteBySongID(songID);
         return success;
+    }
+
+    // Get all songs liked by a specific user
+    @GetMapping("/user/{userID}")
+    public List<LikedSongs> getLikedSongsByUserId(@PathVariable long userID) {
+        return likedSongRepository.findAllByUserID(userID);
     }
 }

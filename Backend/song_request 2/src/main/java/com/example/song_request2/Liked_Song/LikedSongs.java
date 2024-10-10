@@ -1,65 +1,41 @@
 package com.example.song_request2.Liked_Song;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class LikedSongs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // Primary key for the liked song entry
+    private Long id;
 
-    private long songId; // Deezer Track ID
-    private String songName;
-    private String songGenre;
-    private int userID; // Assuming userID is an integer for this example
+    private Long userID;
 
-    public LikedSongs() {}
+    @Column(name = "song_id", nullable = false)
+    private Long songID;
 
-    public LikedSongs(long songId, String songName, String songGenre, int userID) {
-        this.songId = songId;
-        this.songName = songName;
-        this.songGenre = songGenre;
-        this.userID = userID;
-    }
-
-    // Getters and Setters
-    public int getId() {
+    // Getters and setters
+    public Long getId() {
         return id;
     }
 
-    public long getSongId() {
-        return songId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setSongId(long songId) {
-        this.songId = songId;
-    }
-
-    public String getSongName() {
-        return songName;
-    }
-
-    public void setSongName(String songName) {
-        this.songName = songName;
-    }
-
-    public String getSongGenre() {
-        return songGenre;
-    }
-
-    public void setSongGenre(String songGenre) {
-        this.songGenre = songGenre;
-    }
-
-    public int getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
+    }
+
+    public Long getSongID() {
+        return songID;
+    }
+
+    public void setSongID(Long songID) {
+        this.songID = songID;
     }
 }

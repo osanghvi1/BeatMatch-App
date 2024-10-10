@@ -1,19 +1,17 @@
 package com.example.song_request2.Liked_Song;
 
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-
+import java.util.List;
 import java.util.Optional;
 
-public interface LikedSongRepository extends JpaRepository<LikedSongs, Integer> {
+public interface LikedSongRepository extends JpaRepository<LikedSongs, Long> {
 
-    // Updated method to use long type for songId
-    Optional<LikedSongs> findBySongId(long songId);
+    // Corrected method name to match the field in the entity
+    Optional<LikedSongs> findBySongID(Long songID);
 
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM LikedSongs ls WHERE ls.songId = :songId")
-    void deleteBySongId(long songId);
+    // Find all songs liked by a specific user
+    List<LikedSongs> findAllByUserID(Long userID);
+
+    // Delete by songID
+    void deleteBySongID(Long songID);
 }
