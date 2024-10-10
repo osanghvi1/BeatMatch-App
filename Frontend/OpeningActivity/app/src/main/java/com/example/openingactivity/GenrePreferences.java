@@ -1,37 +1,39 @@
 package com.example.openingactivity;
-//http://10.90.74.200:8080;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.android.volley.RequestQueue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GenrePreferences extends AppCompatActivity {
 
     private EditText etPopGenre, etRockGenre, etHipHopGenre;
-    private Button btnSaveGenres, btnGoToProfile;
-    private Button btnGoToProfileDebug;
+    private Button btnSaveGenres, btnGoToProfile, btnGoToProfileDebug;
     private List<String> allowedGenres = new ArrayList<>(); // List to hold Deezer genres
+    private RequestQueue requestQueue;  // For Volley requests
+    // TextView for showing server responses
+    private TextView textGetResponse = findViewById(R.id.text_get_response);  // TextView to display server response
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,9 @@ public class GenrePreferences extends AppCompatActivity {
         btnSaveGenres = findViewById(R.id.btnSaveGenres);
         btnGoToProfile = findViewById(R.id.btnGoToProfile);
         btnGoToProfileDebug = findViewById(R.id.btnGoToProfileDebug);
+
+        // Initialize request queue for Volley
+        requestQueue = Volley.newRequestQueue(this);
 
         // Fetch allowed genres from Deezer API
         fetchDeezerGenres();
@@ -60,23 +65,21 @@ public class GenrePreferences extends AppCompatActivity {
                 if (isValidGenre(popGenre) && isValidGenre(rockGenre) && isValidGenre(hiphopGenre)) {
                     JSONObject genreData = new JSONObject();
                     try {
-                        genreData.put(popGenre, etPopGenre.getText().toString());
-                        genreData.put(rockGenre, etRockGenre.getText().toString());
-                        genreData.put(hiphopGenre, etHipHopGenre.getText().toString());
+                        genreData.put("pop", popGenre);  // Correctly store genres as JSON
+                        genreData.put("rock", rockGenre);
+                        genreData.put("hiphop", hiphopGenre);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                     // Send the POST request
-                    sendPostRequest(genreData);
+                    String url = "http://10.90.74.200:8080/userGenres/create";  // Replace with your server URL
+                    sendPostRequest(url, genreData);
                 } else {
                     Toast.makeText(GenrePreferences.this, "Please enter valid genres!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-// Method to send POST request
-
 
         btnGoToProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,54 +98,48 @@ public class GenrePreferences extends AppCompatActivity {
         });
     }
 
-    private void sendPostRequest(final JSONObject genreData) {
-        new Thread(new Runnable() {
+    // Method to send POST request
+    private void sendPostRequest(String url, JSONObject jsonData) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("POST RESPONSE", response.toString());
+
+                        try {
+                            String message = response.getString("message");  // Get message from response
+                            String status = response.getString("status");    // Example: status field in response
+
+                            // Update the TextView with the message from the response
+                            textGetResponse.setText("Response: " + message + "\nStatus: " + status);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            textGetResponse.setText("Error parsing response");
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://10.90.74.200:8080/userGenres/create;");  // Replace with your endpoint
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json; utf-8");
-                    conn.setRequestProperty("Accept", "application/json");
-                    conn.setDoOutput(true);
+            public void onErrorResponse(VolleyError error) {
+                Log.e("POST ERROR", error.toString());
+                error.printStackTrace();
 
-                    // Write the JSON data to the output stream
-                    try(OutputStream os = conn.getOutputStream()) {
-                        byte[] input = genreData.toString().getBytes("utf-8");
-                        os.write(input, 0, input.length);
-                    }
-
-                    // Get the response
-                    try(BufferedReader br = new BufferedReader(
-                            new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                        StringBuilder response = new StringBuilder();
-                        String responseLine;
-                        while ((responseLine = br.readLine()) != null) {
-                            response.append(responseLine.trim());
-                        }
-
-                        // Handle the response on the main thread
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(GenrePreferences.this, "Genres saved!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(GenrePreferences.this, "Failed to save genres!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                // Optionally, show the error in the TextView
+                textGetResponse.setText("Error: " + error.toString());
             }
-        }).start();
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                return headers;
+            }
+        };
+
+        // Add the request to the RequestQueue
+        requestQueue.add(jsonObjectRequest);
     }
 
+    // Method to fetch Deezer genres
     private void fetchDeezerGenres() {
         String deezerGenreUrl = "https://api.deezer.com/genre";
 
@@ -151,11 +148,10 @@ public class GenrePreferences extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            // Parse the genres from Deezer API response
                             JSONArray genres = response.getJSONArray("data");
                             for (int i = 0; i < genres.length(); i++) {
                                 JSONObject genre = genres.getJSONObject(i);
-                                allowedGenres.add(genre.getString("name"));  // Add genre name to list
+                                allowedGenres.add(genre.getString("name"));  // Add genre name to the allowed list
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -170,8 +166,8 @@ public class GenrePreferences extends AppCompatActivity {
                     }
                 });
 
-        // Add request to Volley queue
-        VolleySingleton.getInstance(this).addToRequestQueue(genreRequest);
+        // Add request to the Volley queue
+        requestQueue.add(genreRequest);
     }
 
     // Check if a genre is valid by comparing it to the Deezer genre list
