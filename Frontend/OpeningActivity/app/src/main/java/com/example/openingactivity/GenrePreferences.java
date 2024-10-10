@@ -95,6 +95,7 @@ public class GenrePreferences extends AppCompatActivity {
         });
     }
 
+
     private void sendPostRequest(final JSONObject genreData) {
         new Thread(new Runnable() {
             @Override
@@ -107,14 +108,20 @@ public class GenrePreferences extends AppCompatActivity {
                     conn.setRequestProperty("Accept", "application/json");
                     conn.setDoOutput(true);
 
-                    // Write the JSON data to the output stream
-                    try(OutputStream os = conn.getOutputStream()) {
-                        byte[] input = genreData.toString().getBytes("utf-8");
+                    // Create a new JSONObject to hold UserID and genreData
+                    JSONObject requestData = new JSONObject();
+                    requestData.put("email", user.getEmail());
+                    requestData.put("userId", user.getUserID());  // Add UserID
+                    requestData.put("genres", genreData);  // Add genres
+
+                    // Write the combined JSON data to the output stream
+                    try (OutputStream os = conn.getOutputStream()) {
+                        byte[] input = requestData.toString().getBytes("utf-8");
                         os.write(input, 0, input.length);
                     }
 
                     // Get the response
-                    try(BufferedReader br = new BufferedReader(
+                    try (BufferedReader br = new BufferedReader(
                             new InputStreamReader(conn.getInputStream(), "utf-8"))) {
                         StringBuilder response = new StringBuilder();
                         String responseLine;
