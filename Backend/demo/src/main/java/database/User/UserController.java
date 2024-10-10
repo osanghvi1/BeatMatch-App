@@ -47,4 +47,11 @@ import java.util.List;
         return user.getUserID();
     }
 
+    @DeleteMapping(path = "/users/delete/{id}")
+    User deleteGenres(@PathVariable int id) {
+        User deletedUser = userRepository.findById(id);
+        userRepository.deleteById(id);
+        return deletedUser;
+    }
+
 }

@@ -15,7 +15,7 @@ public class ForgotPasswordController {
     private ForgotPasswordRepository forgotPasswordRepository;
 
     @Autowired
-    private UserRepository userRepository; // Add UserRepository to fetch the password
+    private UserRepository userRepository;
 
     private final String success = "{\"message\":\"success\"}";
     private final String failure = "{\"message\":\"failure\"}";
@@ -26,22 +26,24 @@ public class ForgotPasswordController {
         return forgotPasswordRepository.findAll();
     }
 
-    // Get a single ForgotPassword record by ID
+    // Get a single ForgotPassword record by email
     @GetMapping(path = "/forgetPassword/{email}")
-    public ForgotPassword getForgetPasswordByID(@PathVariable int email) {
-        Optional<ForgotPassword> forgotPassword = forgotPasswordRepository.findById(email);
-        return forgotPassword.orElse(null); // Returns null if not found
+    public ForgotPassword getForgetPasswordByID(@PathVariable String email) {
+        Optional<ForgotPassword> forgotPassword = forgotPasswordRepository.findByemail(email);
+        return forgotPassword.orElse(null); // Return the object or null if not present
     }
 
     // Validate security questions and return the password
     @PostMapping(path = "/forgetPassword/validate")
     public String validateSecurityQuestions(@RequestBody ForgotPassword forgotPasswordRequest) {
         // Fetch the ForgotPassword record by email
-        ForgotPassword forgotPassword = forgotPasswordRepository.findByemail(forgotPasswordRequest.getEmail());
+        Optional<ForgotPassword> forgotPasswordOptional = forgotPasswordRepository.findByemail(forgotPasswordRequest.getEmail());
 
-        if (forgotPassword == null) {
+        if (!forgotPasswordOptional.isPresent()) {
             return "{\"message\": \"User not found\"}";
         }
+
+        ForgotPassword forgotPassword = forgotPasswordOptional.get();
 
         // Validate the answers to the security questions
         if (forgotPassword.getansSecurityQuestion1().equals(forgotPasswordRequest.getansSecurityQuestion1()) &&
@@ -69,33 +71,34 @@ public class ForgotPasswordController {
         return success;
     }
 
-    // Update an existing ForgotPassword record by ID
+    // Update an existing ForgotPassword record by email
     @PutMapping(path = "/forgetPassword/{email}")
     public ForgotPassword updatePassword(@PathVariable String email, @RequestBody ForgotPassword request) {
-        Optional<ForgotPassword> forgotPasswordOptional = forgotPasswordRepository.findById(email);
+        Optional<ForgotPassword> forgotPasswordOptional = forgotPasswordRepository.findByemail(email);
         if (!forgotPasswordOptional.isPresent()) {
-            return null; // If the record with the given ID doesn't exist
+            return null; // If the record with the given email doesn't exist
         }
         ForgotPassword forgotPassword = forgotPasswordOptional.get();
 
         // Update fields from the request body
         forgotPassword.setEmail(request.getEmail());
-        forgotPassword.setansSecurityQuestion1(request.getansSecurityQuestion1()); // Fixed method name for answer
-        forgotPassword.setansSecurityQuestion2(request.getansSecurityQuestion2()); // Fixed method name for answer
+        forgotPassword.setansSecurityQuestion1(request.getansSecurityQuestion1());
+        forgotPassword.setansSecurityQuestion2(request.getansSecurityQuestion2());
 
         // Save the updated record
         forgotPasswordRepository.save(forgotPassword);
         return forgotPassword;
     }
 
-    // Delete a ForgotPassword record by ID
+    // Delete a ForgotPassword record by email
     @DeleteMapping(path = "/forgetPassword/{email}")
     public String deleteForgetPasswordByID(@PathVariable String email) {
-        Optional<ForgotPassword> forgotPassword = forgotPasswordRepository.findById(email);
+        Optional<ForgotPassword> forgotPassword = forgotPasswordRepository.findByemail(email);
         if (!forgotPassword.isPresent()) {
-            return failure; // If the record with the given ID doesn't exist
+            return failure; // If the record with the given email doesn't exist
         }
-        forgotPasswordRepository.deleteById(email);
+        forgotPasswordRepository.delete(forgotPassword.get()); // Use the found record and delete it
         return success;
     }
+
 }
