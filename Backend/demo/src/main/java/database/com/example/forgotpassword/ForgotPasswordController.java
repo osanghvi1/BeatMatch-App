@@ -71,7 +71,7 @@ public class ForgotPasswordController {
 
     // Update an existing ForgotPassword record by ID
     @PutMapping(path = "/forgetPassword/{email}")
-    public ForgotPassword updatePassword(@PathVariable int email, @RequestBody ForgotPassword request) {
+    public ForgotPassword updatePassword(@PathVariable String email, @RequestBody ForgotPassword request) {
         Optional<ForgotPassword> forgotPasswordOptional = forgotPasswordRepository.findById(email);
         if (!forgotPasswordOptional.isPresent()) {
             return null; // If the record with the given ID doesn't exist
@@ -90,7 +90,7 @@ public class ForgotPasswordController {
 
     // Delete a ForgotPassword record by ID
     @DeleteMapping(path = "/forgetPassword/{email}")
-    public String deleteForgetPasswordByID(@PathVariable int email) {
+    public String deleteForgetPasswordByID(@PathVariable String email) {
         Optional<ForgotPassword> forgotPassword = forgotPasswordRepository.findById(email);
         if (!forgotPassword.isPresent()) {
             return failure; // If the record with the given ID doesn't exist
