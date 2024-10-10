@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * Main class for the Application
  */
-@SpringBootApplicatio
+@SpringBootApplication
 @EnableJpaRepositories
 @EntityScan(basePackages = {"database.GenrePreferences", "database.com.example.forgotpassword", "database.User"})  // Ensure entity scanning
 public class Main {
