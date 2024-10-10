@@ -146,8 +146,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-            if (result.contains("Success")) {
-                login();
+            if (!Integer.valueOf(result).equals(-1)) {
+                //extract ID from result
+                try {
+                    // Success! User created with ID 10
+                    new user(Integer.valueOf(result));
+                } finally {
+                    login();
+                }
             } else {
                 textView.setText("Incorrect username or password");
             }
@@ -160,8 +166,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        Intent myIntent = new Intent(this, ProfileActivity.class);
-        startActivity(myIntent);
+        //Change intent to Profile
+        Intent intent = new Intent(LoginActivity.this, GenrePreferences.class);
+        startActivity(intent);
     }
 
 
