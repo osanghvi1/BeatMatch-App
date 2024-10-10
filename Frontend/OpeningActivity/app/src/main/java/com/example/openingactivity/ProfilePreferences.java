@@ -31,7 +31,7 @@ public class ProfilePreferences extends AppCompatActivity {
     private TextView tvMessage;
     private Button btnBack;
     private List<String> allowedGenres = new ArrayList<>(); // List to hold Deezer genres
-    private String updateUrl = "http://10.90.74.200:8080/updateGenres"; // Replace with your server URL
+    private String updateUrl = "http://10.90.74.200:8080/userGenres/edit/"; // Replace with your server URL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,24 +117,34 @@ public class ProfilePreferences extends AppCompatActivity {
     // Method to handle updating of genres
     private void updateGenres() {
         // Get entered genres from EditText fields
-        String popGenre = etPop.getText().toString();
-        String rockGenre = etRock.getText().toString();
-        String hiphopGenre = etHipHop.getText().toString();
+        String popGenre = etPop.getText().toString().trim();
+        String rockGenre = etRock.getText().toString().trim();
+        String hiphopGenre = etHipHop.getText().toString().trim();
 
         // Validate genres
-        if (isValidGenre(popGenre) && isValidGenre(rockGenre) && isValidGenre(hiphopGenre)) {
-            // Proceed with sending the PUT request and saving to SharedPreferences
+        if (isValidGenre(rockGenre) && isValidGenre(hiphopGenre) && isValidGenre(popGenre)) {
+            // Create a JSON object for the request
             JSONObject genreData = new JSONObject();
             try {
-                genreData.put("pop", popGenre);
-                genreData.put("rock", rockGenre);
-                genreData.put("hiphop", hiphopGenre);
+                // Add genres to the JSON object in the required format
+                genreData.put("genre1", rockGenre);    // Assuming rock is genre1
+                genreData.put("genre2", hiphopGenre);   // Assuming rap is genre2
+                genreData.put("genre3", popGenre);      // Assuming R&B is genre3
             } catch (JSONException e) {
                 e.printStackTrace();
+                Toast.makeText(ProfilePreferences.this, "Error creating JSON data", Toast.LENGTH_SHORT).show();
+                return;  // Exit if JSON creation fails
+            }
+
+            // Get the user ID correctly; ensure 'user' is properly instantiated
+            int userId = user.getUserID();  // Ensure 'user' is defined
+            if (userId <= 0) {
+                Toast.makeText(ProfilePreferences.this, "Invalid user ID", Toast.LENGTH_SHORT).show();
+                return;
             }
 
             // Send the PUT request
-            sendPutRequest(updateUrl, genreData);
+            sendPutRequest(updateUrl + userId, genreData);
 
             // Save valid genres in SharedPreferences
             SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
@@ -151,6 +161,8 @@ public class ProfilePreferences extends AppCompatActivity {
             tvMessage.setText("Invalid genre(s) entered.");
         }
     }
+
+
 
     // Method to send the PUT request to update the genres
     private void sendPutRequest(String url, JSONObject jsonData) {

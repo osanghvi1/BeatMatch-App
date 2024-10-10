@@ -32,8 +32,7 @@ public class GenrePreferences extends AppCompatActivity {
     private Button btnSaveGenres, btnGoToProfile, btnGoToProfileDebug;
     private List<String> allowedGenres = new ArrayList<>(); // List to hold Deezer genres
     private RequestQueue requestQueue;  // For Volley requests
-    // TextView for showing server responses
-    private TextView textGetResponse = findViewById(R.id.text_get_response);  // TextView to display server response
+    private TextView textGetResponse; // Moved initialization here
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +45,7 @@ public class GenrePreferences extends AppCompatActivity {
         btnSaveGenres = findViewById(R.id.btnSaveGenres);
         btnGoToProfile = findViewById(R.id.btnGoToProfile);
         btnGoToProfileDebug = findViewById(R.id.btnGoToProfileDebug);
+        textGetResponse = findViewById(R.id.text_get_response); // Initialize here
 
         // Initialize request queue for Volley
         requestQueue = Volley.newRequestQueue(this);
@@ -56,25 +56,42 @@ public class GenrePreferences extends AppCompatActivity {
         btnSaveGenres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Validate and save genres
-                String popGenre = etPopGenre.getText().toString();
-                String rockGenre = etRockGenre.getText().toString();
-                String hiphopGenre = etHipHopGenre.getText().toString();
+                // Get the genres from input fields
+                String popGenre = etPopGenre.getText().toString().trim();
+                String rockGenre = etRockGenre.getText().toString().trim();
+                String hiphopGenre = etHipHopGenre.getText().toString().trim();
 
-                // Only save genres that are allowed
+                // Debug: Log the input values
+                Log.d("GenrePreferences", "Pop Genre: " + popGenre);
+                Log.d("GenrePreferences", "Rock Genre: " + rockGenre);
+                Log.d("GenrePreferences", "Hip Hop Genre: " + hiphopGenre);
+
+                // Get user information from the user class
+                int userID = user.getUserID(); // Assuming user is a valid object
+                String email = user.getUserEmail();
+
+                // Validate genres
                 if (isValidGenre(popGenre) && isValidGenre(rockGenre) && isValidGenre(hiphopGenre)) {
                     JSONObject genreData = new JSONObject();
                     try {
-                        genreData.put("pop", popGenre);  // Correctly store genres as JSON
-                        genreData.put("rock", rockGenre);
-                        genreData.put("hiphop", hiphopGenre);
+                        // Add user details to JSON
+                        genreData.put("userID", userID);
+                        genreData.put("email", email);
+                        genreData.put("genre1", popGenre); // Added genre1
+                        genreData.put("genre2", rockGenre); // Added genre2
+                        genreData.put("genre3", hiphopGenre); // Added genre3
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        textGetResponse.setText("Error creating JSON object: " + e.getMessage());
+                        return;  // Exit if JSON creation fails
                     }
 
+                    // Debug: Log the JSON data to be sent
+                    Log.d("GenrePreferences", "JSON Data: " + genreData.toString());
+
                     // Send the POST request
-                    String url = "http://10.90.74.200:8080/userGenres/create";  // Replace with your server URL
-                    sendPostRequest(url, genreData);
+                    String url = "http://10.90.74.200:8080/userGenres/create";
+                    sendPostRequest(url, genreData); // Send the JSON data
                 } else {
                     Toast.makeText(GenrePreferences.this, "Please enter valid genres!", Toast.LENGTH_SHORT).show();
                 }
@@ -107,14 +124,26 @@ public class GenrePreferences extends AppCompatActivity {
                         Log.d("POST RESPONSE", response.toString());
 
                         try {
-                            String message = response.getString("message");  // Get message from response
-                            String status = response.getString("status");    // Example: status field in response
+                            // Validate response structure before accessing fields
+                            if (response.has("message") && response.has("status")) {
+                                String message = response.getString("message");  // Get message from response
+                                String status = response.getString("status");    // Example: status field in response
 
-                            // Update the TextView with the message from the response
-                            textGetResponse.setText("Response: " + message + "\nStatus: " + status);
+                                // Update the TextView with the message from the response
+                                textGetResponse.setText("Response: " + message + "\nStatus: " + status);
+
+                                // Check if the response indicates success
+                                if ("success".equalsIgnoreCase(status)) {
+                                    // Proceed to the next activity if successful
+                                    Intent intent = new Intent(GenrePreferences.this, ProfilePreferences.class);
+                                    startActivity(intent);
+                                }
+                            } else {
+                                textGetResponse.setText("Unexpected response format");
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            textGetResponse.setText("Error parsing response");
+                            textGetResponse.setText("Error parsing response: " + e.getMessage());
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -175,3 +204,4 @@ public class GenrePreferences extends AppCompatActivity {
         return allowedGenres.contains(genre.trim());
     }
 }
+
