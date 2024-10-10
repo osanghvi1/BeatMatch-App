@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    final String POST_URL = "http://10.90.74.200:9090";
+    final String POST_URL = "http://10.90.74.200:8080";
 
 
     EditText securityAnswer1, securityAnswer2, inputEmail;
@@ -68,7 +68,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    sendPostRequest(POST_URL + "/forgotPassword" , json.toString());
+                    sendPostRequest(POST_URL + "/forgetPassword" , json.toString());
                 }
             });
 

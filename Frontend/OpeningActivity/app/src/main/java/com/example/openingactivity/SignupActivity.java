@@ -139,9 +139,6 @@ public class SignupActivity extends AppCompatActivity {
                     //Change intent to Login
                     //TODO if user already exists do not switch intent
                     //TODO splash message that signup was successful
-                    Intent intent = new Intent(SignupActivity.this, ForgotPasswordActivity.class);
-                    finish();
-                    startActivity(intent);
 
                 }
             }
@@ -181,10 +178,26 @@ public class SignupActivity extends AppCompatActivity {
             // Optionally handle the response from the POST request
             Log.d("POST RESPONSE", result);
 
+            if (!Integer.valueOf(result).equals(-1)) {
+                try {
+                    new user(Integer.valueOf(result));
+                } finally {
+                    login();
+                }
+            } else {
+                //failure
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void login() {
+        Intent intent = new Intent(SignupActivity.this, ForgotPasswordActivity.class);
+        finish();
+        startActivity(intent);
     }
 
 
