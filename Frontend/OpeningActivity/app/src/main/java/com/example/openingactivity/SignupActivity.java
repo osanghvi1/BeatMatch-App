@@ -109,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
                     textGetResponse.setText("Please fill in all fields");
                 } else {
                     textGetResponse.setText("POST sent");
-
+                    user.setUserEmail(email);
 
                     // Create JSON object for POST request
                     JSONObject json = new JSONObject();
