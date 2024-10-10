@@ -8,6 +8,14 @@
     android:background="@drawable/gradient_background">
 
     <TextView
+        android:id="@+id/text_get_response"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Your Top 3 Favorite Genres"
