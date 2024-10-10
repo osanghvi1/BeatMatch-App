@@ -29,12 +29,12 @@ import java.util.List;
     }
 
     @GetMapping(path = "/users/{email}/{password}")
-    String getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
+    int getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
         if (userRepository.findByEmailAndPassword(email, password) != null) {
-            return "Success! UserID for specified email: " + userRepository.findByEmailAndPassword(email, password).getUserID();
+            return userRepository.findByEmailAndPassword(email, password).getUserID();
         }
         else{
-            return "Failed to Authenticate User";
+            return -1;
         }
     }
 
