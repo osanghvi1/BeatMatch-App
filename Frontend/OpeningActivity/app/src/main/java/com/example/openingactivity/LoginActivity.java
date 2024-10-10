@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
+                user.setUserEmail(email);
 
                 // Handle the login button click
 
