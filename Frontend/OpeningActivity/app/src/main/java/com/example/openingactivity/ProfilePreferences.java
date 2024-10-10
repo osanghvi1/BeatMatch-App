@@ -219,6 +219,7 @@ public class ProfilePreferences extends AppCompatActivity {
     private boolean isValidGenre(String genre, List<String> deezerGenres) {
         return deezerGenres.contains(genre.trim());
     }
+    int userId = user.getUserID(); // Get the UserID
 
     // Method to send the PUT request (same as before)
     private void sendPutRequest(final JSONObject genreData) {
@@ -234,9 +235,15 @@ public class ProfilePreferences extends AppCompatActivity {
                     conn.setRequestProperty("Accept", "application/json");
                     conn.setDoOutput(true);
 
-                    // Write the JSON data to the output stream
+                    // Create a new JSONObject to hold UserID and genreData
+                    JSONObject requestData = new JSONObject();
+                    requestData.put("email", user.getEmail());
+                    requestData.put("userId", user.getUserID());  // Add UserID
+                    requestData.put("genres", genreData);  // Add genres
+
+                    // Write the combined JSON data to the output stream
                     try (OutputStream os = conn.getOutputStream()) {
-                        byte[] input = genreData.toString().getBytes("utf-8");
+                        byte[] input = requestData.toString().getBytes("utf-8");
                         os.write(input, 0, input.length);
                     }
 
