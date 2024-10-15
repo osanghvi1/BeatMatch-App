@@ -108,35 +108,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void sendPutRequest(String url, String jsonData) {
-        /*
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonData,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("PUT RESPONSE", response.toString());
-
-                        try {
-                            // Extract the "message" and "status" from the JSON response
-                            String message = response.getString("message");
-                            String status = response.getString("status");
-
-                            // Update the TextView with the message from the response
-                            textGetResponse.setText("Updated Security Questions: " + message + "\nStatus: " + status);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            textGetResponse.setText("Error parsing response");
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("PUT ERROR", error.toString());
-                error.printStackTrace();
-                textGetResponse.setText("Error: " + error.toString());
-            }
-        });
-
-        */
         try {
             URL urls = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) urls.openConnection();
@@ -176,36 +147,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void sendDeleteRequest(String url) {
-        /*
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("DELETE RESPONSE", response.toString());
-
-                        try {
-                            // Extract the "message" and "status" from the JSON response
-                            String firstName = response.getString("first_name");
-                            String lastName = response.getString("last_name");
-
-                            // Update the TextView with the message from the response
-                            textGetResponse.setText("Response: " + firstName + lastName + " deleted successfully");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            textGetResponse.setText("Error parsing response");
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("DELETE ERROR", error.toString());
-                error.printStackTrace();
-                textGetResponse.setText("Error: " + error.toString());
-            }
-        });
-    }
-    */
-
         try {
             URL urls = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) urls.openConnection();
