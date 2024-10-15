@@ -30,10 +30,11 @@ import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    // URLs for PUT, and DELETE requests
     private final String PUT_URL = "http://10.90.74.200:8080";
     private final String DEL_URL = "http://10.90.74.200:8080";
 
-
+    // UI elements
     TextView textGetUser, textGetEmail;
     TextView textGetResponse;
     Button deleteButton, updateAnswer1, updateAnswer2;
@@ -42,11 +43,12 @@ public class ProfileActivity extends AppCompatActivity {
     EditText inputAnswer1;
     EditText inputAnswer2;
 
+    // Initialize onCreate Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        // Set up edge-to-edge display.
+        // Map UI elements to XML elements
         textGetResponse = findViewById(R.id.text_get_response);
         textGetUser = findViewById(R.id.text_get_user_ID);
         textGetEmail = findViewById(R.id.text_get_user_email);
@@ -54,14 +56,13 @@ public class ProfileActivity extends AppCompatActivity {
         updateAnswer2 = findViewById(R.id.button_answer_2_update);
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
         inputAnswer2 = findViewById(R.id.input_security_answer_2);
-
         executorService = Executors.newSingleThreadExecutor();
 
-
+        // Set the user information in the TextViews
         textGetUser.setText("" + user.getUserID());
         textGetEmail.setText("" + user.getUserEmail());
 
-
+        // Button to send DELETE request
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,9 +73,12 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
 
-                //Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                //finish();
-                //startActivity(intent);
+                // Change intent to login activity
+                /*
+                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                finish();
+                startActivity(intent);
+                 */
             }
         });
 
