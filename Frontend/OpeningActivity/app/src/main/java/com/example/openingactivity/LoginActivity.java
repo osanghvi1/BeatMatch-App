@@ -74,10 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 
-                    //TODO
-                    //user class?
-                    //
-
                 } else {
                     textView.setText("please fill in all fields*");
                 }
@@ -168,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         //Change intent to Profile
-        Intent intent = new Intent(LoginActivity.this, GenrePreferences.class);
+        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
         startActivity(intent);
     }
 
