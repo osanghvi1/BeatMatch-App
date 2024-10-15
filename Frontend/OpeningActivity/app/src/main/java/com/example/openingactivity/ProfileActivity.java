@@ -1,5 +1,6 @@
 package com.example.openingactivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -7,23 +8,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private final String POST_URL = "http://10.90.74.200:8080";
+    private final String PUT_URL = "http://10.90.74.200:8080";
     private final String DEL_URL = "http://10.90.74.200:8080";
 
 
@@ -44,7 +51,6 @@ public class ProfileActivity extends AppCompatActivity {
         textGetUser = findViewById(R.id.text_get_user_ID);
         textGetEmail = findViewById(R.id.text_get_user_email);
         deleteButton = findViewById(R.id.button_delete_account);
-        updateAnswer1 = findViewById(R.id.button_answer_1_update);
         updateAnswer2 = findViewById(R.id.button_answer_2_update);
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
         inputAnswer2 = findViewById(R.id.input_security_answer_2);
@@ -62,9 +68,13 @@ public class ProfileActivity extends AppCompatActivity {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        sendDeleteRequest(DEL_URL + "/users/" + user.getUserID());
+                        sendDeleteRequest(DEL_URL + "/forgetPassword/" + user.getUserEmail());
                     }
                 });
+
+                //Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                //finish();
+                //startActivity(intent);
             }
         });
 
@@ -72,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity {
         updateAnswer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id = ("" + user.getUserID());
                 String answer1 = inputAnswer1.getText().toString();
                 String answer2 = inputAnswer2.getText().toString();
                 String email = user.getUserEmail();
@@ -80,10 +89,9 @@ public class ProfileActivity extends AppCompatActivity {
                 // Create JSON object for PUT request
                 JSONObject json = new JSONObject();
                 try {
-                    json.put("id", id);
-                    json.put("answer1", answer1);
-                    json.put("answer2", answer2);
                     json.put("email", email);
+                    json.put("ansSecurityQuestion1", answer1);
+                    json.put("ansSecurityQuestion2", answer2);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -92,14 +100,15 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // Send PUT request
-                        sendPutRequest(POST_URL + "/forgotPassword/" + id, json);
+                        sendPutRequest(PUT_URL + "/forgetPassword/" + email, json.toString());
                     }
                 });
             }
         });
     }
 
-    private void sendPutRequest(String url, JSONObject jsonData) {
+    private void sendPutRequest(String url, String jsonData) {
+        /*
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonData,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -126,9 +135,48 @@ public class ProfileActivity extends AppCompatActivity {
                 textGetResponse.setText("Error: " + error.toString());
             }
         });
+
+        */
+        try {
+            URL urls = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) urls.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setDoOutput(true);
+
+
+            // Write JSON data to the output stream
+            OutputStream os = conn.getOutputStream();
+            os.write(jsonData.getBytes(StandardCharsets.UTF_8));
+            os.flush();
+            os.close();
+
+
+            // Get the response
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+            StringBuilder sb = new StringBuilder();
+            String output;
+            while ((output = br.readLine()) != null) {
+                sb.append(output);
+            }
+
+
+            conn.disconnect();
+            String result = sb.toString();
+
+
+            // Optionally handle the response from the PUT request
+            Log.d("PUT RESPONSE", result);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+
     private void sendDeleteRequest(String url) {
+        /*
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -137,11 +185,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                         try {
                             // Extract the "message" and "status" from the JSON response
-                            String message = response.getString("message");
-                            String status = response.getString("status");
+                            String firstName = response.getString("first_name");
+                            String lastName = response.getString("last_name");
 
                             // Update the TextView with the message from the response
-                            textGetResponse.setText("Response: " + message + "\nStatus: " + status);
+                            textGetResponse.setText("Response: " + firstName + lastName + " deleted successfully");
                         } catch (JSONException e) {
                             e.printStackTrace();
                             textGetResponse.setText("Error parsing response");
@@ -155,5 +203,36 @@ public class ProfileActivity extends AppCompatActivity {
                 textGetResponse.setText("Error: " + error.toString());
             }
         });
+    }
+    */
+
+        try {
+            URL urls = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) urls.openConnection();
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setDoOutput(true);
+
+
+            // Get the response
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+            StringBuilder sb = new StringBuilder();
+            String output;
+            while ((output = br.readLine()) != null) {
+                sb.append(output);
+            }
+
+
+            conn.disconnect();
+            String result = sb.toString();
+
+
+            // Optionally handle the response from the POST request
+            Log.d("DELETE RESPONSE", result);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

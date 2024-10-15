@@ -28,10 +28,11 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="120dp"
         android:background="@drawable/custom_white_text_field"
         android:hint="Answer Here"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/button_answer_1_update"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_security_question_1" />
 
@@ -47,18 +48,6 @@
         app:layout_constraintStart_toEndOf="@+id/input_security_answer_2"
         app:layout_constraintTop_toBottomOf="@+id/text_security_question_2" />
 
-    <Button
-        android:id="@+id/button_answer_1_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Update"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/input_security_answer_1"
-        app:layout_constraintTop_toBottomOf="@+id/text_security_question_1" />
 
     <TextView
         android:id="@+id/text_security_question_2"
@@ -127,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:layout_marginEnd="20dp"
-        android:text="Delete Account"
+        android:text="Delete Security"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,12 +139,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="Response will appear here"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_security_answer_2" />
 
