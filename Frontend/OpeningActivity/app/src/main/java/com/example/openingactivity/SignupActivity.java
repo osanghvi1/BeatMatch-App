@@ -27,7 +27,7 @@ import java.util.concurrent.Executors;
 
 
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity implements Request {
     //server IP : 10.90.74.200
 
     // URLs for GET and POST requests
@@ -132,7 +132,8 @@ public class SignupActivity extends AppCompatActivity {
                     executorService.execute(new Runnable() {
                         @Override
                         public void run() {
-                            sendPostRequest(POST_URL, json.toString());
+                            //sendPostRequest(POST_URL, json.toString());
+                            sendRequest("POST", "/createUser", json.toString());
                         }
 
                     });
