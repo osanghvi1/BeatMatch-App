@@ -134,6 +134,7 @@ public class SignupActivity extends AppCompatActivity {
                         public void run() {
                             sendPostRequest(POST_URL, json.toString());
                         }
+
                     });
 
                     //Change intent to Login
