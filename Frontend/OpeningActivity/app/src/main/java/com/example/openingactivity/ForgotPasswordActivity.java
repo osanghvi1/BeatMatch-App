@@ -22,10 +22,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
-
+    // Server URL
     final String POST_URL = "http://10.90.74.200:8080";
 
-
+    // UI elements
     EditText securityAnswer1, securityAnswer2, inputEmail;
     Button buttonSubmit;
     ExecutorService executorService;
@@ -37,13 +37,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         executorService = Executors.newSingleThreadExecutor();
 
-
+        // Map UI elements to XML elements
         inputEmail = findViewById(R.id.input_enter_email);
         securityAnswer1 = findViewById(R.id.input_security_answer_1);
         securityAnswer2 = findViewById(R.id.input_security_answer_2);
         buttonSubmit = findViewById(R.id.button_submit_answers);
 
-
+        // Button to send INITIAL Forgot Password answers
         buttonSubmit.setOnClickListener(v -> {
             String answer1 = securityAnswer1.getText().toString();
             String answer2 = securityAnswer2.getText().toString();

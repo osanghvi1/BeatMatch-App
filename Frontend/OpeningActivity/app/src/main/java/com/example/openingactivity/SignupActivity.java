@@ -41,17 +41,19 @@ public class SignupActivity extends AppCompatActivity {
     //"http://coms-3090-049.class.las.iastate.edu:8080/createUser"
     //final String POST_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser";
 
+    // UI elements
     EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
     Button buttonBack, buttonSignup, buttonGet, buttonPost;
     ExecutorService executorService;
 
-
+    // Initialize onCreate Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        // Map UI elements to XML elements
         buttonBack = findViewById(R.id.Signup_Back_Button);
         buttonSignup = findViewById(R.id.button_signup);
         inputFirstName = findViewById(R.id.input_first_name);
@@ -95,6 +97,7 @@ public class SignupActivity extends AppCompatActivity {
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Take all information typed into Strings
                 String firstName = inputFirstName.getText().toString();
                 String lastName = inputLastName.getText().toString();
                 String email = inputEmail.getText().toString();
@@ -135,11 +138,6 @@ public class SignupActivity extends AppCompatActivity {
                             sendPostRequest(POST_URL, json.toString());
                         }
                     });
-
-                    //Change intent to Login
-                    //TODO if user already exists do not switch intent
-                    //TODO splash message that signup was successful
-
                 }
             }
         });
