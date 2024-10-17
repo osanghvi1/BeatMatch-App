@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 public interface Request {
     // URL variable
     // final String URL = "http://10.90.74.200:8080";
-    final String URL = "https://bdf879e6-93fa-44fc-aac2-954a4fe85a4a.mock.pstmn.io";
+    final String URL = "https://bdf879e6-93fa-44fc-aac2-954a4fe85a4a.mock.pstmn.io"; // POSTMAN URL for testing
     default String sendRequest(String requestType, String urlString, String jsonData) {
         try {
             java.net.URL url = new URL(URL + urlString);
