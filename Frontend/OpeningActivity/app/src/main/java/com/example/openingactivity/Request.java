@@ -13,6 +13,14 @@ public interface Request {
     // URL variable
     // final String URL = "http://10.90.74.200:8080";
     final String URL = "https://bdf879e6-93fa-44fc-aac2-954a4fe85a4a.mock.pstmn.io"; // POSTMAN URL for testing
+
+    /*
+     * Method to send ANY Request
+     * @param requestType: GET, POST, PUT, DELETE
+     * @param urlString: URL string add on for the request, all start with "/"
+     * @param jsonData: JSON data to send with the request, put "null" if not using json (for get or delete)
+     * @return: String response from the request
+     */
     default String sendRequest(String requestType, String urlString, String jsonData) {
         try {
             java.net.URL url = new URL(URL + urlString);
