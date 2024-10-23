@@ -71,7 +71,7 @@ public class SignupActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        //sendGetRequest(GET_URL);
+                        //sendGetRequest(GET_URL); // old method
                         String result = sendRequest("GET", "/users", null);
                         if (result != null) {
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -136,7 +136,7 @@ public class SignupActivity extends AppCompatActivity implements Request {
                     executorService.execute(new Runnable() {
                         @Override
                         public void run() {
-                            //sendPostRequest(POST_URL, json.toString());
+                            //sendPostRequest(POST_URL, json.toString()); // old method
                             String response = sendRequest("POST", "/createUser", json.toString());
                             if (response != null) {
                                 try {

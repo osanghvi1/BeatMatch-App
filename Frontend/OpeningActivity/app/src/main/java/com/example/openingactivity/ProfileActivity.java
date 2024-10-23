@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        //sendDeleteRequest(DEL_URL + "/forgetPassword/" + user.getUserEmail());
+                        //sendDeleteRequest(DEL_URL + "/forgetPassword/" + user.getUserEmail()); // old method
                         String result = sendRequest("DELETE", "/forgetPassword/" + user.getUserEmail(), null);
                     }
                 });
@@ -99,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                     @Override
                     public void run() {
                         // Send PUT request
-                        //sendPutRequest(PUT_URL + "/forgetPassword/" + email, json.toString());
+                        //sendPutRequest(PUT_URL + "/forgetPassword/" + email, json.toString()); // old method
                         String result = sendRequest("PUT", "/forgetPassword/" + email, json.toString());
                     }
                 });

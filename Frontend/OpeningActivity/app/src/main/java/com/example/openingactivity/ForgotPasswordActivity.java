@@ -69,7 +69,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Request
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    //sendPostRequest(POST_URL + "/forgetPassword" , json.toString());
+                    //sendPostRequest(POST_URL + "/forgetPassword" , json.toString()); // old method
                     String result = sendRequest("POST", "/forgetPassword", json.toString());
                 }
             });

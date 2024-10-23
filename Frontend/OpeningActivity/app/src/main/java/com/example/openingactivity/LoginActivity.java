@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements Request {
                     executorService.execute(new Runnable() {
                         @Override
                         public void run() {
-                            //sendGetRequest(GET_URL + "/users/" + email + "/" + password);
+                            //sendGetRequest(GET_URL + "/users/" + email + "/" + password); // old method
                             String result = sendRequest("GET", "/users/" + email + "/" + password, null);
                             if (Integer.parseInt(result) != -1) {
                                 try {
