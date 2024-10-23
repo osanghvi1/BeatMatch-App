@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -28,12 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ProfileActivity extends AppCompatActivity {
-
-    // URLs for PUT, and DELETE requests
-    private final String PUT_URL = "http://10.90.74.200:8080";
-    private final String DEL_URL = "http://10.90.74.200:8080";
-
+public class ProfileActivity extends AppCompatActivity implements Request {
     // UI elements
     TextView textGetUser, textGetEmail;
     TextView textGetResponse;
@@ -69,7 +63,8 @@ public class ProfileActivity extends AppCompatActivity {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        sendDeleteRequest(DEL_URL + "/forgetPassword/" + user.getUserEmail());
+                        //sendDeleteRequest(DEL_URL + "/forgetPassword/" + user.getUserEmail());
+                        String result = sendRequest("DELETE", "/forgetPassword/" + user.getUserEmail(), null);
                     }
                 });
 
@@ -104,80 +99,12 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // Send PUT request
-                        sendPutRequest(PUT_URL + "/forgetPassword/" + email, json.toString());
+                        //sendPutRequest(PUT_URL + "/forgetPassword/" + email, json.toString());
+                        String result = sendRequest("PUT", "/forgetPassword/" + email, json.toString());
                     }
                 });
             }
         });
     }
 
-    private void sendPutRequest(String url, String jsonData) {
-        try {
-            URL urls = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) urls.openConnection();
-            conn.setRequestMethod("PUT");
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setDoOutput(true);
-
-
-            // Write JSON data to the output stream
-            OutputStream os = conn.getOutputStream();
-            os.write(jsonData.getBytes(StandardCharsets.UTF_8));
-            os.flush();
-            os.close();
-
-
-            // Get the response
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-            StringBuilder sb = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-                sb.append(output);
-            }
-
-
-            conn.disconnect();
-            String result = sb.toString();
-
-
-            // Optionally handle the response from the PUT request
-            Log.d("PUT RESPONSE", result);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void sendDeleteRequest(String url) {
-        try {
-            URL urls = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) urls.openConnection();
-            conn.setRequestMethod("DELETE");
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setDoOutput(true);
-
-
-            // Get the response
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-            StringBuilder sb = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-                sb.append(output);
-            }
-
-
-            conn.disconnect();
-            String result = sb.toString();
-
-
-            // Optionally handle the response from the POST request
-            Log.d("DELETE RESPONSE", result);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
