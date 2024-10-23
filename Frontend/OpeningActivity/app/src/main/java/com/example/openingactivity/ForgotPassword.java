@@ -18,19 +18,21 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ForgotPassword extends AppCompatActivity {
-    final String GET_URL = "http://10.90.74.200:8080";
+public class ForgotPassword extends AppCompatActivity implements Request {
+    // UI elements
     Button buttonRequestPassword;
     EditText inputEmail, inputAnswer1, inputAnswer2;
     TextView textGetPassword;
 
     ExecutorService executorService;
 
+    // Initialize onCreate Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_password);
 
+        // Map UI elements to XML elements
         buttonRequestPassword = findViewById(R.id.button_submit_answers);
         inputEmail = findViewById(R.id.input_enter_email);
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
@@ -39,70 +41,43 @@ public class ForgotPassword extends AppCompatActivity {
 
         executorService = Executors.newSingleThreadExecutor();
 
-
+        // Button to send GET request for FORGOT PASSWORD
         buttonRequestPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requestPassword();
             }
+        });
+    }
 
-            private void requestPassword() {
-                String email = inputEmail.getText().toString();
-                String answer1 = inputAnswer1.getText().toString();
-                String answer2 = inputAnswer2.getText().toString();
+    // Method to send GET request for FORGOT PASSWORD
+    private void requestPassword() {
+        String email = inputEmail.getText().toString();
+        String answer1 = inputAnswer1.getText().toString();
+        String answer2 = inputAnswer2.getText().toString();
 
-                //send GET request to server with email and answers
-                //if successful, reveal user password
-                //if not successful, show error message
+        //send GET request to server with email and answers
+        //if successful, reveal user password
+        //if not successful, show error message
 
-                executorService.execute(new Runnable() {
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                //sendGetRequest(GET_URL + "/forgetPassword/" + email + "/" + answer1 + "/" + answer2); // old method
+                String result = sendRequest("GET", "/forgetPassword/" + email + "/" + answer1 + "/" + answer2, null);
+
+                // TODO: Om needs to fucking update his forget password table to store users passwords and return me a String so I can actually give it to the user
+
+
+                // Update UI on the main thread
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        sendGetRequest(GET_URL + "/forgetPassword/" + email + "/" + answer1 + "/" + answer2);
+                        textGetPassword.setText(result);
                     }
                 });
 
             }
         });
-    }
-
-    private void sendGetRequest(String urlString) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-
-            in.close();
-            urlConnection.disconnect();
-
-
-            String result = content.toString();
-            Log.d("GET RESPONSE", result); // Log the response for debugging
-
-
-            // Update UI on the main thread
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    textGetPassword.setText(result);
-                }
-            });
-
-            // Handle the response as needed
-
-
-        } catch (Exception e) {
-            Log.e("GET ERROR", e.getMessage(), e); // Log any errors
-            e.printStackTrace();
-        }
     }
 }
