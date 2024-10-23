@@ -63,7 +63,7 @@ public class ForgotPassword extends AppCompatActivity implements Request {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                //sendGetRequest(GET_URL + "/forgetPassword/" + email + "/" + answer1 + "/" + answer2);
+                //sendGetRequest(GET_URL + "/forgetPassword/" + email + "/" + answer1 + "/" + answer2); // old method
                 String result = sendRequest("GET", "/forgetPassword/" + email + "/" + answer1 + "/" + answer2, null);
 
                 // TODO: Om needs to fucking update his forget password table to store users passwords and return me a String so I can actually give it to the user
