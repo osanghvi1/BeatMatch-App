@@ -75,7 +75,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Request
             });
 
             //Change intent to GenrePreferences
-            Intent intent = new Intent(ForgotPasswordActivity.this, ProfileActivity.class);
+            Intent intent = new Intent(ForgotPasswordActivity.this, GenrePreferences.class);
             finish();
             startActivity(intent);
         });

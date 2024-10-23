@@ -31,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
     // UI elements
     TextView textGetUser, textGetEmail;
     TextView textGetResponse;
-    Button deleteButton, updateAnswer1, updateAnswer2;
+    Button deleteAccountButton, deleteSecurityButton, updateAnswer2;
     ExecutorService executorService;
 
     EditText inputAnswer1;
@@ -46,7 +46,8 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         textGetResponse = findViewById(R.id.text_get_response);
         textGetUser = findViewById(R.id.text_get_user_ID);
         textGetEmail = findViewById(R.id.text_get_user_email);
-        deleteButton = findViewById(R.id.button_delete_account);
+        deleteAccountButton = findViewById(R.id.button_delete_account);
+        deleteSecurityButton = findViewById(R.id.button_delete_security);
         updateAnswer2 = findViewById(R.id.button_answer_2_update);
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
         inputAnswer2 = findViewById(R.id.input_security_answer_2);
@@ -57,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         textGetEmail.setText("" + user.getUserEmail());
 
         // Button to send DELETE request
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        deleteSecurityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 executorService.execute(new Runnable() {
@@ -67,13 +68,25 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                         String result = sendRequest("DELETE", "/forgetPassword/" + user.getUserEmail(), null);
                     }
                 });
+            }
+        });
 
-                // Change intent to login activity
-                /*
-                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                finish();
-                startActivity(intent);
-                 */
+        // Button to Delete account
+        deleteAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        //sendDeleteRequest(DEL_URL + "/users/" + user.getUserID()); // old method
+                        String result = sendRequest("DELETE", "/users/delete/" + user.getUserID(), null);
+                        // String result2 = sendRequest("DELETE", "/users/" + user.getUserID(), null);
+                        // ... rest of delete methods ...
+
+                        Intent intent = new Intent(ProfileActivity.this, StartupActivity.class);
+                        startActivity(intent);
+                    }
+                });
             }
         });
 
