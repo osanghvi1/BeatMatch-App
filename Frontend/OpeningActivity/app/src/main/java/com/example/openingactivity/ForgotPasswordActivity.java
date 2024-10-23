@@ -38,13 +38,13 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Request
 
         executorService = Executors.newSingleThreadExecutor();
 
-
+        // Map UI elements to XML elements
         inputEmail = findViewById(R.id.input_enter_email);
         securityAnswer1 = findViewById(R.id.input_security_answer_1);
         securityAnswer2 = findViewById(R.id.input_security_answer_2);
         buttonSubmit = findViewById(R.id.button_submit_answers);
 
-
+        // Button to send INITIAL Forgot Password answers
         buttonSubmit.setOnClickListener(v -> {
             String answer1 = securityAnswer1.getText().toString();
             String answer2 = securityAnswer2.getText().toString();

@@ -33,12 +33,13 @@ public class SignupActivity extends AppCompatActivity implements Request {
     Button buttonBack, buttonSignup, buttonGet;
     ExecutorService executorService;
 
-
+    // Initialize onCreate Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        // Map UI elements to XML elements
         buttonBack = findViewById(R.id.Signup_Back_Button);
         buttonSignup = findViewById(R.id.button_signup);
         inputFirstName = findViewById(R.id.input_first_name);
@@ -98,6 +99,7 @@ public class SignupActivity extends AppCompatActivity implements Request {
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Take all information typed into Strings
                 String firstName = inputFirstName.getText().toString();
                 String lastName = inputLastName.getText().toString();
                 String email = inputEmail.getText().toString();
