@@ -84,8 +84,15 @@ public class SignupActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        sendGetRequest(GET_URL);
+                        //sendGetRequest(GET_URL);
+                        String result = sendRequest("GET", "/users", null);
+                        if (result != null) {
+                            textGetResponse.setText(result);
+                        } else {
+                            textGetResponse.setText("Request failed");
+                        }
                     }
+
                 });
             }
         });
@@ -146,13 +153,6 @@ public class SignupActivity extends AppCompatActivity implements Request {
                             }
                         }
                     });
-
-
-
-                    //Change intent to Login
-                    //TODO if user already exists do not switch intent
-                    //TODO splash message that signup was successful
-
                 }
             }
         });
