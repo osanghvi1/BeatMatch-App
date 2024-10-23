@@ -28,19 +28,6 @@ import java.util.concurrent.Executors;
 
 
 public class SignupActivity extends AppCompatActivity implements Request {
-    //server IP : 10.90.74.200
-
-    // URLs for GET and POST requests
-    //final String GET_URL = "http://10.90.74.200:8080/users";
-    //"lport@coms-3090-049.class.las.iastate.edu/users"
-    //final String GET_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser";
-    //"http://10.0.2.2:8080/createUser"
-    final String GET_URL = "http://10.90.74.200:8080/users";
-
-    final String POST_URL = "http://10.90.74.200:8080/createUser";
-    //"http://coms-3090-049.class.las.iastate.edu:8080/createUser"
-    //final String POST_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser";
-
     EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
     Button buttonBack, buttonSignup, buttonGet, buttonPost;
@@ -92,7 +79,6 @@ public class SignupActivity extends AppCompatActivity implements Request {
                             textGetResponse.setText("Request failed");
                         }
                     }
-
                 });
             }
         });
@@ -158,55 +144,6 @@ public class SignupActivity extends AppCompatActivity implements Request {
         });
     }
 
-    // Method to send POST Request
-    private void sendPostRequest(String urlString, String jsonData) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setDoOutput(true);
-
-
-            // Write JSON data to the output stream
-            OutputStream os = conn.getOutputStream();
-            os.write(jsonData.getBytes(StandardCharsets.UTF_8));
-            os.flush();
-            os.close();
-
-
-            // Get the response
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-            StringBuilder sb = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-                sb.append(output);
-            }
-
-
-            conn.disconnect();
-            String result = sb.toString();
-
-
-            // Optionally handle the response from the POST request
-            Log.d("POST RESPONSE", result);
-
-            if (!Integer.valueOf(result).equals(-1)) {
-                try {
-                    new user(Integer.valueOf(result));
-                } finally {
-                    login();
-                }
-            } else {
-                //failure
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void login() {
         Intent intent = new Intent(SignupActivity.this, ForgotPasswordActivity.class);
         finish();
@@ -220,48 +157,4 @@ public class SignupActivity extends AppCompatActivity implements Request {
         // Shutdown the executor service when activity is destroyed
         executorService.shutdown();
     }
-
-    // Method to send GET Request
-    private void sendGetRequest(String urlString) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-
-            in.close();
-            urlConnection.disconnect();
-
-
-            String result = content.toString();
-            System.out.println(result);
-            Log.d("GET RESPONSE", result); // Log the response for debugging
-
-
-            // Update UI on the main thread
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    textGetResponse.setText(result);
-                }
-            });
-
-
-        } catch (Exception e) {
-            Log.e("GET ERROR", e.getMessage(), e); // Log any errors
-            e.printStackTrace();
-        }
-    }
-
-
-
-
 }
