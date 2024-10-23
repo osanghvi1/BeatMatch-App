@@ -31,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
     // UI elements
     TextView textGetUser, textGetEmail;
     TextView textGetResponse;
-    Button deleteAccountButton, deleteSecurityButton, updateAnswer2;
+    Button deleteAccountButton, deleteSecurityButton, updateAnswer2,  friendsButton;
     ExecutorService executorService;
 
     EditText inputAnswer1;
@@ -51,11 +51,22 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         updateAnswer2 = findViewById(R.id.button_answer_2_update);
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
         inputAnswer2 = findViewById(R.id.input_security_answer_2);
+        friendsButton = findViewById(R.id.button_friends);
+
         executorService = Executors.newSingleThreadExecutor();
 
         // Set the user information in the TextViews
         textGetUser.setText("" + user.getUserID());
         textGetEmail.setText("" + user.getUserEmail());
+
+        friendsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Change intent to new forgot password screen
+                Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Button to send DELETE request
         deleteSecurityButton.setOnClickListener(new View.OnClickListener() {
