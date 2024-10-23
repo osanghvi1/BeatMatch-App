@@ -133,10 +133,21 @@ public class SignupActivity extends AppCompatActivity implements Request {
                         @Override
                         public void run() {
                             //sendPostRequest(POST_URL, json.toString());
-                            sendRequest("POST", "/createUser", json.toString());
+                            String response = sendRequest("POST", "/createUser", json.toString());
+                            if (response != null) {
+                                try {
+                                    int userID = Integer.parseInt(response);
+                                    new user(Integer.valueOf(userID));
+                                    login();
+                                } catch (NumberFormatException e) {
+                                    Log.e("SignupActivity", "Error parsing user ID: " + e.getMessage());
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-
                     });
+
+
 
                     //Change intent to Login
                     //TODO if user already exists do not switch intent
