@@ -79,6 +79,14 @@ public class SignupActivity extends AppCompatActivity implements Request {
                                     textGetResponse.setText(result);
                                 }
                             });
+                        } else {
+                            // FOR TESTING
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textGetResponse.setText("Error fetching data");
+                                }
+                            });
                         }
                     }
                 });
@@ -103,7 +111,6 @@ public class SignupActivity extends AppCompatActivity implements Request {
                 } else if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || username.isEmpty()){
                     textGetResponse.setText("Please fill in all fields");
                 } else {
-                    textGetResponse.setText("POST sent");
                     user.setUserEmail(email);
 
                     // Create JSON object for POST request
@@ -133,12 +140,25 @@ public class SignupActivity extends AppCompatActivity implements Request {
                                 try {
                                     int userID = Integer.parseInt(response);
                                     new user(Integer.valueOf(userID));
+
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            textGetResponse.setText("User Created Successfully!");
+                                        }
+                                    });
+
                                     login();
                                 } catch (NumberFormatException e) {
                                     Log.e("SignupActivity", "Error parsing user ID: " + e.getMessage());
                                     e.printStackTrace();
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            textGetResponse.setText("Error Creating User");
+                                        }
+                                    });
                                 }
-                            } else {
                             }
                         }
                     });
