@@ -21,10 +21,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LoginActivity extends AppCompatActivity {
-
-    final String GET_URL = "http://10.90.74.200:8080";
-
+public class LoginActivity extends AppCompatActivity implements Request {
     Button buttonBack, buttonLogin, buttonForgotPassword;
     EditText inputEmail, inputPassword;
     TextView textView, textGetResponse;
@@ -70,13 +67,40 @@ public class LoginActivity extends AppCompatActivity {
                     executorService.execute(new Runnable() {
                         @Override
                         public void run() {
-                            sendGetRequest(GET_URL + "/users/" + email + "/" + password);
+                            //sendGetRequest(GET_URL + "/users/" + email + "/" + password); // old method
+                            String result = sendRequest("GET", "/users/" + email + "/" + password, null);
+                            if (Integer.parseInt(result) != -1) {
+                                try {
+                                    int userID = Integer.parseInt(result);
+                                    new user(Integer.valueOf(userID));
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            textGetResponse.setText("Login Successful!");
+                                        }
+                                    });
+                                    login();
+                                } catch (NumberFormatException e) {
+                                    Log.e("LoginActivity", "Error parsing user ID: " + e.getMessage());
+                                    e.printStackTrace();
+                                    // TESTING
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            textGetResponse.setText("Error parsing user ID");
+                                        }
+                                    });
+                                }
+                            } else {
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        textGetResponse.setText("Incorrect username or password");
+                                    }
+                                });
+                            }
                         }
                     });
-
-                    //TODO
-                    //user class?
-                    //
 
                 } else {
                     textView.setText("please fill in all fields*");
@@ -115,62 +139,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    // Method to send GET Request
-    private void sendGetRequest(String urlString) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-
-            in.close();
-            urlConnection.disconnect();
-
-
-            String result = content.toString();
-            Log.d("GET RESPONSE", result); // Log the response for debugging
-
-
-            // Update UI on the main thread
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    textGetResponse.setText(result);
-                }
-            });
-
-            if (!Integer.valueOf(result).equals(-1)) {
-                //extract ID from result
-                try {
-                    // Success! User created with ID 10
-                    new user(Integer.valueOf(result));
-                } finally {
-                    login();
-                }
-            } else {
-                textView.setText("Incorrect username or password");
-            }
-
-
-        } catch (Exception e) {
-            Log.e("GET ERROR", e.getMessage(), e); // Log any errors
-            e.printStackTrace();
-        }
-    }
-
     private void login() {
         //Change intent to Profile
-        Intent intent = new Intent(LoginActivity.this, GenrePreferences.class);
+        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
         startActivity(intent);
     }
-
-
 }
