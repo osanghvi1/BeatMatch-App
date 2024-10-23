@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 public class SignupActivity extends AppCompatActivity implements Request {
     EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
-    Button buttonBack, buttonSignup, buttonGet, buttonPost;
+    Button buttonBack, buttonSignup, buttonGet;
     ExecutorService executorService;
 
 
@@ -46,7 +46,6 @@ public class SignupActivity extends AppCompatActivity implements Request {
         inputEmail = findViewById(R.id.input_email);
         textGetResponse = findViewById(R.id.text_get_response);
         buttonGet = findViewById(R.id.button_get);
-        buttonPost = findViewById(R.id.button_post);
         inputUsername = findViewById(R.id.signup_input_username);
         inputPassword = findViewById(R.id.input_password);
         inputPasswordConfirm = findViewById(R.id.input_password_confirm);
@@ -74,9 +73,12 @@ public class SignupActivity extends AppCompatActivity implements Request {
                         //sendGetRequest(GET_URL);
                         String result = sendRequest("GET", "/users", null);
                         if (result != null) {
-                            textGetResponse.setText(result);
-                        } else {
-                            textGetResponse.setText("Request failed");
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textGetResponse.setText(result);
+                                }
+                            });
                         }
                     }
                 });
@@ -136,6 +138,7 @@ public class SignupActivity extends AppCompatActivity implements Request {
                                     Log.e("SignupActivity", "Error parsing user ID: " + e.getMessage());
                                     e.printStackTrace();
                                 }
+                            } else {
                             }
                         }
                     });
