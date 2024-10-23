@@ -18,9 +18,7 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ForgotPassword extends AppCompatActivity {
-    // URLs for GET request
-    final String GET_URL = "http://10.90.74.200:8080";
+public class ForgotPassword extends AppCompatActivity implements Request {
     // UI elements
     Button buttonRequestPassword;
     EditText inputEmail, inputAnswer1, inputAnswer2;
@@ -65,49 +63,21 @@ public class ForgotPassword extends AppCompatActivity {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                sendGetRequest(GET_URL + "/forgetPassword/" + email + "/" + answer1 + "/" + answer2);
+                //sendGetRequest(GET_URL + "/forgetPassword/" + email + "/" + answer1 + "/" + answer2);
+                String result = sendRequest("GET", "/forgetPassword/" + email + "/" + answer1 + "/" + answer2, null);
+
+                // TODO: Om needs to fucking update his forget password table to store users passwords and return me a String so I can actually give it to the user
+
+
+                // Update UI on the main thread
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        textGetPassword.setText(result);
+                    }
+                });
+
             }
         });
-
-    }
-
-    // Method to send GET request
-    private void sendGetRequest(String urlString) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-
-            in.close();
-            urlConnection.disconnect();
-
-
-            String result = content.toString();
-            Log.d("GET RESPONSE", result); // Log the response for debugging
-
-
-            // Update UI on the main thread
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    textGetPassword.setText(result);
-                }
-            });
-
-            // Handle the response as needed
-
-
-        } catch (Exception e) {
-            Log.e("GET ERROR", e.getMessage(), e); // Log any errors
-            e.printStackTrace();
-        }
     }
 }

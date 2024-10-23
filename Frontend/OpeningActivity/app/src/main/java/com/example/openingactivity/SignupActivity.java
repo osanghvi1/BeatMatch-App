@@ -27,24 +27,10 @@ import java.util.concurrent.Executors;
 
 
 
-public class SignupActivity extends AppCompatActivity {
-    //server IP : 10.90.74.200
-
-    // URLs for GET and POST requests
-    //final String GET_URL = "http://10.90.74.200:8080/users";
-    //"lport@coms-3090-049.class.las.iastate.edu/users"
-    //final String GET_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/getUser";
-    //"http://10.0.2.2:8080/createUser"
-    final String GET_URL = "http://10.90.74.200:8080/users";
-
-    final String POST_URL = "http://10.90.74.200:8080/createUser";
-    //"http://coms-3090-049.class.las.iastate.edu:8080/createUser"
-    //final String POST_URL = "https://a1f4bd84-ddf6-4c6b-b65c-66c8782172eb.mock.pstmn.io/addUser";
-
-    // UI elements
+public class SignupActivity extends AppCompatActivity implements Request {
     EditText inputFirstName, inputLastName, inputEmail, inputUsername, inputPassword, inputPasswordConfirm;
     TextView textGetResponse;
-    Button buttonBack, buttonSignup, buttonGet, buttonPost;
+    Button buttonBack, buttonSignup, buttonGet;
     ExecutorService executorService;
 
     // Initialize onCreate Method
@@ -61,7 +47,6 @@ public class SignupActivity extends AppCompatActivity {
         inputEmail = findViewById(R.id.input_email);
         textGetResponse = findViewById(R.id.text_get_response);
         buttonGet = findViewById(R.id.button_get);
-        buttonPost = findViewById(R.id.button_post);
         inputUsername = findViewById(R.id.signup_input_username);
         inputPassword = findViewById(R.id.input_password);
         inputPasswordConfirm = findViewById(R.id.input_password_confirm);
@@ -86,7 +71,24 @@ public class SignupActivity extends AppCompatActivity {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        sendGetRequest(GET_URL);
+                        //sendGetRequest(GET_URL);
+                        String result = sendRequest("GET", "/users", null);
+                        if (result != null) {
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textGetResponse.setText(result);
+                                }
+                            });
+                        } else {
+                            // FOR TESTING
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textGetResponse.setText("Error fetching data");
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -111,7 +113,6 @@ public class SignupActivity extends AppCompatActivity {
                 } else if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || username.isEmpty()){
                     textGetResponse.setText("Please fill in all fields");
                 } else {
-                    textGetResponse.setText("POST sent");
                     user.setUserEmail(email);
 
                     // Create JSON object for POST request
@@ -135,61 +136,37 @@ public class SignupActivity extends AppCompatActivity {
                     executorService.execute(new Runnable() {
                         @Override
                         public void run() {
-                            sendPostRequest(POST_URL, json.toString());
+                            //sendPostRequest(POST_URL, json.toString());
+                            String response = sendRequest("POST", "/createUser", json.toString());
+                            if (response != null) {
+                                try {
+                                    int userID = Integer.parseInt(response);
+                                    new user(Integer.valueOf(userID));
+
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            textGetResponse.setText("User Created Successfully!");
+                                        }
+                                    });
+
+                                    login();
+                                } catch (NumberFormatException e) {
+                                    Log.e("SignupActivity", "Error parsing user ID: " + e.getMessage());
+                                    e.printStackTrace();
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            textGetResponse.setText("Error Creating User");
+                                        }
+                                    });
+                                }
+                            }
                         }
                     });
                 }
             }
         });
-    }
-
-    // Method to send POST Request
-    private void sendPostRequest(String urlString, String jsonData) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setDoOutput(true);
-
-
-            // Write JSON data to the output stream
-            OutputStream os = conn.getOutputStream();
-            os.write(jsonData.getBytes(StandardCharsets.UTF_8));
-            os.flush();
-            os.close();
-
-
-            // Get the response
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-            StringBuilder sb = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-                sb.append(output);
-            }
-
-
-            conn.disconnect();
-            String result = sb.toString();
-
-
-            // Optionally handle the response from the POST request
-            Log.d("POST RESPONSE", result);
-
-            if (!Integer.valueOf(result).equals(-1)) {
-                try {
-                    new user(Integer.valueOf(result));
-                } finally {
-                    login();
-                }
-            } else {
-                //failure
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void login() {
@@ -205,48 +182,4 @@ public class SignupActivity extends AppCompatActivity {
         // Shutdown the executor service when activity is destroyed
         executorService.shutdown();
     }
-
-    // Method to send GET Request
-    private void sendGetRequest(String urlString) {
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-
-            in.close();
-            urlConnection.disconnect();
-
-
-            String result = content.toString();
-            System.out.println(result);
-            Log.d("GET RESPONSE", result); // Log the response for debugging
-
-
-            // Update UI on the main thread
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    textGetResponse.setText(result);
-                }
-            });
-
-
-        } catch (Exception e) {
-            Log.e("GET ERROR", e.getMessage(), e); // Log any errors
-            e.printStackTrace();
-        }
-    }
-
-
-
-
 }

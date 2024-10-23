@@ -21,11 +21,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
-    // Server URL
-    final String POST_URL = "http://10.90.74.200:8080";
 
-    // UI elements
+/*
+ * Forgot Password Activity - This code runs ONCE on account creation.
+ * User will enter their security questions and email (for now until om fixes his table)
+ */
+public class ForgotPasswordActivity extends AppCompatActivity implements Request {
     EditText securityAnswer1, securityAnswer2, inputEmail;
     Button buttonSubmit;
     ExecutorService executorService;
@@ -68,7 +69,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    sendPostRequest(POST_URL + "/forgetPassword" , json.toString());
+                    //sendPostRequest(POST_URL + "/forgetPassword" , json.toString());
+                    String result = sendRequest("POST", "/forgetPassword", json.toString());
                 }
             });
 
@@ -77,43 +79,5 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             finish();
             startActivity(intent);
         });
-    }
-
-    private void sendPostRequest(String postUrl, String jsonData) {
-        try {
-            URL url = new URL(postUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setDoOutput(true);
-
-
-            // Write JSON data to the output stream
-            OutputStream os = conn.getOutputStream();
-            os.write(jsonData.getBytes(StandardCharsets.UTF_8));
-            os.flush();
-            os.close();
-
-
-            // Get the response
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-            StringBuilder sb = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-                sb.append(output);
-            }
-
-
-            conn.disconnect();
-            String result = sb.toString();
-
-
-            // Optionally handle the response from the POST request
-            Log.d("POST RESPONSE", result);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
