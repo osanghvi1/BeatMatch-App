@@ -53,5 +53,4 @@ import java.util.List;
         userRepository.deleteById(id);
         return deletedUser;
     }
-
 }
