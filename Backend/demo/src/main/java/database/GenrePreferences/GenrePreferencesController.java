@@ -1,5 +1,7 @@
 package database.GenrePreferences;
 
+import database.User.User;
+import database.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +12,8 @@ public class GenrePreferencesController {
 
     @Autowired
     private GenrePreferencesRepository genrePreferencesRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping(path = "/userGenres")
     List<GenrePreferences> getAllGenrePreferences(){
@@ -27,7 +31,11 @@ public class GenrePreferencesController {
             return "Creation : Failure";
         }
         else{
+            int id = genrePreferences.getUserID();
+            User currentUser = userRepository.findById(id);
             genrePreferencesRepository.save(genrePreferences);
+            currentUser.setGenrePreferences(genrePreferences);
+            userRepository.save(currentUser);
             return "Creation : Success";
         }
     }

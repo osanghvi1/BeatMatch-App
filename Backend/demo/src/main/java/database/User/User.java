@@ -1,5 +1,6 @@
 package database.User;
 
+import database.GenrePreferences.GenrePreferences;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +19,9 @@ public class User {
     private String lastName;
     private int accountVisibility;
     private int accountStatus;
+
+    @OneToOne
+    private GenrePreferences genrePreferences;
 
     public User(String firstName, String lastName, String email, String username, String password, int accountVisibility, int accountStatus) {
         this.firstName = firstName;
@@ -49,6 +53,8 @@ public class User {
 
     public int getAccountStatus() {return accountStatus;}
 
+    public GenrePreferences getGenrePreferences() {return genrePreferences;}
+
     public void setUserID(int userID) {this.userID = userID;}
 
     public void setPassword(String password) {this.password = password;}
@@ -65,6 +71,6 @@ public class User {
 
     public void setAccountStatus(int accountStatus) {this.accountStatus = accountStatus;}
 
-
+    public void setGenrePreferences(GenrePreferences genrePreferences) {this.genrePreferences = genrePreferences;}
 
 }
