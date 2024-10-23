@@ -2,8 +2,8 @@ package com.example.openingactivity;
 
 public class user {
 
-    public static int userID;
-    public static String userEmail;
+    private static int userID;
+    private static String userEmail;
 
 
     //constructor
