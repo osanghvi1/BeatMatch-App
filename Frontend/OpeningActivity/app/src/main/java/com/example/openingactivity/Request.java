@@ -56,8 +56,8 @@ public interface Request {
         } catch (Exception e) {
             Log.e(requestType + " ERROR", e.getMessage(), e); // Log any errors
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }
 
