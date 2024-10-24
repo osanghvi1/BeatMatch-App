@@ -1,5 +1,6 @@
 package com.example.openingactivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 
 public class FriendsActivity extends AppCompatActivity implements Request {
     // UI elements
+    private float currentRotation = 0f;
     Button buttonBack, buttonFindFriends;
     ImageButton buttonRefreshFriends;
     ListView lvFriends;
@@ -39,21 +41,21 @@ public class FriendsActivity extends AppCompatActivity implements Request {
             }
         });
 
-        buttonFindFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Switch to friend finder activity or fragment?
-                /* TODO handle friends in backend, user adds friend based on full list from friends GET, user selects a person to 'friend'
-                   new 'friend' gets stored in backend and can be found from Friends page
-                 */
-
-            }
+        buttonFindFriends.setOnClickListener(v -> {
+            // Handle friend finder button click
+            Intent myIntent = new Intent(this, FriendFinderActivity.class);
+            startActivity(myIntent);
         });
 
         buttonRefreshFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentRotation += 360f;
+                buttonRefreshFriends.animate().rotation(currentRotation).setDuration(800).start();
                 // Refresh list of friends
+                // TODO will just redo the GET friends task and repopulate the array adapter
+                // rotate the image 360 degrees
+
             }
         });
 
