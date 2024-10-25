@@ -12,8 +12,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+class Friend {
+    String username;
+    String userID;
+    //constructor
+    public Friend(String username, String userID) {
+        this.username = username;
+        this.userID = userID;
+    }
+}
 
 public class FriendsActivity extends AppCompatActivity implements Request {
     // UI elements
@@ -22,6 +35,11 @@ public class FriendsActivity extends AppCompatActivity implements Request {
     ImageButton buttonRefreshFriends;
     ListView lvFriends;
     ExecutorService executorService;
+
+
+
+    String [] friendsList = {"Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6", "Person 7", "Person 8", "Person 9", "Person 10"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +51,7 @@ public class FriendsActivity extends AppCompatActivity implements Request {
 
         // Initialize the ExecutorService
         executorService = Executors.newSingleThreadExecutor();
+
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,26 +74,55 @@ public class FriendsActivity extends AppCompatActivity implements Request {
                 // Refresh list of friends
                 // TODO will just redo the GET friends task and repopulate the array adapter
                 // rotate the image 360 degrees
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String response = sendRequest("GET", "/friends/" + user.getUserID(), null);
+                        // response is a String of friend usernames?
+                        // parse the response into an array of strings
 
+                    }
+                });
             }
         });
 
         // Fetch friends list from the server
 
-        String[] friendsList = {"Friend 1", "Friend 2", "Friend 3", "Friend 4", "Friend 5", "Friend 6", "Friend 7", "Friend 8", "Friend 9", "Friend 10", "Friend 11", "Friend 12", "Friend 13", "Friend 14", "Friend 15", "Friend 16", "Friend 17", "Friend 18", "Friend 19", "Friend 20"};
-
-        // TODO would love a table where user ids, friend ids, and usernames are stored for easy access,
-        // could do a get method to get all friends, would be useful for chatting too.
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, friendsList);
         lvFriends.setAdapter(adapter);
+
         lvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(FriendsActivity.this, "Friend clicked: " + friendsList[position], Toast.LENGTH_SHORT).show();
+                // TODO go into chat activity
             }
         });
-
-
     }
+
+    /*
+    //i dont know if this fucking works
+    private void addFriendsToListView() {
+        // need to GET all friends, then add them to the arrayList
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                String response = sendRequest("GET", "/friends/" + user.getUserID(), null); // or some other method to get friends
+                // response is a String of friend usernames?
+                // parse the response into the arrayList
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        String friendUsername = jsonArray.getString(i);
+                        friendsList.add(new Friend(friendUsername, ""+i));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    */
+
+
 }
