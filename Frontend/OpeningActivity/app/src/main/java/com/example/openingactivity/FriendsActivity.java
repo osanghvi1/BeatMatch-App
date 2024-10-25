@@ -71,9 +71,9 @@ public class FriendsActivity extends AppCompatActivity implements Request {
             public void onClick(View v) {
                 currentRotation += 360f;
                 buttonRefreshFriends.animate().rotation(currentRotation).setDuration(800).start();
-                // Refresh list of friends
+
                 // TODO will just redo the GET friends task and repopulate the array adapter
-                // rotate the image 360 degrees
+
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
