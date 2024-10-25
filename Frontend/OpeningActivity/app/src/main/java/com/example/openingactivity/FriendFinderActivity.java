@@ -16,14 +16,16 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+
 public class FriendFinderActivity extends AppCompatActivity implements Request {
 
     Button buttonBack;
     ListView lvEveryone;
     ExecutorService executorService;
 
-    ArrayList<String> friendsList = new ArrayList<>();
-    ArrayAdapter<String> adapter;
+    ArrayList<Friend> friendsList = new ArrayList<>();
+    ArrayAdapter<Friend> adapter;
 
 
     @Override
@@ -43,29 +45,29 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
         // TODO GET method for friends
 
         //dummy data for now
-        friendsList.add("Person 1");
-        friendsList.add("Person 2");
-        friendsList.add("Person 3");
-        friendsList.add("Person 4");
-        friendsList.add("Person 5");
+        friendsList.add(new Friend("Person 1", "1"));
+        friendsList.add(new Friend("Person 2", "2"));
+        friendsList.add(new Friend("Person 3", "3"));
+        friendsList.add(new Friend("Person 4", "4"));
 
         lvEveryone = findViewById(R.id.friends_list_view);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, friendsList);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, friendsList);
         lvEveryone.setAdapter(adapter);
 
         lvEveryone.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFriend = friendsList.get(position);
+                Friend selectedFriend = friendsList.get(position);
                 friendsList.remove(selectedFriend);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(FriendFinderActivity.this, "Friend removed: " + selectedFriend, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FriendFinderActivity.this, "Friend removed: " + selectedFriend.username, Toast.LENGTH_SHORT).show();
 
                 // POST request to add selectedFriend to friendsList
                 JSONObject json = new JSONObject();
 
                 try {
                     json.put("friendID", selectedFriend);
+                    json.put("friendUsername", selectedFriend);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -74,7 +76,7 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String response = sendRequest("POST", "/friends/" + user.getUserID(), selectedFriend);
+                        String response = sendRequest("POST", "/friends/" + user.getUserID(), json.toString());
                         // put response in log for debugging
                     }
                 });
