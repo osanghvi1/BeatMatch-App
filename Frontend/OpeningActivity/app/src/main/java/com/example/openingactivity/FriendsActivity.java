@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -35,10 +37,9 @@ public class FriendsActivity extends AppCompatActivity implements Request {
     ImageButton buttonRefreshFriends;
     ListView lvFriends;
     ExecutorService executorService;
+    ArrayList<Friend> friendsList = new ArrayList<>();
+    ArrayAdapter<Friend> adapter;
 
-
-
-    String [] friendsList = {"Person 1", "Person 2", "Person 3", "Person 4", "Person 5", "Person 6", "Person 7", "Person 8", "Person 9", "Person 10"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +48,23 @@ public class FriendsActivity extends AppCompatActivity implements Request {
         buttonBack = findViewById(R.id.button_friends_back);
         buttonFindFriends = findViewById(R.id.button_find_friends);
         buttonRefreshFriends = findViewById(R.id.button_refresh_friends);
-        lvFriends = findViewById(R.id.friends_list_view);
+
 
         // Initialize the ExecutorService
         executorService = Executors.newSingleThreadExecutor();
+
+        lvFriends = findViewById(R.id.friends_list_view);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, friendsList);
+        lvFriends.setAdapter(adapter);
+
+        lvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Friend selectedFriend = friendsList.get(position);
+                // TODO enter chat with selectedFriend
+            }
+        });
+
 
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -69,60 +83,29 @@ public class FriendsActivity extends AppCompatActivity implements Request {
         buttonRefreshFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // For button rotation
                 currentRotation += 360f;
                 buttonRefreshFriends.animate().rotation(currentRotation).setDuration(800).start();
 
-                // TODO will just redo the GET friends task and repopulate the array adapter
+                // TODO will just redo the GET friends task and repopulate the arraylist
 
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
                         String response = sendRequest("GET", "/friends/" + user.getUserID(), null);
-                        // response is a String of friend usernames?
-                        // parse the response into an array of strings
-
                     }
                 });
-            }
-        });
 
-        // Fetch friends list from the server
+                // parse the response into the arrayList - dummy info for now
+                friendsList.add(new Friend("Person 1", "1"));
+                friendsList.add(new Friend("Person 2", "2"));
+                friendsList.add(new Friend("Person 3", "3"));
+                friendsList.add(new Friend("Person 4", "4"));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, friendsList);
-        lvFriends.setAdapter(adapter);
 
-        lvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(FriendsActivity.this, "Friend clicked: " + friendsList[position], Toast.LENGTH_SHORT).show();
-                // TODO go into chat activity
+                // update the ListView
+                adapter.notifyDataSetChanged();
             }
         });
     }
-
-    /*
-    //i dont know if this fucking works
-    private void addFriendsToListView() {
-        // need to GET all friends, then add them to the arrayList
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                String response = sendRequest("GET", "/friends/" + user.getUserID(), null); // or some other method to get friends
-                // response is a String of friend usernames?
-                // parse the response into the arrayList
-                try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        String friendUsername = jsonArray.getString(i);
-                        friendsList.add(new Friend(friendUsername, ""+i));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-    */
-
-
 }
