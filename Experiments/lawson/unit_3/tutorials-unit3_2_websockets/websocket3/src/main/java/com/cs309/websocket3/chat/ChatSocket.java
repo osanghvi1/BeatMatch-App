@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
@@ -19,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller      // this is needed for this to be an endpoint to springboot
-@ServerEndpoint(value = "/chat/{username}")  // this is Websocket url
+@ServerEndpoint(value = "/chat/{username}/{favorite_song}")  // this is Websocket url
 public class ChatSocket {
 
   // cannot autowire static directly (instead we do it by the below
@@ -44,8 +45,12 @@ public class ChatSocket {
 
 	private final Logger logger = LoggerFactory.getLogger(ChatSocket.class);
 
+	Random rand = new Random();
+
+	private int songID = 0;
+
 	@OnOpen
-	public void onOpen(Session session, @PathParam("username") String username) 
+	public void onOpen(Session session, @PathParam("username") String username, @PathParam("favorite_song") String favoriteSong)
       throws IOException {
 
 		logger.info("Entered into Open");
@@ -54,11 +59,15 @@ public class ChatSocket {
 		sessionUsernameMap.put(session, username);
 		usernameSessionMap.put(username, session);
 
+
 		//Send chat history to the newly connected user
 		sendMessageToPArticularUser(username, getChatHistory());
 		
     // broadcast that new user joined
 		String message = "User:" + username + " has Joined the Chat";
+		broadcast(message);
+		sendMessageToPArticularUser(username,  "Welcome to BeatMatch " + username + "!");
+		message = username + "'s Favorite Song is... " + favoriteSong;
 		broadcast(message);
 	}
 
@@ -81,6 +90,14 @@ public class ChatSocket {
 		} 
     else { // broadcast
 			broadcast(username + ": " + message);
+
+
+			//handle if the users are talking about new songs
+			if(message.contains("SongID:") || message.contains("songID:") || message.contains("songid:") || message.contains("songid") || message.contains("songID"))
+			{
+				songID = rand.nextInt(1000000000);
+				broadcast("If you like that song, we think you'll like this one: " + songID);
+			}
 		}
 
 		// Saving chat history to repository
