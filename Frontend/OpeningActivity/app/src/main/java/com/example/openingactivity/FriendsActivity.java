@@ -1,5 +1,7 @@
 package com.example.openingactivity;
 
+import static java.lang.System.in;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -93,6 +95,8 @@ public class FriendsActivity extends AppCompatActivity implements Request {
                     @Override
                     public void run() {
                         String response = sendRequest("GET", "/friends/" + user.getUserID(), null);
+                        // returns String of usernames and userIDS
+                        // parse the string for each combo and put into the friendList
                     }
                 });
 
