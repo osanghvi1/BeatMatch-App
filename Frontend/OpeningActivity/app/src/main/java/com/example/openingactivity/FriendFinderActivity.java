@@ -24,7 +24,7 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
     ListView lvEveryone;
     ExecutorService executorService;
 
-    ArrayList<Friend> friendsList = new ArrayList<>();
+    ArrayList<Friend> peopleList = new ArrayList<>();
     ArrayAdapter<Friend> adapter;
 
 
@@ -45,20 +45,20 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
         // TODO GET method for friends
 
         //dummy data for now
-        friendsList.add(new Friend("Person 1", "1"));
-        friendsList.add(new Friend("Person 2", "2"));
-        friendsList.add(new Friend("Person 3", "3"));
-        friendsList.add(new Friend("Person 4", "4"));
+        peopleList.add(new Friend("Person 1", "1"));
+        peopleList.add(new Friend("Person 2", "2"));
+        peopleList.add(new Friend("Person 3", "3"));
+        peopleList.add(new Friend("Person 4", "4"));
 
         lvEveryone = findViewById(R.id.friends_list_view);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, friendsList);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, peopleList);
         lvEveryone.setAdapter(adapter);
 
         lvEveryone.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Friend selectedFriend = friendsList.get(position);
-                friendsList.remove(selectedFriend);
+                Friend selectedFriend = peopleList.get(position);
+                peopleList.remove(selectedFriend);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(FriendFinderActivity.this, "Friend removed: " + selectedFriend.username, Toast.LENGTH_SHORT).show();
 
