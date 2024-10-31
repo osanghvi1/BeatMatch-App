@@ -1,42 +1,45 @@
 package database.Friends;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Friends {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Auto-generated primary key
+    private Long id; // Unique ID for each friendship
 
-    private String userName; // Unique username of the user
-    private String userNameFriends; // Friend's username
-
-    public Friends(String userName, String userNameFriends) {
-        this.userName = userName;
-        this.userNameFriends = userNameFriends;
-    }
+    private int userID;           // ID of the main user
+    private int userIDFriends;     // ID of the friend
 
     public Friends() {}
 
-    // Getters and Setters
+    public Friends(int userID, int userIDFriends) {
+        this.userID = userID;
+        this.userIDFriends = userIDFriends;
+    }
+
+    // Getters and setters
     public Long getId() {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public String getUserNameFriends() {
-        return userNameFriends;
+    public int getUserIDFriends() {
+        return userIDFriends;
     }
 
-    public void setUserNameFriends(String userNameFriends) {
-        this.userNameFriends = userNameFriends;
+    public void setUserIDFriends(int userIDFriends) {
+        this.userIDFriends = userIDFriends;
     }
 }

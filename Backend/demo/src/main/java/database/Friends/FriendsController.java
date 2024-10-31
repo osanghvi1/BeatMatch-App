@@ -20,26 +20,26 @@ public class FriendsController {
         return friendsRepository.findAll();
     }
 
-    // Get friendship by userName
-    @GetMapping(path = "/friends/{userName}")
-    public List<Friends> getFriendsByUserName(@PathVariable String userName) {
-        return friendsRepository.findByUserName(userName);
+    // Get friendships by userID
+    @GetMapping(path = "/friends/{userID}")
+    public List<Friends> getFriendsByUserID(@PathVariable int userID) {
+        return friendsRepository.findByUserID(userID);
     }
 
     // Create a new friendship
     @PostMapping(path = "/friends/create")
     public String createFriendship(@RequestBody Friends friendship) {
-        if (friendship == null || friendship.getUserName() == null || friendship.getUserNameFriends() == null) {
+        if (friendship == null || friendship.getUserID() == 0 || friendship.getUserIDFriends() == 0) {
             return failure;
         }
         friendsRepository.save(friendship);
         return success;
     }
 
-    // Delete a friendship by userName and userNameFriends
-    @DeleteMapping(path = "/friends/delete/{userName}/{userNameFriends}")
-    public String deleteFriendship(@PathVariable String userName, @PathVariable String userNameFriends) {
-        Friends friendship = friendsRepository.findByUserNameAndUserNameFriends(userName, userNameFriends);
+    // Delete a friendship by userID and userIDFriends
+    @DeleteMapping(path = "/friends/delete/{userID}/{userIDFriends}")
+    public String deleteFriendship(@PathVariable int userID, @PathVariable int userIDFriends) {
+        Friends friendship = friendsRepository.findByUserIDAndUserIDFriends(userID, userIDFriends);
         if (friendship != null) {
             friendsRepository.delete(friendship);
             return success;
