@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface FriendsRepository extends JpaRepository<Friends, Long> {
 
-    List<Friends> findByUserName(String userName); // Return a list of friends
+    List<Friends> findByUserID(int userID);
+
+    Friends findByUserIDAndUserIDFriends(int userID, int userIDFriends);
 
     @Transactional
-    void deleteByUserName(String userName);
-
-    Friends findByUserNameAndUserNameFriends(String userName, String userNameFriends);
+    void deleteByUserIDAndUserIDFriends(int userID, int userIDFriends);
 }
