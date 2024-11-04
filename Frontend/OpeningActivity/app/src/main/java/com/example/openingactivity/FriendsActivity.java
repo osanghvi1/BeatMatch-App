@@ -24,9 +24,9 @@ import java.util.concurrent.Executors;
 
 class Friend {
     String username;
-    String userID;
+    int userID;
     //constructor
-    public Friend(String username, String userID) {
+    public Friend(String username, int userID) {
         this.username = username;
         this.userID = userID;
     }
@@ -101,10 +101,10 @@ public class FriendsActivity extends AppCompatActivity implements Request {
                 });
 
                 // parse the response into the arrayList - dummy info for now
-                friendsList.add(new Friend("Person 1", "1"));
-                friendsList.add(new Friend("Person 2", "2"));
-                friendsList.add(new Friend("Person 3", "3"));
-                friendsList.add(new Friend("Person 4", "4"));
+                friendsList.add(new Friend("Person 1", 1));
+                friendsList.add(new Friend("Person 2", 2));
+                friendsList.add(new Friend("Person 3", 3));
+                friendsList.add(new Friend("Person 4", 4));
 
 
                 // update the ListView

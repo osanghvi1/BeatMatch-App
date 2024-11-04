@@ -51,7 +51,8 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
                 //for each user in the response string, add them to peopleList
                 String[] users = response.split(";");
                 for (int i = 0; i < users.length; i++) {
-                    peopleList.add(new Friend("username", "id"));
+                    // TODO split each user string of information into just username and userID
+                    peopleList.add(new Friend("username", 1));
                 }
             }
         });
@@ -74,8 +75,8 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
                 JSONObject json = new JSONObject();
 
                 try {
-                    json.put("friendID", selectedFriend.userID);
-                    json.put("friendUsername", selectedFriend.username);
+                    json.put("userID", user.getUserID());
+                    json.put("userIDFriends", selectedFriend.userID);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
