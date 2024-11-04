@@ -30,6 +30,11 @@ class Friend {
         this.username = username;
         this.userID = userID;
     }
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }
 
 public class FriendsActivity extends AppCompatActivity implements Request {
@@ -59,13 +64,27 @@ public class FriendsActivity extends AppCompatActivity implements Request {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, friendsList);
         lvFriends.setAdapter(adapter);
 
+
         lvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friend selectedFriend = friendsList.get(position);
                 // TODO enter chat with selectedFriend
+                Toast.makeText(FriendsActivity.this, "Chatting with " + selectedFriend.username, Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        // do a GET request from the friends table to get all friends, then add them into the arraylist
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                String result = sendRequest("GET", "/friends/" + user.getUserID(), null);
+                // TODO ask om to return a sequence of friends like this
+                friendsList.add(new Friend("Person1", 1));
+            }
+        });
+
 
 
 
@@ -85,29 +104,10 @@ public class FriendsActivity extends AppCompatActivity implements Request {
         buttonRefreshFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //friendsList.clear();
                 // For button rotation
                 currentRotation += 360f;
                 buttonRefreshFriends.animate().rotation(currentRotation).setDuration(800).start();
-
-                // TODO will just redo the GET friends task and repopulate the arraylist
-
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        String response = sendRequest("GET", "/friends/" + user.getUserID(), null);
-                        // returns String of usernames and userIDS
-                        // parse the string for each combo and put into the friendList
-                    }
-                });
-
-                // parse the response into the arrayList - dummy info for now
-                friendsList.add(new Friend("Person 1", 1));
-                friendsList.add(new Friend("Person 2", 2));
-                friendsList.add(new Friend("Person 3", 3));
-                friendsList.add(new Friend("Person 4", 4));
-
-
-                // update the ListView
                 adapter.notifyDataSetChanged();
             }
         });
