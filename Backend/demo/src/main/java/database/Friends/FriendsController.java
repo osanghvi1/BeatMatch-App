@@ -1,8 +1,8 @@
 package database.Friends;
 
+import database.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -10,6 +10,9 @@ public class FriendsController {
 
     @Autowired
     private FriendsRepository friendsRepository;
+
+    @Autowired
+    private UserRepository userRepository; // UserRepository for user validation
 
     private final String success = "{\"message\":\"success\"}";
     private final String failure = "{\"message\":\"failure\"}";
@@ -36,6 +39,14 @@ public class FriendsController {
         // Check if the user is trying to add themselves as a friend
         if (friendship.getUserID() == friendship.getUserIDFriends()) {
             return "{\"message\":\"failure: cannot add yourself as a friend\"}";
+        }
+
+        // Validate that both userID and userIDFriends exist in the user database
+        boolean userExists = userRepository.existsById(friendship.getUserID());
+        boolean friendExists = userRepository.existsById(friendship.getUserIDFriends());
+
+        if (!userExists || !friendExists) {
+            return "{\"message\":\"failure: one or both user IDs are invalid\"}";
         }
 
         friendsRepository.save(friendship);
