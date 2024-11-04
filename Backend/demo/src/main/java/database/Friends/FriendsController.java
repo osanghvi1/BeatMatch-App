@@ -32,6 +32,12 @@ public class FriendsController {
         if (friendship == null || friendship.getUserID() == 0 || friendship.getUserIDFriends() == 0) {
             return failure;
         }
+
+        // Check if the user is trying to add themselves as a friend
+        if (friendship.getUserID() == friendship.getUserIDFriends()) {
+            return "{\"message\":\"failure: cannot add yourself as a friend\"}";
+        }
+
         friendsRepository.save(friendship);
         return success;
     }
