@@ -17,6 +17,7 @@ public class FriendsActivity extends AppCompatActivity implements Request {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+
         buttonBack = findViewById(R.id.button_friends_back);
         executorService = Executors.newSingleThreadExecutor();
 
