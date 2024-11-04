@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,12 +22,12 @@ import java.util.concurrent.Executors;
 
 public class FriendFinderActivity extends AppCompatActivity implements Request {
 
-    Button buttonBack;
-    ListView lvEveryone;
+    Button buttonBack, buttonAddFriend;
+    EditText inputFriendCode;
     ExecutorService executorService;
 
-    ArrayList<Friend> peopleList = new ArrayList<>();
-    ArrayAdapter<Friend> adapter;
+    TextView textResponse;
+
 
 
     @Override
@@ -33,6 +35,10 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_finder);
         buttonBack = findViewById(R.id.button_friends_back);
+        buttonAddFriend = findViewById(R.id.button_add_friend);
+        inputFriendCode = findViewById(R.id.input_friend_code);
+        textResponse = findViewById(R.id.text_response);
+
         executorService = Executors.newSingleThreadExecutor();
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -42,59 +48,22 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
             }
         });
 
-        // TODO GET method for friends
-        // Get method, get all users
-        executorService.execute(new Runnable() {
+        buttonAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                String response = sendRequest("GET", "/users", null);
-                //for each user in the response string, add them to peopleList
-                String[] users = response.split(";");
-                for (int i = 0; i < users.length; i++) {
-                    // TODO split each user string of information into just username and userID
-                    peopleList.add(new Friend("username", 1));
-                }
-            }
-        });
-
-
-
-        lvEveryone = findViewById(R.id.friends_list_view);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, peopleList);
-        lvEveryone.setAdapter(adapter);
-
-        lvEveryone.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Friend selectedFriend = peopleList.get(position);
-                peopleList.remove(selectedFriend);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(FriendFinderActivity.this, "Friend removed: " + selectedFriend.username, Toast.LENGTH_SHORT).show();
-
-                // POST request to add selectedFriend to friendsList
-                JSONObject json = new JSONObject();
-
-                try {
-                    json.put("userID", user.getUserID());
-                    json.put("userIDFriends", selectedFriend.userID);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+            public void onClick(View v) {
+                String friendCode = inputFriendCode.getText().toString();
+                // send a POST attempt request to friends table
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String response = sendRequest("POST", "/friends/" + user.getUserID(), json.toString());
-                        // put response in log for debugging
-                        // TODO have Om implement a null return if user is already friended.
-                        if (response == null) {
-                            Toast.makeText(FriendFinderActivity.this, "Friend already added", Toast.LENGTH_SHORT).show();
-                        }
+                        String result = sendRequest("POST", "/friends/" + user.getUserID() + "/" + friendCode, null);
+                        textResponse.setText(result);
                     }
                 });
             }
         });
+
+
 
 
     }
