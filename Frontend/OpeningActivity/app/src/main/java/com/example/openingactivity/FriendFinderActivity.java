@@ -43,12 +43,20 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
         });
 
         // TODO GET method for friends
+        // Get method, get all users
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                String response = sendRequest("GET", "/users", null);
+                //for each user in the response string, add them to peopleList
+                String[] users = response.split(";");
+                for (int i = 0; i < users.length; i++) {
+                    peopleList.add(new Friend("username", "id"));
+                }
+            }
+        });
 
-        //dummy data for now
-        peopleList.add(new Friend("Person 1", "1"));
-        peopleList.add(new Friend("Person 2", "2"));
-        peopleList.add(new Friend("Person 3", "3"));
-        peopleList.add(new Friend("Person 4", "4"));
+
 
         lvEveryone = findViewById(R.id.friends_list_view);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, peopleList);
@@ -66,8 +74,8 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
                 JSONObject json = new JSONObject();
 
                 try {
-                    json.put("friendID", selectedFriend);
-                    json.put("friendUsername", selectedFriend);
+                    json.put("friendID", selectedFriend.userID);
+                    json.put("friendUsername", selectedFriend.username);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -78,6 +86,10 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
                     public void run() {
                         String response = sendRequest("POST", "/friends/" + user.getUserID(), json.toString());
                         // put response in log for debugging
+                        // TODO have Om implement a null return if user is already friended.
+                        if (response == null) {
+                            Toast.makeText(FriendFinderActivity.this, "Friend already added", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
