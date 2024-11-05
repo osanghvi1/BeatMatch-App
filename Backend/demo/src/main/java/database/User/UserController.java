@@ -1,5 +1,6 @@
 package database.User;
 
+import database.Notifications.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,18 +16,21 @@ import java.util.List;
     public class UserController {
 
     @Autowired
-        private UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
     @GetMapping(path = "/users")
-    public List<User> getAllUsers() {return userRepository.findAll();}
+    public List<User> getAllUsers() {
+       // notificationService.sendNotification("BallsLMAOOOOO");
+        return userRepository.findAll();}
 
     @GetMapping(path = "/users/{id}")
-    User getUserById( @PathVariable int id){
-        return userRepository.findById(id);
-    }
+    User getUserById( @PathVariable int id){return userRepository.findById(id);}
 
     @GetMapping(path = "/users/{email}/{password}")
     int getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {

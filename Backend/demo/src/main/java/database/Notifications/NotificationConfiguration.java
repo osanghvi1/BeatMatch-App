@@ -17,6 +17,9 @@ public class NotificationConfiguration implements WebSocketMessageBrokerConfigur
     }
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/notifications").withSockJS();
+        registry.addEndpoint("/notifications").setAllowedOrigins("*").withSockJS();
+
+        // Native WebSocket endpoint for testing with Postman or other WebSocket clients
+        registry.addEndpoint("/notifications-native").setAllowedOrigins("*");
     }
 }
