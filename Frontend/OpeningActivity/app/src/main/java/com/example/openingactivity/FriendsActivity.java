@@ -78,10 +78,13 @@ public class FriendsActivity extends AppCompatActivity implements Request {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
+                // TESTING DUMMY DATA
                 friendsList.add(new Friend("Person1", 1));
+                friendsList.add(new Friend("Person2", 2));
+                friendsList.add(new Friend("Person3", 3));
                 String result = sendRequest("GET", "/friends/" + user.getUserID(), null);
                 // TODO ask om to return a sequence of friends
-                friendsList.add(new Friend("Person1", 1));
+                //friendsList.add(new Friend("Person1", 1));
             }
         });
 
