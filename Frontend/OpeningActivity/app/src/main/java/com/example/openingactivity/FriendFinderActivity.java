@@ -56,8 +56,12 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String result = sendRequest("POST", "/friends/" + user.getUserID() + "/" + friendCode, null);
-                        textResponse.setText(result);
+                        try {
+                            String result = sendRequest("POST", "/friends/" + user.getUserID() + "/" + friendCode, null);
+                            textResponse.setText(result);
+                        } catch (Exception e) {
+                            textResponse.setText("Error: " + e.getMessage());
+                        }
                     }
                 });
             }
