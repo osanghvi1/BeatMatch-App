@@ -74,19 +74,16 @@ public class FriendsActivity extends AppCompatActivity implements Request {
             }
         });
 
-
         // do a GET request from the friends table to get all friends, then add them into the arraylist
         executorService.execute(new Runnable() {
             @Override
             public void run() {
+                friendsList.add(new Friend("Person1", 1));
                 String result = sendRequest("GET", "/friends/" + user.getUserID(), null);
-                // TODO ask om to return a sequence of friends like this
+                // TODO ask om to return a sequence of friends
                 friendsList.add(new Friend("Person1", 1));
             }
         });
-
-
-
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
