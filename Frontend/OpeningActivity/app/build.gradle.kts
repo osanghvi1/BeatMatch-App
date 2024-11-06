@@ -45,5 +45,6 @@ dependencies {
 
     // GSON Converter for parsin JSON data
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.java-websocket:Java-WebSocket:1.5.1")
 
 }
