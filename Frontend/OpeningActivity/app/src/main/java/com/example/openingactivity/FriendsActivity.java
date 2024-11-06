@@ -73,7 +73,7 @@ public class FriendsActivity extends AppCompatActivity implements Request, WebSo
                 // TODO enter chat with selectedFriend
                 Toast.makeText(FriendsActivity.this, "Chatting with " + selectedFriend.username, Toast.LENGTH_SHORT).show();
 
-                String defaultURL = "ws://10.0.2.2:8080/chat/";
+                String defaultURL = "ws://10.0.2.2:8080/";
 
                 String serverUrl = defaultURL + user.getUserEmail().toString();
 
@@ -104,8 +104,8 @@ public class FriendsActivity extends AppCompatActivity implements Request, WebSo
                     for (int i = 0; i < json.length(); i++) {
                         JSONObject friend = json.getJSONObject(i);
                         int userIDFriends = friend.getInt("userIDFriends");
-                        //String username = friend.getString("username");
-                        friendsList.add(new Friend(("user " + userIDFriends), userIDFriends));
+                        String username = friend.getString("userNameFriend");
+                        friendsList.add(new Friend((username), userIDFriends));
                     }
 
                 } catch (Exception e) {
