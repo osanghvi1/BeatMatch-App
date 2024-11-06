@@ -18,7 +18,7 @@ public class User {
     private String firstName;
     private String lastName;
     private int accountVisibility;
-    private int accountStatus;
+    private int accountStatus; //1 = normal user, 2 = influencer, 3 = admin
 
     @OneToOne
     private GenrePreferences genrePreferences;
