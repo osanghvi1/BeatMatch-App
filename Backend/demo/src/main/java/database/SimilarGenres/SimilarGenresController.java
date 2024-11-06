@@ -1,6 +1,7 @@
 package database.SimilarGenres;
 
 import database.GenrePreferences.GenrePreferences;
+import database.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,8 @@ public class SimilarGenresController {
     @Autowired
     private SimilarGenresRepository similarGenresRepository;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping(path = "/similarGenres")
     List<SimilarGenres> getAllSimilarGenres(){ return similarGenresRepository.findAll();}
