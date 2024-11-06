@@ -15,7 +15,7 @@ import java.util.List;
     public class UserController {
 
     @Autowired
-        private UserRepository userRepository;
+    private UserRepository userRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
