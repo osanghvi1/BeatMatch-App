@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +38,7 @@ class Friend {
     }
 }
 
-public class FriendsActivity extends AppCompatActivity implements Request {
+public class FriendsActivity extends AppCompatActivity implements Request, WebSocketListener {
     // UI elements
     private float currentRotation = 0f;
     Button buttonBack, buttonFindFriends;
@@ -71,6 +72,18 @@ public class FriendsActivity extends AppCompatActivity implements Request {
                 Friend selectedFriend = friendsList.get(position);
                 // TODO enter chat with selectedFriend
                 Toast.makeText(FriendsActivity.this, "Chatting with " + selectedFriend.username, Toast.LENGTH_SHORT).show();
+
+                String defaultURL = "ws://10.0.2.2:8080/chat/";
+
+                String serverUrl = defaultURL + user.getUserEmail().toString();
+
+                // Establish WebSocket connection and set listener
+                WebSocketManager.getInstance().connectWebSocket(serverUrl);
+                WebSocketManager.getInstance().setWebSocketListener(FriendsActivity.this);
+
+                // got to chat activity
+                Intent intent = new Intent(FriendsActivity.this, ChatActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -125,4 +138,16 @@ public class FriendsActivity extends AppCompatActivity implements Request {
             }
         });
     }
+
+    @Override
+    public void onWebSocketMessage(String message) {}
+
+    @Override
+    public void onWebSocketClose(int code, String reason, boolean remote) {}
+
+    @Override
+    public void onWebSocketOpen(ServerHandshake handshakedata) {}
+
+    @Override
+    public void onWebSocketError(Exception ex) {}
 }
