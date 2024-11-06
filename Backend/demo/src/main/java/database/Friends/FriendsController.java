@@ -1,5 +1,6 @@
 package database.Friends;
 
+import database.User.User;
 import database.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,12 +43,16 @@ public class FriendsController {
         }
 
         // Validate that both userID and userIDFriends exist in the user database
-        boolean userExists = userRepository.existsById(friendship.getUserID());
-        boolean friendExists = userRepository.existsById(friendship.getUserIDFriends());
+        User user = userRepository.findById(friendship.getUserID());
+        User friend = userRepository.findById(friendship.getUserIDFriends());
 
-        if (!userExists || !friendExists) {
+        if (user == null || friend == null) {
             return "{\"message\":\"failure: one or both user IDs are invalid\"}";
         }
+
+        // Set user_name and user_name_friend before saving
+        friendship.setUserName(user.getUserName());
+        friendship.setUserNameFriend(friend.getUserName());
 
         friendsRepository.save(friendship);
         return success;
