@@ -51,13 +51,24 @@ public class FriendFinderActivity extends AppCompatActivity implements Request {
         buttonAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String friendCode = inputFriendCode.getText().toString();
+                int friendCode = inputFriendCode.getText().toString().isEmpty() ? 0 : Integer.parseInt(inputFriendCode.getText().toString());
+                int userID = user.getUserID();
+
+                JSONObject json = new JSONObject();
+
+                try {
+                    json.put("userIDFriends", friendCode);
+                    json.put("userID", userID);
+                } catch (JSONException e) {
+                }
+
+
                 // send a POST attempt request to friends table
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            String result = sendRequest("POST", "/friends/" + user.getUserID() + "/" + friendCode, null);
+                            String result = sendRequest("POST", "/friends/create", json.toString());
                             textResponse.setText(result);
                         } catch (Exception e) {
                             textResponse.setText("Error: " + e.getMessage());
