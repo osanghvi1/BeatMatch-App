@@ -140,7 +140,7 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
         songData=new ArrayList<>();
 
-        songData.add(new Song("Heres your next listen ...", "", "album", "preview", "id"));
+        songData.add(new Song("Heres your next listen ...", "", "album", "preview", null));
         createSongQueue();
 
 
@@ -158,6 +158,7 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
             @Override
             public void onLeftCardExit(Object o) {
+                System.out.println(o);
                 Toast.makeText(SwipingActivity.this, "Dislike", Toast.LENGTH_SHORT).show();
                 // Add to disliked songs
                 Song song = (Song) o;
@@ -176,13 +177,15 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String response = sendRequest("POST", user.getUserID() + "/dislike", json.toString());
+                        String response = sendRequest("POST", "/" + user.getUserID() + "/dislike", json.toString());
+                        System.out.println(response);
                     }
                 });
             }
 
             @Override
             public void onRightCardExit(Object o) {
+                System.out.println(o);
                 Toast.makeText(SwipingActivity.this, "Like", Toast.LENGTH_SHORT).show();
                 // Add to liked songs
                 Song song = (Song) o;
@@ -201,7 +204,8 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String response = sendRequest("POST", user.getUserID() + "/like", json.toString());
+                        String response = sendRequest("POST", "/" + user.getUserID() + "/like", json.toString());
+                        System.out.println(response);
                     }
                 });
 
