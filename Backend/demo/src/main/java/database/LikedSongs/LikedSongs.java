@@ -1,41 +1,42 @@
 package database.LikedSongs;
 
+import database.User.User;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class LikedSongs {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Long userID;
-
     @Column(name = "song_id", nullable = false)
     private Long songID;
+    private String songTitle;
+    private String genre;
+
+    //collection of users who liked specific song
+    @ManyToMany(mappedBy = "likedSongs")
+    private Set<User> likedUsers = new HashSet<>();
+
+
+    public LikedSongs(long songID, String songTitle, String genre) {
+        this.songID = songID;
+        this.songTitle = songTitle;
+        this.genre = genre;
+    }
+
+    public LikedSongs() {}
 
     // Getters and setters
-    public Long getId() {
-        return id;
-    }
+    public Long getSongID() {return songID;}
+    public String getSongTitle() {return songTitle;}
+    public String getGenre() {return genre;}
+    public Set<User> getLikedUsers() {return likedUsers;}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setLikedUsers(Set<User> likedUsers) {this.likedUsers = likedUsers;}
+    public void setSongID(long songID) {this.songID = songID;}
+    public void setSongTitle(String songTitle) {this.songTitle = songTitle;}
+    public void setGenre(String genre) {this.genre = genre;}
 
-    public Long getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Long userID) {
-        this.userID = userID;
-    }
-
-    public Long getSongID() {
-        return songID;
-    }
-
-    public void setSongID(Long songID) {
-        this.songID = songID;
-    }
 }

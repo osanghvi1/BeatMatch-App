@@ -1,9 +1,15 @@
 package database.LikedSongs;
 
+import database.DislikedSongs.DislikedSongs;
+import database.User.User;
+import database.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/likedSongs")
@@ -11,6 +17,9 @@ public class LikedSongController {
 
     @Autowired
     private LikedSongRepository likedSongRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private final String success = "{\"message\":\"success\"}";
     private final String failure = "{\"message\":\"failure\"}";
@@ -28,36 +37,33 @@ public class LikedSongController {
         return likedSong.orElse(null); // Returns null if not found
     }
 
-    // Create a new liked song record
-    @PostMapping
-    public String createLikedSong(@RequestBody LikedSongs likedSong) {
-        if (likedSong == null) {
-            return failure;
+    /*
+    @PostMapping(path = "/likeSong/{userId}")
+    public String addSong(@PathVariable int userId, @RequestBody LikedSongs likedSong) {
+        //create stuff for song to add
+        long songID = likedSong.getSongID();
+
+        //if the song doesn't already exist in the database as a disliked song
+        if (likedSongRepository.findById(songID) == null) {
+            likedSongRepository.save(likedSong);
         }
-        likedSongRepository.save(likedSong);
-        return success;
-    }
+        if(likedSongRepository.find)
 
-    // POST request to like a song
-    @PostMapping("/like")
-    public String likeSong(@RequestBody LikedSongs likedSong) {
-        likedSongRepository.save(likedSong);
-        return "{\"message\":\"Song liked successfully\"}";
-    }
+        //get the user that disliked the song
+        User user = userRepository.findById(userId);
 
-    // Update an existing liked song by songID
-    @PutMapping("/{songID}")
-    public LikedSongs updateLikedSong(@PathVariable long songID, @RequestBody LikedSongs request) {
-        Optional<LikedSongs> likedSongOptional = likedSongRepository.findBySongID(songID);
-        if (!likedSongOptional.isPresent()) {
-            return null; // If the record with the given songID doesn't exist
-        }
-        LikedSongs likedSong = likedSongOptional.get();
-        likedSong.setUserID(request.getUserID());
+        //create user set
+        Set<User> userSet = new HashSet<>();
+        userSet.add(user);
 
-        likedSongRepository.save(likedSong);
-        return likedSong;
+
+        dislikedSong.setDislikedUsers(userSet);
+
+        dislikedSongsRepository.save(dislikedSong);
+
+        return "Disliked Song Added";
     }
+     */
 
     // Delete a liked song by songID
     @DeleteMapping("/{songID}")
@@ -70,9 +76,4 @@ public class LikedSongController {
         return success;
     }
 
-    // Get all songs liked by a specific user
-    @GetMapping("/user/{userID}")
-    public List<LikedSongs> getLikedSongsByUserId(@PathVariable long userID) {
-        return likedSongRepository.findAllByUserID(userID);
-    }
 }
