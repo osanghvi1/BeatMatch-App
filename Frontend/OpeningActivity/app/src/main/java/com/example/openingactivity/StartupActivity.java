@@ -32,7 +32,7 @@ public class StartupActivity extends AppCompatActivity {
 
         Login_Button.setOnClickListener(v -> {
             // Handle login button click
-            Intent myIntent = new Intent(this, LoginActivity.class);
+            Intent myIntent = new Intent(this, SwipingActivity.class);
             startActivity(myIntent);
         });
 
