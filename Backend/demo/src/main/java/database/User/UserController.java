@@ -38,7 +38,7 @@ import java.util.Set;
 
     @GetMapping(path = "/users")
     public List<User> getAllUsers() {
-       // notificationService.sendNotification("BallsLMAOOOOO");
+        notificationService.sendNotification("Getting All Users");
         return userRepository.findAll();}
 
     @GetMapping(path = "/users/{id}")
