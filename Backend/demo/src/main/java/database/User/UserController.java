@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import database.Notifications.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +34,12 @@ import java.util.Set;
     private String failure = "{\"message\":\"failure\"}";
 
     @GetMapping(path = "/users")
-    public List<User> getAllUsers() {return userRepository.findAll();}
+    public List<User> getAllUsers() {
+       // notificationService.sendNotification("BallsLMAOOOOO");
+        return userRepository.findAll();}
 
     @GetMapping(path = "/users/{id}")
-    public User getUserById( @PathVariable int id){
-        return userRepository.findById(id);
-    }
+    User getUserById( @PathVariable int id){return userRepository.findById(id);}
 
     @GetMapping(path = "/users/{email}/{password}")
     public int getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
