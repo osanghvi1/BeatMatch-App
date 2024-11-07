@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
     TextView textGetResponse;
     Button deleteAccountButton, deleteSecurityButton, updateAnswer2,  friendsButton;
     ExecutorService executorService;
+    Button swipeButton;
 
     EditText inputAnswer1;
     EditText inputAnswer2;
@@ -52,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
         inputAnswer2 = findViewById(R.id.input_security_answer_2);
         friendsButton = findViewById(R.id.button_friends);
+        swipeButton = findViewById(R.id.button_swipe);
 
         executorService = Executors.newSingleThreadExecutor();
 
@@ -64,6 +66,15 @@ public class ProfileActivity extends AppCompatActivity implements Request {
             public void onClick(View v) {
                 // Change intent to new forgot password screen
                 Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        swipeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Change intent to new forgot password screen
+                Intent intent = new Intent(ProfileActivity.this, SwipingActivity.class);
                 startActivity(intent);
             }
         });
