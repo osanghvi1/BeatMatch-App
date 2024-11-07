@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/gradient_background">
+
+    <!-- Leaderboard Title -->
+    <TextView
+        android:id="@+id/leaderboardTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Top 10 Leaderboard"
+        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:padding="16dp" />
+
+    <!-- LinearLayout to hold the Top 10 songs -->
+    <LinearLayout
+        android:id="@+id/leaderboardListLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp" />
+
+</LinearLayout>
