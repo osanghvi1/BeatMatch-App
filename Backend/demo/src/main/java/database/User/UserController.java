@@ -1,5 +1,6 @@
 package database.User;
 
+import database.Notifications.NotificationService;
 import database.DislikedSongs.DislikedSongs;
 import database.DislikedSongs.DislikedSongsRepository;
 import database.LikedSongs.LikedSongRepository;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import database.Notifications.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,9 @@ import java.util.Set;
 
 @RestController
     public class UserController {
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private UserRepository userRepository;
