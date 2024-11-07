@@ -38,7 +38,6 @@ import java.util.Set;
 
     @GetMapping(path = "/users")
     public List<User> getAllUsers() {
-        notificationService.sendNotification("Getting All Users");
         return userRepository.findAll();}
 
     @GetMapping(path = "/users/{id}")
@@ -47,6 +46,7 @@ import java.util.Set;
     @GetMapping(path = "/users/{email}/{password}")
     public int getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
         if (userRepository.findByEmailAndPassword(email, password) != null) {
+            notificationService.sendNotification("Getting Specific User");
             return userRepository.findByEmailAndPassword(email, password).getUserID();
         }
         else{
