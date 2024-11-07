@@ -26,7 +26,7 @@ public class Friends {
     }
 
     // Getters and setters
-    //Test
+    //Tests
     public Long getId() {
         return id;
     }
