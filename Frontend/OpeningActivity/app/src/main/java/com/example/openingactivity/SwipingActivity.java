@@ -58,7 +58,22 @@ class Song {
 
     @Override
     public String toString() {
-        return title + '\n' + artist;
+        String titleB;
+        String artistB;
+
+        if (title.toCharArray().length > 60) {
+           titleB = title.substring(0, 20).concat("...");
+        } else {
+            titleB = title;
+        }
+
+        if (artist.toCharArray().length > 60) {
+            artistB = artist.substring(0, 20).concat("...");
+        } else {
+            artistB = artist;
+        }
+
+        return titleB + '\n' + artistB;
     }
 }
 
@@ -101,14 +116,6 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                     String album = json.getJSONObject("album").getString("title");
                     String preview = json.getString("preview");
                     String id = json.getString("id");
-
-                    if (title.toCharArray().length > 60) {
-                        title = title.substring(0, 20).concat("...");
-                    }
-
-                    if (artist.toCharArray().length > 60) {
-                        artist = artist.substring(0, 20).concat("...");
-                    }
 
                     Song song = new Song(title, artist, album, preview, id);
                     songData.add(song);
@@ -163,12 +170,16 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                 // Add to disliked songs
                 Song song = (Song) o;
                 String songID = song.getID();
+                String songTitle = song.getTitle();
 
                 JSONObject json = new JSONObject();
 
+
+                String genre = getGenre();
                 try {
-                    json.put("userID", user.getUserID());
+                    json.put("songTitle", songTitle);
                     json.put("songID", songID);
+                    json.put("genre",genre);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -177,7 +188,7 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String response = sendRequest("POST", "/" + user.getUserID() + "/dislike", json.toString());
+                        String response = sendRequest("POST", "/users/dislikeSong/" + user.getUserID(), json.toString());
                         System.out.println(response);
                     }
                 });
@@ -190,12 +201,15 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                 // Add to liked songs
                 Song song = (Song) o;
                 String songID = song.getID();
+                String songTitle = song.getTitle();
 
                 JSONObject json = new JSONObject();
 
+                String genre = getGenre();
                 try {
-                    json.put("userID", user.getUserID());
                     json.put("songID", songID);
+                    json.put("songTitle", songTitle);
+                    json.put("genre",genre);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -204,7 +218,7 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String response = sendRequest("POST", "/" + user.getUserID() + "/like", json.toString());
+                        String response = sendRequest("POST", "/users/likeSong/" + user.getUserID(), json.toString());
                         System.out.println(response);
                     }
                 });
@@ -258,6 +272,21 @@ public class SwipingActivity extends AppCompatActivity implements Request {
             }
         });
 
+    }
 
+    public String getGenre() {
+        String genre = "";
+        Random rand = new Random();
+        int a = rand.nextInt(4);
+        if (a == 0) {
+            genre = "pop";
+        } else if (a == 1) {
+            genre = "rock";
+        } else if (a == 2) {
+            genre = "hiphop";
+        } else if (a == 3) {
+            genre = "classical";
+        }
+        return genre;
     }
 }
