@@ -69,45 +69,44 @@ public class SwipingActivity extends AppCompatActivity implements Request {
     SwipeFlingAdapterView flingAdapterView;
 
     private int getRandomID() {
-        int IDtag = new Random().nextInt(60000000) + 600000;
+        int IDtag = new Random().nextInt(5000000) + 600000;
         // Return the generated random
         return IDtag;
     }
 
-    private Song AddDeezerSong() {
+    private void addDeezerSong() {
         // Implement the logic to fetch a song
         // URL for the Deezer Song Request
         String deezerSongUrl = "https://api.deezer.com/track/" + getRandomID();
 
         // send request to Deezer
-        String response = sendDeezerRequest();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
 
+                try {
+                    String result = sendDeezerRequest("GET", deezerSongUrl);
 
-        //return new Song(artist, title, image, preview);
-        return new Song("title", "artist", "image", "preview");
-    }
+                    //parse the JSON body to return song info
+                    JSONObject json = new JSONObject(result);
+                    String title = json.getString("title");
+                    String artist = json.getJSONArray("contributors").getJSONObject(0).getString("name");
 
+                    Song song = new Song(title, artist, "image", "preview");
+                    songData.add(song);
 
-    public Song getNewSong() {
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-        //Make request to Deezer for a song
-        Song song = AddDeezerSong();
-
-        //Check with backend Liked songs Table AND Disliked songs table to see if we've seen it already
-
-        //if we have, try again
-
-        //if we have not, add to the queue
-
-
-
-        return song;
     }
 
     public void createSongQueue() {
         int k=0;
         while(k<=5){
-            songData.add(getNewSong());
+            addDeezerSong();
             k++;
         }
     }
