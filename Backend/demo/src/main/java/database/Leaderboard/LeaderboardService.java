@@ -24,20 +24,22 @@ public class LeaderboardService {
         // Clear the existing leaderboard
         leaderboardRepository.deleteAll();
 
-        // Fetch all liked songs and count likes per song
-        List<LikedSongs> likedSongs = likedSongRepository.findAll();
+        // Fetch top liked songs
+        List<Object[]> topLikedSongs = likedSongRepository.findTopLikedSongs();
 
-        // Group and sort by the number of likes in descending order
-        likedSongs.sort((s1, s2) -> Long.compare(s2.getSongID(), s1.getSongID())); // You may need to customize sorting
-
-        // Create new leaderboard entries based on sorted songs
+        // Iterate over the results and populate the leaderboard with the top 10
         int rank = 1;
-        for (LikedSongs likedSong : likedSongs) {
-            if (rank > 10) break; // Limit to top 10 songs, for example
+        for (Object[] result : topLikedSongs) {
+            if (rank > 10) break; // Limit to top 10 songs
+
+            Long songID = (Long) result[0];
+            Long likes = (Long) result[1];
+
+            // Create a new leaderboard entry
             Leaderboard leaderboardEntry = new Leaderboard(
-                    "General", // Category can be adjusted
-                    likedSong.getUserID(),
-                    likedSong.getSongID(),
+                    "Top Liked Songs", // Category
+                    null, // userID can be null, as leaderboard is based on total likes, not individual users
+                    songID,
                     rank,
                     LocalDateTime.now()
             );
