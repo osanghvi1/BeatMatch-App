@@ -29,6 +29,15 @@ public class LikedSongs {
     public LikedSongs() {}
 
 
+    @Column(name = "user_id", nullable = false)
+    private Long userID;
+
+    @Column(name = "genre", nullable = true)
+    private String genre;
+
+    @Column(name = "song_title", nullable = true)
+    private String songTitle;
+
     // Getters and setters
     public Long getSongID() {return songID;}
     public String getSongTitle() {return songTitle;}
