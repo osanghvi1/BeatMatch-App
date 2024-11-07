@@ -60,5 +60,35 @@ public interface Request {
             return null;
         }
     }
+
+    default String sendDeezerRequest(String requestType, String urlString) {
+
+        try {
+            java.net.URL url = new URL(urlString);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod(requestType);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            urlConnection.disconnect();
+
+            String result = content.toString();
+            Log.d(requestType + " RESPONSE: ", result); // Log the response for debugging
+            return result;
+
+        } catch (Exception e) {
+            Log.e(requestType + " ERROR", e.getMessage(), e); // Log any errors
+            e.printStackTrace();
+            // return in Exception
+            return null;
+        }
+
+    }
 }
 
