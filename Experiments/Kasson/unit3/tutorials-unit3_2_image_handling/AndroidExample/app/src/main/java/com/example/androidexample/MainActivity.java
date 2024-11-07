@@ -3,24 +3,26 @@ package com.example.androidexample;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
-import java.util.concurrent.TimeUnit;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+import okio.ByteString;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "beatmatch_trending_channel";
     private static final int NOTIFICATION_ID = 1;
+    private WebSocket webSocket;
+    private static final String SOCKET_URL = "ws://YOUR_SERVER_ADDRESS/notifications"; // Replace with actual server address
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
-        // Schedule background work to check trending song periodically
-        PeriodicWorkRequest trendingCheckRequest = new PeriodicWorkRequest.Builder(
-                TrendingSongWorker.class, 1, TimeUnit.HOURS)
-                .build();
-        WorkManager.getInstance(this).enqueue(trendingCheckRequest);
-
         Button enableNotificationsButton = findViewById(R.id.btnEnableNotifications);
         enableNotificationsButton.setOnClickListener(v -> {
             Toast.makeText(this, "Notifications Enabled!", Toast.LENGTH_SHORT).show();
+            startWebSocket();
         });
     }
 
@@ -53,6 +50,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void startWebSocket() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(SOCKET_URL).build();
+        webSocket = client.newWebSocket(request, new WebSocketListener() {
+            @Override
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                // Connected to WebSocket
+            }
+
+            @Override
+            public void onMessage(WebSocket webSocket, String text) {
+                // Handle the text message from server
+                showTrendingSongNotification(MainActivity.this, text);
+            }
+
+            @Override
+            public void onMessage(WebSocket webSocket, ByteString bytes) {
+                // Handle binary messages (optional, depending on your use case)
+            }
+
+            @Override
+            public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(1000, null);
+            }
+
+            @Override
+            public void onFailure(WebSocket webSocket, Throwable t, okhttp3.Response response) {
+                // Handle error
+                t.printStackTrace();
+            }
+        });
+    }
+
     public static void showTrendingSongNotification(Context context, String songTitle) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon) // Ensure this is correctly referenced
@@ -61,10 +91,15 @@ public class MainActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Request permission if not granted
-            return;
-        }
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webSocket != null) {
+            webSocket.close(1000, "Activity Destroyed");
+        }
+    }
 }
+
