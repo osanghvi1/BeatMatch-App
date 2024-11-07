@@ -77,12 +77,15 @@ public class GroupchatServer1 {
     @OnClose
     public void onClose(Session session) throws IOException {
         String username = sessionUsernameMap.get(session);
-        logger.info("[onClose] " + username);
 
-        sessionUsernameMap.remove(session);
-        usernameSessionMap.remove(username);
-
-        broadcast(username + " disconnected");
+        if (username != null) {
+            logger.info("[onClose] " + username);
+            sessionUsernameMap.remove(session);
+            usernameSessionMap.remove(username);
+            broadcast(username + " disconnected");
+        } else {
+            logger.warn("[onClose] Session username is null, possibly already removed.");
+        }
     }
 
     @OnError
