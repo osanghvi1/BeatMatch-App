@@ -46,4 +46,7 @@ dependencies {
     // GSON Converter for parsin JSON data
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    // Swipe card Implementation
+    implementation("com.lorentzos.swipecards:library:1.0.9")
+
 }
