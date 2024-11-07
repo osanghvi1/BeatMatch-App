@@ -1,7 +1,12 @@
 package database.User;
 
+import database.DislikedSongs.DislikedSongs;
 import database.GenrePreferences.GenrePreferences;
+import database.LikedSongs.LikedSongs;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -18,10 +23,26 @@ public class User {
     private String firstName;
     private String lastName;
     private int accountVisibility;
-    private int accountStatus;
+    private int accountStatus; //1 = normal user, 2 = influencer, 3 = admin
 
     @OneToOne
     private GenrePreferences genrePreferences;
+
+    //collection holds disliked songs
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "user_dislikeSong_mapping",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private Set<DislikedSongs> dislikedSongs = new HashSet<>();
+
+    //collection holds liked songs
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "user_likeSong_mapping",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private Set<LikedSongs> likedSongs = new HashSet<>();
 
     public User(String firstName, String lastName, String email, String username, String password, int accountVisibility, int accountStatus) {
         this.firstName = firstName;
@@ -72,5 +93,13 @@ public class User {
     public void setAccountStatus(int accountStatus) {this.accountStatus = accountStatus;}
 
     public void setGenrePreferences(GenrePreferences genrePreferences) {this.genrePreferences = genrePreferences;}
+
+    public Set<DislikedSongs> getDislikedSongs() {return dislikedSongs;}
+    public void setDislikedSongs(Set<DislikedSongs> dislikedSongs) {this.dislikedSongs = dislikedSongs;}
+
+    public Set<LikedSongs> getLikedSongs() {return likedSongs;}
+    public void setLikedSongs(Set<LikedSongs> likedSongs) {this.likedSongs = likedSongs;}
+
+
 
 }
