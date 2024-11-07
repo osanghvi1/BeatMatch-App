@@ -76,8 +76,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             jsonRequest.put("updatedTime", System.currentTimeMillis());
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonRequest,
-                    response -> Toast.makeText(context, "Song liked successfully!", Toast.LENGTH_SHORT).show(),
-                    error -> Toast.makeText(context, "Failed to like song", Toast.LENGTH_SHORT).show()
+                    response -> Toast.makeText(context, "Failed to like song", Toast.LENGTH_SHORT).show(),
+                    error -> Toast.makeText(context, "Song liked successfully!", Toast.LENGTH_SHORT).show()
             );
 
             VolleySingleton.getInstance(context).addToRequestQueue(request);
