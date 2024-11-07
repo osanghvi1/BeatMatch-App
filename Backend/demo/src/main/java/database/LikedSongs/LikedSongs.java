@@ -6,21 +6,25 @@ import jakarta.persistence.*;
 public class LikedSongs {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Long userID;
-
-    @Column(name = "song_id", nullable = false)
+    @Column(name = "song_id")
     private Long songID;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userID;
+
+    @Column(name = "genre", nullable = true)
+    private String genre;
+
+    @Column(name = "song_title", nullable = true)
+    private String songTitle;
+
     // Getters and setters
-    public Long getId() {
-        return id;
+    public Long getSongID() {
+        return songID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSongID(Long songID) {
+        this.songID = songID;
     }
 
     public Long getUserID() {
@@ -31,11 +35,19 @@ public class LikedSongs {
         this.userID = userID;
     }
 
-    public Long getSongID() {
-        return songID;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setSongID(Long songID) {
-        this.songID = songID;
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getSongTitle() {
+        return songTitle;
+    }
+
+    public void setSongTitle(String songTitle) {
+        this.songTitle = songTitle;
     }
 }
