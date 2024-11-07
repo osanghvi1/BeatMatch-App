@@ -25,9 +25,36 @@ import java.util.concurrent.Executors;
 class Song {
     private String title;
     private String artist;
-    private String albumCoverLink;
+    private String imageLink;
     private String previewLink;
 
+    public Song(String title, String artist, String imageLink, String previewLink) {
+        this.title = title;
+        this.artist = artist;
+        this.imageLink = imageLink;
+        this.previewLink = previewLink;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public String getPreviewLink() {
+        return previewLink;
+    }
+
+    @Override
+    public String toString() {
+        return title + '\n' + artist;
+    }
 }
 
 
@@ -35,12 +62,9 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
     ExecutorService executorService;
 
-    private ArrayAdapter<String> adapter;
-    List<String> titleData;
-    List<String> artistData;
-    List<String> imageData;
-    List<String> previewData;
+    private ArrayAdapter<Song> adapter;
 
+    List<Song> songData;
 
     SwipeFlingAdapterView flingAdapterView;
 
@@ -55,43 +79,19 @@ public class SwipingActivity extends AppCompatActivity implements Request {
         // URL for the Deezer Song Request
         String deezerSongUrl = "https://api.deezer.com/track/" + getRandomID();
 
-        JsonObjectRequest songRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, deezerSongUrl, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject titleData = response.getJSONObject("title");
-                            JSONObject artistData = response.getJSONObject("artist");
-                            JSONObject imageData = response.getJSONObject("album");
-                            JSONObject previewData = response.getJSONObject("preview");
-
-                            String artist = artistData.toString();
-                            String album = imageData.toString();
-                            String preview = previewData.toString();
-                            String title = titleData.toString();
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(SwipingActivity.this, "Error fetching genres", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Toast.makeText(GenrePreferences.this, "Failed to fetch Deezer genres", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        // send request to Deezer
+        String response = sendDeezerRequest();
 
 
-        return null;
+        //return new Song(artist, title, image, preview);
+        return new Song("title", "artist", "image", "preview");
     }
 
 
-    public String getNewSong(int k) {
+    public Song getNewSong() {
 
         //Make request to Deezer for a song
-        AddDeezerSong();
+        Song song = AddDeezerSong();
 
         //Check with backend Liked songs Table AND Disliked songs table to see if we've seen it already
 
@@ -100,14 +100,14 @@ public class SwipingActivity extends AppCompatActivity implements Request {
         //if we have not, add to the queue
 
 
-        String song = "Song " + k;
+
         return song;
     }
 
     public void createSongQueue() {
         int k=0;
         while(k<=5){
-            titleData.add(getNewSong(k));
+            songData.add(getNewSong());
             k++;
         }
     }
@@ -121,26 +121,20 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
         flingAdapterView = findViewById(R.id.swipe);
 
-        titleData=new ArrayList<>();
-        artistData=new ArrayList<>();
-        previewData=new ArrayList<>();
-        imageData=new ArrayList<>();
+        songData=new ArrayList<>();
 
         createSongQueue();
 
 
-        adapter = new ArrayAdapter<>(SwipingActivity.this, R.layout.item, R.id.textSongData, data);
+        adapter = new ArrayAdapter<Song>(SwipingActivity.this, R.layout.item, R.id.textSongData, songData);
 
         flingAdapterView.setAdapter(adapter);
+
 
         flingAdapterView.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
-                titleData.remove(0);
-                artistData.remove(0);
-                imageData.remove(0);
-                previewData.remove(0);
-
+                songData.remove(0);
                 adapter.notifyDataSetChanged();
             }
 
@@ -171,7 +165,7 @@ public class SwipingActivity extends AppCompatActivity implements Request {
         flingAdapterView.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int i, Object o) {
-                Toast.makeText(SwipingActivity.this, "Item Clicked " + data.get(i), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SwipingActivity.this, "Item Clicked " + songData.get(i), Toast.LENGTH_SHORT).show();
             }
         });
 
