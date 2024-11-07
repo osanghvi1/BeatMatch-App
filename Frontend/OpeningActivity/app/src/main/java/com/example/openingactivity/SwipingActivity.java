@@ -253,7 +253,6 @@ public class SwipingActivity extends AppCompatActivity implements Request {
         RefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                songData.clear();
                 songData.add(new Song("Heres something new ...", "", "album", "preview", "id"));
                 createSongQueue();
             }
