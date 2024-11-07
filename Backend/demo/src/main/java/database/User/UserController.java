@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
     public class UserController {
@@ -50,14 +52,20 @@ import java.util.List;
 
     //get disliked songs based on user
     @GetMapping(path = "users/dislikedSongs/{id}")
-    public String getDislikedSongs(@PathVariable int id){return userRepository.findById(id).getDislikedSongs().toString();}
+    public List<DislikedSongs> getDislikedSongsByUser(@PathVariable int id){
+        Set<DislikedSongs> dislikedSongs = userRepository.findById(id).getDislikedSongs();
+        return new ArrayList<>(dislikedSongs);
+    }
 
-    //get Liked songs based on user
+    //get disliked songs based on user
     @GetMapping(path = "users/likedSongs/{id}")
-    public String getLikedSongs(@PathVariable int id){return userRepository.findById(id).getLikedSongs().toString();}
+    public List<LikedSongs> getLikedSongsByUser(@PathVariable int id){
+        Set<LikedSongs> likedSongs = userRepository.findById(id).getLikedSongs();
+        return new ArrayList<>(likedSongs);
+    }
 
     @Transactional
-    @PostMapping(path = "/user/dislikeSong/{userId}")
+    @PostMapping(path = "/users/dislikeSong/{userId}")
     public String dislikeSong(@PathVariable int userId, @RequestBody DislikedSongs dislikedSong) {
         //create stuff for song to add
         if(dislikedSong == null){
@@ -89,7 +97,7 @@ import java.util.List;
     }
 
     @Transactional
-    @PostMapping(path = "/user/likeSong/{userId}")
+    @PostMapping(path = "/users/likeSong/{userId}")
     public String likeSong(@PathVariable int userId, @RequestBody LikedSongs likedSong) {
         if(likedSong == null){
             return "Invalid Song Format";
