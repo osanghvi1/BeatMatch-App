@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,8 +29,10 @@ class Song {
     private String artist;
     private String imageLink;
     private String previewLink;
+    private String id;
 
-    public Song(String title, String artist, String imageLink, String previewLink) {
+    public Song(String title, String artist, String imageLink, String previewLink, String id) {
+        this.id = id;
         this.title = title;
         this.artist = artist;
         this.imageLink = imageLink;
@@ -50,6 +54,7 @@ class Song {
     public String getPreviewLink() {
         return previewLink;
     }
+    public String getID() {return id;}
 
     @Override
     public String toString() {
@@ -64,9 +69,11 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
     private ArrayAdapter<Song> adapter;
 
+
     List<Song> songData;
 
     SwipeFlingAdapterView flingAdapterView;
+
 
     private int getRandomID() {
         int IDtag = new Random().nextInt(5000000) + 600000;
@@ -91,8 +98,19 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                     JSONObject json = new JSONObject(result);
                     String title = json.getString("title");
                     String artist = json.getJSONArray("contributors").getJSONObject(0).getString("name");
+                    String album = json.getJSONObject("album").getString("title");
+                    String preview = json.getString("preview");
+                    String id = json.getString("id");
 
-                    Song song = new Song(title, artist, "image", "preview");
+                    if (title.toCharArray().length > 60) {
+                        title = title.substring(0, 20).concat("...");
+                    }
+
+                    if (artist.toCharArray().length > 60) {
+                        artist = artist.substring(0, 20).concat("...");
+                    }
+
+                    Song song = new Song(title, artist, album, preview, id);
                     songData.add(song);
 
                 } catch (Exception e) {
@@ -122,6 +140,7 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
         songData=new ArrayList<>();
 
+        songData.add(new Song("Heres your next listen ...", "", "album", "preview", "id"));
         createSongQueue();
 
 
@@ -141,12 +160,51 @@ public class SwipingActivity extends AppCompatActivity implements Request {
             public void onLeftCardExit(Object o) {
                 Toast.makeText(SwipingActivity.this, "Dislike", Toast.LENGTH_SHORT).show();
                 // Add to disliked songs
+                Song song = (Song) o;
+                String songID = song.getID();
+
+                JSONObject json = new JSONObject();
+
+                try {
+                    json.put("userID", user.getUserID());
+                    json.put("songID", songID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                // Send POST request
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String response = sendRequest("POST", user.getUserID() + "/dislike", json.toString());
+                    }
+                });
             }
 
             @Override
             public void onRightCardExit(Object o) {
                 Toast.makeText(SwipingActivity.this, "Like", Toast.LENGTH_SHORT).show();
                 // Add to liked songs
+                Song song = (Song) o;
+                String songID = song.getID();
+
+                JSONObject json = new JSONObject();
+
+                try {
+                    json.put("userID", user.getUserID());
+                    json.put("songID", songID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                // Send POST request
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String response = sendRequest("POST", user.getUserID() + "/like", json.toString());
+                    }
+                });
+
             }
 
             @Override
@@ -191,6 +249,8 @@ public class SwipingActivity extends AppCompatActivity implements Request {
         RefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                songData.clear();
+                songData.add(new Song("Heres something new ...", "", "album", "preview", "id"));
                 createSongQueue();
             }
         });
