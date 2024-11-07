@@ -1,18 +1,17 @@
 package database.Friends;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Friends {
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Unique ID for each friendship
 
     private int userID;           // ID of the main user
+
     private int userIDFriends;     // ID of the friend
     private String userName;       // Name of the main user
     private String userNameFriend; // Name of the friend
@@ -27,6 +26,7 @@ public class Friends {
     }
 
     // Getters and setters
+    //Test
     public Long getId() {
         return id;
     }
