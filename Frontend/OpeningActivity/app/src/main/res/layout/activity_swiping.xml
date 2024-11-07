@@ -23,12 +23,25 @@
             android:layout_width="wrap_content"
             android:id="@+id/dislike"
             android:text="Dislike"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/custom_signup_button"
             android:layout_margin="5dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/refresh"
+            android:text="Refresh"
+            android:background="@color/cardview_dark_background"
+            android:textColor="#FFFFFF"
+            android:layout_marginHorizontal="30dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/like"
             android:text="Like"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/custom_signup_button"
+
             android:layout_margin="5dp"/>
     </LinearLayout>
     
@@ -37,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/line1"
-        app:rotationDegrees="15.0"/>
+        app:rotation_degrees="15.0"/>
 
 
 

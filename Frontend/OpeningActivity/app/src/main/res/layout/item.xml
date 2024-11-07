@@ -14,7 +14,7 @@
         android:textSize="24dp"
         tools:text="Song Title here"
         android:id="@+id/textSongData"
-        android:background="#1C1C1C"
+        android:background="#2B2B2C"
         android:textColor="#FFFFFF"
         />
 
