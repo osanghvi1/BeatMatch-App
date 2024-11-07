@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "beatmatch_trending_channel";
     private static final int NOTIFICATION_ID = 1;
     private WebSocket webSocket;
-    private static final String SOCKET_URL = "ws://YOUR_SERVER_ADDRESS/notifications"; // Replace with actual server address
+    private static final String SOCKET_URL = "ws://10.0.2.2:8080/chat"; // Replace with actual server address
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
