@@ -20,6 +20,7 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "first_name")
     private String firstName;
     private String lastName;
     private int accountVisibility;
