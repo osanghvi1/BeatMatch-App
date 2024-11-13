@@ -46,7 +46,6 @@ import java.util.Set;
     @GetMapping(path = "/users/{email}/{password}")
     public int getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
         if (userRepository.findByEmailAndPassword(email, password) != null) {
-            notificationService.sendNotification("Getting Specific User");
             return userRepository.findByEmailAndPassword(email, password).getUserID();
         }
         else{
@@ -58,6 +57,7 @@ import java.util.Set;
     @GetMapping(path = "users/dislikedSongs/{id}")
     public List<DislikedSongs> getDislikedSongsByUser(@PathVariable int id){
         Set<DislikedSongs> dislikedSongs = userRepository.findById(id).getDislikedSongs();
+        notificationService.sendNotification("Getting Disliked Songs");
         return new ArrayList<>(dislikedSongs);
     }
 
