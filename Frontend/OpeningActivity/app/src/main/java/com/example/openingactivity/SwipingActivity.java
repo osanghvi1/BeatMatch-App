@@ -89,13 +89,20 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
     SwipeFlingAdapterView flingAdapterView;
 
-
+    /**
+     * Generates a random id used for song finding
+     * @return random id
+     */
     private int getRandomID() {
         int IDtag = new Random().nextInt(5000000) + 600000;
         // Return the generated random
         return IDtag;
     }
 
+    /**
+     * Adds a song to the song queue
+     *
+     */
     private void addDeezerSong() {
         // Implement the logic to fetch a song
         // URL for the Deezer Song Request
@@ -128,6 +135,9 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
     }
 
+    /**
+     * Helper method to create mutliple Deezer song objects and add them to the queue
+     */
     public void createSongQueue() {
         int k=0;
         while(k<=5){
@@ -274,6 +284,10 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
     }
 
+    /**
+     * Generates a random genre USED FOR TESTING
+     * @return random genre
+     */
     public String getGenre() {
         String genre = "";
         Random rand = new Random();
