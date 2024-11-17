@@ -1,6 +1,7 @@
 package database.com.example.forgotpassword;
 import jakarta.persistence.*;
 //Om Sanghvi Made this change
+//test
 @Entity
 public class ForgotPassword {
 
