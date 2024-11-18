@@ -286,7 +286,7 @@ public class SwipingActivity extends AppCompatActivity implements Request {
 
     /**
      * Generates a random genre USED FOR TESTING
-     * COMMENT FOR TESTING 3
+     * COMMENT FOR TESTING 4
      * @return random genre
      */
     public String getGenre() {
