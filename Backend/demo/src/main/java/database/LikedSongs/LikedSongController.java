@@ -1,18 +1,20 @@
 package database.LikedSongs;
 
-import database.DislikedSongs.DislikedSongs;
-import database.User.User;
 import database.User.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
+/**
+ * Controller for managing liked songs.
+ */
 @RestController
 @RequestMapping("/likedSongs")
+@Tag(name = "Liked Songs API", description = "Handles operations related to liked songs.")
 public class LikedSongController {
 
     @Autowired
@@ -24,48 +26,37 @@ public class LikedSongController {
     private final String success = "{\"message\":\"success\"}";
     private final String failure = "{\"message\":\"failure\"}";
 
-    // Get all liked songs
+    /**
+     * Retrieve all liked songs.
+     *
+     * @return A list of all `LikedSongs` entities.
+     */
+    @Operation(summary = "Get all liked songs", description = "Retrieve a list of all liked songs.")
     @GetMapping
     public List<LikedSongs> getAllLikedSongs() {
         return likedSongRepository.findAll();
     }
 
-    // Get a liked song by songID
+    /**
+     * Retrieve a liked song by song ID.
+     *
+     * @param songID The ID of the song to retrieve.
+     * @return The `LikedSongs` entity for the given song ID, or `null` if not found.
+     */
+    @Operation(summary = "Get a liked song by ID", description = "Retrieve a specific liked song by its song ID.")
     @GetMapping("/{songID}")
     public LikedSongs getLikedSongBySongId(@PathVariable long songID) {
         Optional<LikedSongs> likedSong = likedSongRepository.findBySongID(songID);
-        return likedSong.orElse(null); // Returns null if not found
+        return likedSong.orElse(null);
     }
 
-    /*
-    @PostMapping(path = "/likeSong/{userId}")
-    public String addSong(@PathVariable int userId, @RequestBody LikedSongs likedSong) {
-        //create stuff for song to add
-        long songID = likedSong.getSongID();
-
-        //if the song doesn't already exist in the database as a disliked song
-        if (likedSongRepository.findById(songID) == null) {
-            likedSongRepository.save(likedSong);
-        }
-        if(likedSongRepository.find)
-
-        //get the user that disliked the song
-        User user = userRepository.findById(userId);
-
-        //create user set
-        Set<User> userSet = new HashSet<>();
-        userSet.add(user);
-
-
-        dislikedSong.setDislikedUsers(userSet);
-
-        dislikedSongsRepository.save(dislikedSong);
-
-        return "Disliked Song Added";
-    }
+    /**
+     * Delete a liked song by song ID.
+     *
+     * @param songID The ID of the song to delete.
+     * @return A success or failure message.
      */
-
-    // Delete a liked song by songID
+    @Operation(summary = "Delete a liked song by ID", description = "Delete a specific liked song by its song ID.")
     @DeleteMapping("/{songID}")
     public String deleteLikedSongBySongID(@PathVariable long songID) {
         Optional<LikedSongs> likedSong = likedSongRepository.findBySongID(songID);
@@ -75,5 +66,4 @@ public class LikedSongController {
         likedSongRepository.deleteBySongID(songID);
         return success;
     }
-
 }

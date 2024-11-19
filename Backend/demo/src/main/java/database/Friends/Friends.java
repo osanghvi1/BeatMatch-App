@@ -1,21 +1,34 @@
 package database.Friends;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+/**
+ * Represents a friendship between two users.
+ */
 @Entity
+@Schema(description = "Represents a friendship relationship between two users.")
 public class Friends {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Unique ID for each friendship
+    @Schema(description = "Unique identifier for the friendship.", example = "1")
+    private Long id;
 
-    private int userID;           // ID of the main user
-    private int userIDFriends;     // ID of the friend
-    private String userName;       // Name of the main user
-    private String userNameFriend; // Name of the friend
+    @Schema(description = "The main user's ID.", example = "1001")
+    private int userID;
+
+    @Schema(description = "The friend's ID.", example = "1002")
+    private int userIDFriends;
+
+    @Schema(description = "The main user's name.", example = "John Doe")
+    private String userName;
+
+    @Schema(description = "The friend's name.", example = "Jane Smith")
+    private String userNameFriend;
 
     public Friends() {}
 
@@ -26,7 +39,6 @@ public class Friends {
         this.userNameFriend = userNameFriend;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
