@@ -1,10 +1,8 @@
 package database.GroupChat;
 
-import jakarta.websocket.OnClose;
-import jakarta.websocket.OnError;
-import jakarta.websocket.OnMessage;
-import jakarta.websocket.OnOpen;
-import jakarta.websocket.Session;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
@@ -19,8 +17,14 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * WebSocket server for group chat functionality.
+ * <p>
+ * This server handles WebSocket connections for real-time group chat.
+ */
 @ServerEndpoint("/chat/1/{username}")
 @Component
+@Tag(name = "Group Chat WebSocket", description = "Handles WebSocket-based group chat interactions.")
 public class GroupchatServer1 {
 
     private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
@@ -35,6 +39,14 @@ public class GroupchatServer1 {
         messageRepository = context.getBean(MessageRepository.class);
     }
 
+    /**
+     * Handles a new WebSocket connection.
+     *
+     * @param session  The WebSocket session.
+     * @param username The username of the user joining the chat.
+     * @throws IOException If an error occurs while handling the connection.
+     */
+    @Operation(summary = "Open WebSocket connection", description = "Handles a new WebSocket connection and registers the user.")
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) throws IOException {
         logger.info("[onOpen] " + username);
@@ -59,6 +71,14 @@ public class GroupchatServer1 {
         }
     }
 
+    /**
+     * Handles an incoming message from a user.
+     *
+     * @param session        The WebSocket session.
+     * @param messageContent The content of the message.
+     * @throws IOException If an error occurs while broadcasting the message.
+     */
+    @Operation(summary = "Handle incoming messages", description = "Broadcasts messages sent by a user to all connected users.")
     @OnMessage
     public void onMessage(Session session, String messageContent) throws IOException {
         String username = sessionUsernameMap.get(session);
@@ -74,6 +94,13 @@ public class GroupchatServer1 {
         broadcast(username + ": " + messageContent);
     }
 
+    /**
+     * Handles the closure of a WebSocket connection.
+     *
+     * @param session The WebSocket session.
+     * @throws IOException If an error occurs during the disconnect process.
+     */
+    @Operation(summary = "Handle connection closure", description = "Removes the user from the chat when they disconnect.")
     @OnClose
     public void onClose(Session session) throws IOException {
         String username = sessionUsernameMap.get(session);
@@ -88,6 +115,13 @@ public class GroupchatServer1 {
         }
     }
 
+    /**
+     * Handles errors during WebSocket communication.
+     *
+     * @param session   The WebSocket session.
+     * @param throwable The error encountered.
+     */
+    @Operation(summary = "Handle errors", description = "Logs any errors that occur during WebSocket communication.")
     @OnError
     public void onError(Session session, Throwable throwable) {
         String username = sessionUsernameMap.get(session);
