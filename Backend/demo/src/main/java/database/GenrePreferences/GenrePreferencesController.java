@@ -1,7 +1,14 @@
 package database.GenrePreferences;
 
+import database.SimilarGenres.SimilarGenres;
 import database.User.User;
 import database.User.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,18 +22,43 @@ public class GenrePreferencesController {
     @Autowired
     private UserRepository userRepository;
 
+    @Operation(summary = "get all genre preferences")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "genre preferences returned",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GenrePreferences.class)) }),
+            @ApiResponse(responseCode = "400", description = "bad request",
+                    content = @Content)})
     @GetMapping(path = "/userGenres")
     List<GenrePreferences> getAllGenrePreferences(){
        return genrePreferencesRepository.findAll();
     }
 
+    @Operation(summary = "get genre preferences by user id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "genre preferences returned",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GenrePreferences.class)) }),
+            @ApiResponse(responseCode = "400", description = "invalid user id",
+                    content = @Content)})
     @GetMapping(path = "/userGenres/{id}")
     GenrePreferences getGenrePreferencesById(@PathVariable int id){
         return genrePreferencesRepository.findById(id);
     }
 
+    @Operation(summary = "create a user's genre preferences")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "genre preferences created",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GenrePreferences.class)) }),
+            @ApiResponse(responseCode = "400", description = "invalid user id",
+                    content = @Content)})
     @PostMapping(path = "/userGenres/create")
-    String createGenrePreferences(@RequestBody GenrePreferences genrePreferences){
+    String createGenrePreferences(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "genre preferences to create", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = GenrePreferences.class),
+                    examples = @ExampleObject(value = "{ \"userID\": \"123456\", \"email\": \"lport@iastate.edu\", \"genre1\": \"Pop\", \"genre2\": \"Rap\", \"genre3\": \"Indie\" }")))@RequestBody GenrePreferences genrePreferences){
         if (genrePreferences == null){
             return "Creation : Failure";
         }
@@ -40,8 +72,19 @@ public class GenrePreferencesController {
         }
     }
 
+    @Operation(summary = "Edit user genres")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User genre's edited successfully",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GenrePreferences.class)) }),
+            @ApiResponse(responseCode = "400", description = "invalid user id",
+                    content = @Content)})
     @PutMapping(path = "/userGenres/edit/{id}")
-    String editGenrePreferences(@PathVariable int id, @RequestBody GenrePreferences genrePreferences){
+    String editGenrePreferences(@PathVariable int id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "genre preferences to create", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = GenrePreferences.class),
+                    examples = @ExampleObject(value = "{ \"userID\": \"123456\", \"email\": \"lport@iastate.edu\", \"genre1\": \"Pop\", \"genre2\": \"Rap\", \"genre3\": \"Indie\" }")))@RequestBody GenrePreferences genrePreferences){
         GenrePreferences genres = genrePreferencesRepository.findById(id);
         String newGenre1 = genrePreferences.getGenre1();
         String newGenre2 = genrePreferences.getGenre2();
@@ -66,6 +109,13 @@ public class GenrePreferencesController {
         }
     }
 
+    @Operation(summary = "Delete user's genre preferences")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "genre preferences deleted",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GenrePreferences.class)) }),
+            @ApiResponse(responseCode = "400", description = "invalid user id",
+                    content = @Content)})
     @DeleteMapping(path = "/userGenres/delete/{id}")
     String deleteGenres(@PathVariable int id) {
         genrePreferencesRepository.deleteById(id);
