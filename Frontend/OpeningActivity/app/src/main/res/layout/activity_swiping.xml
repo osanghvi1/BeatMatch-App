@@ -13,38 +13,41 @@
         android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="87dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
 
         <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             android:id="@+id/dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_signup_button"
             android:text="Dislike"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/custom_signup_button"
-            android:layout_margin="5dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/refresh"
-            android:text="Refresh"
-            android:background="@color/cardview_dark_background"
-            android:textColor="#FFFFFF"
-            android:layout_marginHorizontal="30dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/like"
-            android:text="Like"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/custom_signup_button"
+            android:textColor="#FFFFFF" />
 
-            android:layout_margin="5dp"/>
+        <Button
+            android:id="@+id/refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@color/cardview_dark_background"
+            android:text="Refresh"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_signup_button"
+            android:text="Like"
+
+            android:textColor="#FFFFFF" />
     </LinearLayout>
-    
+
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/swipe"
         android:layout_width="match_parent"
@@ -52,9 +55,18 @@
         android:layout_above="@+id/line1"
         app:rotation_degrees="15.0"/>
 
-
-
-
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_navigation"
+        app:labelVisibilityMode="labeled"
+        app:itemBackground="#000000"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        android:background="#7E484848" />
+    
 
 </RelativeLayout>
 
