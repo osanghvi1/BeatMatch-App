@@ -55,8 +55,6 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         updateAnswer2 = findViewById(R.id.button_answer_2_update);
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
         inputAnswer2 = findViewById(R.id.input_security_answer_2);
-        friendsButton = findViewById(R.id.button_friends);
-        swipeButton = findViewById(R.id.button_swipe);
 
         executorService = Executors.newSingleThreadExecutor();
 
