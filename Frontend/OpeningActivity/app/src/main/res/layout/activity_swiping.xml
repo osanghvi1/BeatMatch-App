@@ -62,7 +62,7 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_navigation"
         app:labelVisibilityMode="labeled"
-        app:itemBackground="#000000"
+        app:itemBackground="@android:color/transparent"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         android:background="#7E484848" />
