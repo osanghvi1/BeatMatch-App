@@ -170,6 +170,33 @@ public class SwipingActivity extends AppCompatActivity implements Request {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+                if (item.getItemId() == R.id.friends) {
+                    Intent intent = new Intent(SwipingActivity.this, FriendsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.events) {
+                    Intent intent = new Intent(SwipingActivity.this, EventsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.swiping) {
+                    return true;
+                } else if (item.getItemId() == R.id.leaderboard) {
+                    Intent intent = new Intent(SwipingActivity.this, LeaderboardActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.profile) {
+                    Intent intent = new Intent(SwipingActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else {
+                    return false;
+                }
+
+/*
                 switch(item.getItemId())
                 {
                     case R.id.friends:
@@ -192,6 +219,8 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                         return true;
                 }
                 return false;
+
+ */
             }
         });
 
