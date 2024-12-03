@@ -4,6 +4,7 @@ import static java.lang.System.in;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,7 +13,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,6 +76,45 @@ public class FriendsActivity extends AppCompatActivity implements Request {
                 Friend selectedFriend = friendsList.get(position);
                 // TODO enter chat with selectedFriend
                 Toast.makeText(FriendsActivity.this, "Chatting with " + selectedFriend.username, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Initialize and assign variable
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Set Home selected
+        bottomNavigationView.setSelectedItemId(R.id.friends);
+
+        // Perform item selected listener
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (item.getItemId() == R.id.friends) {
+                    return true;
+                } else if (item.getItemId() == R.id.events) {
+                    Intent intent = new Intent(FriendsActivity.this, EventsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.swiping) {
+                    Intent intent = new Intent(FriendsActivity.this, SwipingActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.leaderboard) {
+                    Intent intent = new Intent(FriendsActivity.this, LeaderboardActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.profile) {
+                    Intent intent = new Intent(FriendsActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else {
+                    return false;
+                }
             }
         });
 
