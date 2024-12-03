@@ -64,23 +64,6 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         textGetUser.setText("" + user.getUserID());
         textGetEmail.setText("" + user.getUserEmail());
 
-        friendsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Change intent to new forgot password screen
-                Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        swipeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Change intent to new forgot password screen
-                Intent intent = new Intent(ProfileActivity.this, SwipingActivity.class);
-                startActivity(intent);
-            }
-        });
 
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
