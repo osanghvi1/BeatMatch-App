@@ -66,7 +66,7 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         android:background="#7E484848" />
-    
+
 
 </RelativeLayout>
 
