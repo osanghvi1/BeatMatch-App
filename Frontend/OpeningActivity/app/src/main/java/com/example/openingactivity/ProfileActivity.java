@@ -3,17 +3,20 @@ package com.example.openingactivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,6 +79,45 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                 // Change intent to new forgot password screen
                 Intent intent = new Intent(ProfileActivity.this, SwipingActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // Initialize and assign variable
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Set Home selected
+        bottomNavigationView.setSelectedItemId(R.id.profile);
+
+        // Perform item selected listener
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (item.getItemId() == R.id.friends) {
+                    Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.events) {
+                    Intent intent = new Intent(ProfileActivity.this, EventsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.swiping) {
+                    Intent intent = new Intent(ProfileActivity.this, SwipingActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.leaderboard) {
+                    Intent intent = new Intent(ProfileActivity.this, LeaderboardActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.profile) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         });
 
