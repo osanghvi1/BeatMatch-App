@@ -1,17 +1,21 @@
 package com.example.openingactivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import org.json.JSONArray;
@@ -152,6 +156,74 @@ public class SwipingActivity extends AppCompatActivity implements Request {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swiping);
         executorService = Executors.newSingleThreadExecutor();
+
+
+
+        // Initialize and assign variable
+        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+
+        // Set Home selected
+        bottomNavigationView.setSelectedItemId(R.id.swiping);
+
+        // Perform item selected listener
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (item.getItemId() == R.id.friends) {
+                    Intent intent = new Intent(SwipingActivity.this, FriendsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.events) {
+                    Intent intent = new Intent(SwipingActivity.this, EventsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.swiping) {
+                    return true;
+                } else if (item.getItemId() == R.id.leaderboard) {
+                    Intent intent = new Intent(SwipingActivity.this, LeaderboardActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (item.getItemId() == R.id.profile) {
+                    Intent intent = new Intent(SwipingActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else {
+                    return false;
+                }
+
+/*
+                switch(item.getItemId())
+                {
+                    case R.id.friends:
+                        startActivity(new Intent(getApplicationContext(),FriendsActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.events:
+                        startActivity(new Intent(getApplicationContext(),EventsActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.swiping:
+                        return true;
+                    case R.id.leaderboard:
+                        startActivity(new Intent(getApplicationContext(),LeaderboardActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.profile:
+                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+
+ */
+            }
+        });
+
 
         flingAdapterView = findViewById(R.id.swipe);
 
