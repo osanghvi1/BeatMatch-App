@@ -33,11 +33,11 @@ import java.util.concurrent.Executors;
 public class ProfileActivity extends AppCompatActivity implements Request {
     // UI elements
     TextView textGetUser, textGetEmail;
-    TextView textGetResponse;
-    Button deleteAccountButton, deleteSecurityButton, updateAnswer2,  friendsButton;
-    ExecutorService executorService;
-    Button swipeButton;
 
+    // UI elements
+    Button deleteAccountButton, deleteSecurityButton, updateAnswer2;
+    ExecutorService executorService;
+    TextView textGetResponse;
     EditText inputAnswer1;
     EditText inputAnswer2;
 
@@ -47,14 +47,17 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         // Map UI elements to XML elements
-        textGetResponse = findViewById(R.id.text_get_response);
+
         textGetUser = findViewById(R.id.text_get_user_ID);
         textGetEmail = findViewById(R.id.text_get_user_email);
+        executorService = Executors.newSingleThreadExecutor();
         deleteAccountButton = findViewById(R.id.button_delete_account);
         deleteSecurityButton = findViewById(R.id.button_delete_security);
+        textGetResponse = findViewById(R.id.text_get_response);
         updateAnswer2 = findViewById(R.id.button_answer_2_update);
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
         inputAnswer2 = findViewById(R.id.input_security_answer_2);
+
 
         executorService = Executors.newSingleThreadExecutor();
 
@@ -163,6 +166,8 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                 });
             }
         });
+
+
     }
 
 }
