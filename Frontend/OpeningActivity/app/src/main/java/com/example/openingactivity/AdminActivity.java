@@ -10,13 +10,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdminActivity extends AppCompatActivity implements Request {
 
 
     //XML elements
     TextView textViewAdminHeader;
-    Button button_admin_return, button_admin_delete_user;
+    Button button_admin_return, button_admin_delete_user, button_admin_update_user_status;
     EditText input_admin_delete_user;
     ExecutorService executorService;
 
@@ -30,6 +31,11 @@ public class AdminActivity extends AppCompatActivity implements Request {
         Button button_admin_return = findViewById(R.id.button_admin_return);
         Button button_admin_delete_user = findViewById(R.id.button_admin_delete_user);
         EditText input_admin_delete_user = findViewById(R.id.textInput_admin_delete_user);
+        Button button_admin_update_user_status = findViewById(R.id.button_admin_update_user_status);
+        EditText input_admin_change_user_status = findViewById(R.id.textInput_admin_change_user_status);
+        EditText input_admin_new_status = findViewById(R.id.textInput_admin_new_status);
+
+        executorService = Executors.newSingleThreadExecutor();
 
         /**
          * This code is for the admin settings back button
@@ -68,6 +74,34 @@ public class AdminActivity extends AppCompatActivity implements Request {
             }
         });
 
-        
+        /**
+         * This code is for the admin settings update user status button
+         * Allows the admin to update a users status to 1, 2 or 3
+         * 1 being general user, 2 being influencer, 3 being admin
+         */
+        button_admin_update_user_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ID = Integer.parseInt(input_admin_change_user_status.getText().toString());
+                int newStatus = Integer.parseInt(input_admin_new_status.getText().toString());
+                updateUserStatus(ID, newStatus);
+            }
+
+            /**
+             * updates the user status in the database
+             * @param id
+             * @param newStatus
+             */
+            private void updateUserStatus(int id, int newStatus) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = sendRequest("PUT", "/users/update/" + id + "/" + newStatus, null);
+                        //log the result
+                        System.out.println(result);
+                    }
+                });
+            }
+        });
     }
 }
