@@ -22,6 +22,11 @@ public class AdminActivity extends AppCompatActivity implements Request {
     EditText input_admin_modify_user, input_admin_new_status, input_admin_new_name, input_admin_event_id, input_admin_playlist_id;
     ExecutorService executorService;
 
+    /* Commented out for now, may not be used in the future, tbd
+    Button button_admin_delete_groupchat;
+    EditText input_admin_groupchat_id;
+    */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,11 @@ public class AdminActivity extends AppCompatActivity implements Request {
         input_admin_event_id = findViewById(R.id.textInput_admin_event_id);
         button_admin_delete_playlist = findViewById(R.id.button_admin_delete_playlist);
         input_admin_playlist_id = findViewById(R.id.textInput_admin_playlist_id);
+
+        /* Commented out for now, may not be used in the future, tbd
+        button_admin_delete_groupchat = findViewById(R.id.button_admin_delete_groupchat);
+        input_admin_groupchat_id = findViewById(R.id.textInput_admin_groupchat_id);
+         */
 
 
         executorService = Executors.newSingleThreadExecutor();
@@ -233,7 +243,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
                 });
             }
         });
-        
+
         /**
          * This code is for the admin settings delete playlist button
          * Allows the admin to delete a playlist from the database
@@ -264,5 +274,38 @@ public class AdminActivity extends AppCompatActivity implements Request {
                 });
             }
         });
+
+        /**
+         * This code is for the admin settings delete groupchat button
+         * Allows the admin to delete a groupchat from the database
+         */
+        /*
+        button_admin_delete_groupchat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String groupchatID = input_admin_groupchat_id.getText().toString();
+                    deleteGroupchat(groupchatID);
+                } catch (Exception e) {
+                    System.out.println("Invalid ID");
+                }
+            }
+
+            /**
+             * deletes the groupchat from the database
+             * @param groupchatID the groupchat id
+             *                TODO have a backend create the method for deleting the groupchat
+
+            private void deleteGroupchat(String groupchatID) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = sendRequest("DELETE", "/groupchats/delete/" + groupchatID, null);
+                        //log the result
+                    }
+                });
+            }
+        });
+            */
     }
 }
