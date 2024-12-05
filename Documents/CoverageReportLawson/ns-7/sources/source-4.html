@@ -1,0 +1,99 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LeaderboardRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.Leaderboard</a>
+</div>
+
+<h1>Coverage Summary for Class: LeaderboardRepository (database.Leaderboard)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">LeaderboardRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.Leaderboard;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Repository interface for managing leaderboard entries.
+&nbsp; * &lt;p&gt;
+&nbsp; * Provides methods to retrieve and manage leaderboard data, including top-liked songs.
+&nbsp; */
+&nbsp;@Tag(name = &quot;Leaderboard Repository&quot;, description = &quot;Handles database operations for leaderboard entries and top-liked songs.&quot;)
+&nbsp;public interface LeaderboardRepository extends JpaRepository&lt;Leaderboard, Long&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves the top liked songs and their like counts.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Groups songs by their IDs and counts likes for each song. Results are ordered by like count in descending order.
+&nbsp;     *
+&nbsp;     * @return A list of objects, where each object is an array containing:
+&nbsp;     *         - `songID` (Long): The ID of the song.
+&nbsp;     *         - `likeCount` (Long): The total number of likes the song has received.
+&nbsp;     */
+&nbsp;    @Query(&quot;SELECT ls.songID AS songID, COUNT(u.userID) AS likeCount &quot; +
+&nbsp;            &quot;FROM LikedSongs ls JOIN ls.likedUsers u &quot; +
+&nbsp;            &quot;GROUP BY ls.songID &quot; +
+&nbsp;            &quot;ORDER BY likeCount DESC&quot;)
+&nbsp;    List&lt;Object[]&gt; findTopLikedSongs();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>

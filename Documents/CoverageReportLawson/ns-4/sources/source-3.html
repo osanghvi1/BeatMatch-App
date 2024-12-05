@@ -1,0 +1,114 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FriendsRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.Friends</a>
+</div>
+
+<h1>Coverage Summary for Class: FriendsRepository (database.Friends)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">FriendsRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.Friends;
+&nbsp;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Repository interface for managing `Friends` entities.
+&nbsp; * &lt;p&gt;
+&nbsp; * Provides methods for CRUD operations and custom queries to handle friendships.
+&nbsp; */
+&nbsp;public interface FriendsRepository extends JpaRepository&lt;Friends, Long&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Finds all friendships associated with a specific user ID.
+&nbsp;     *
+&nbsp;     * @param userID The ID of the user.
+&nbsp;     * @return A list of `Friends` entities related to the user.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Find friendships by user ID&quot;, description = &quot;Retrieve all friendships for a specific user ID.&quot;)
+&nbsp;    List&lt;Friends&gt; findByUserID(int userID);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Finds a specific friendship between two users.
+&nbsp;     *
+&nbsp;     * @param userID        The ID of the main user.
+&nbsp;     * @param userIDFriends The ID of the friend.
+&nbsp;     * @return A `Friends` entity representing the friendship, or `null` if not found.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Find a friendship by user IDs&quot;, description = &quot;Retrieve a specific friendship between two users by their IDs.&quot;)
+&nbsp;    Friends findByUserIDAndUserIDFriends(int userID, int userIDFriends);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deletes a friendship between two users.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * This method is transactional to ensure atomicity during the deletion process.
+&nbsp;     *
+&nbsp;     * @param userID        The ID of the main user.
+&nbsp;     * @param userIDFriends The ID of the friend.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Delete a friendship by user IDs&quot;, description = &quot;Delete a specific friendship between two users by their IDs.&quot;)
+&nbsp;    @Transactional
+&nbsp;    void deleteByUserIDAndUserIDFriends(int userID, int userIDFriends);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>

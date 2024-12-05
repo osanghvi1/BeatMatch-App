@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SimilarGenres</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.SimilarGenres</a>
+</div>
+
+<h1>Coverage Summary for Class: SimilarGenres (database.SimilarGenres)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimilarGenres</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SimilarGenres$HibernateInstantiator$r6r2P1MU</td>
+  </tr>
+  <tr>
+    <td class="name">SimilarGenres$HibernateProxy$1a8Cf5ue</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.SimilarGenres;
+&nbsp;
+&nbsp;import jakarta.persistence.Entity;
+&nbsp;import jakarta.persistence.GeneratedValue;
+&nbsp;import jakarta.persistence.GenerationType;
+&nbsp;import jakarta.persistence.Id;
+&nbsp;
+&nbsp;@Entity
+&nbsp;public class SimilarGenres {
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    private int genreID;
+&nbsp;    private String genreName;
+&nbsp;    private String similarGenre1;
+&nbsp;    private String similarGenre2;
+&nbsp;    private String similarGenre3;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    public SimilarGenres(String genreName, String similarGenre1, String similarGenre2, String similarGenre3) {</b>
+<b class="fc">&nbsp;        this.genreName = genreName;</b>
+<b class="fc">&nbsp;        this.similarGenre1 = similarGenre1;</b>
+<b class="fc">&nbsp;        this.similarGenre2 = similarGenre2;</b>
+<b class="fc">&nbsp;        this.similarGenre3 = similarGenre3;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public SimilarGenres() {}</b>
+&nbsp;
+<b class="fc">&nbsp;    public int getGenreID() {return genreID;}</b>
+<b class="fc">&nbsp;    public String getGenreName() {return genreName;}</b>
+<b class="fc">&nbsp;    public String getSimilarGenre1() {return similarGenre1;}</b>
+<b class="fc">&nbsp;    public String getSimilarGenre2() {return similarGenre2;}</b>
+<b class="fc">&nbsp;    public String getSimilarGenre3() {return similarGenre3;}</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    public void setGenreName(String genreName) {this.genreName = genreName;}</b>
+<b class="fc">&nbsp;    public void setSimilarGenre1(String similarGenre1) {this.similarGenre1 = similarGenre1;}</b>
+<b class="fc">&nbsp;    public void setSimilarGenre2(String similarGenre2) {this.similarGenre2 = similarGenre2;}</b>
+<b class="fc">&nbsp;    public void setSimilarGenre3(String similarGenre3) {this.similarGenre3 = similarGenre3;}</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>
