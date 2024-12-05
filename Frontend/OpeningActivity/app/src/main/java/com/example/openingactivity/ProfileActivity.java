@@ -18,6 +18,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,11 +34,12 @@ import java.util.concurrent.Executors;
 public class ProfileActivity extends AppCompatActivity implements Request {
     // UI elements
     TextView textGetUser, textGetEmail;
-    TextView textGetResponse;
-    Button deleteAccountButton, deleteSecurityButton, updateAnswer2,  friendsButton;
-    ExecutorService executorService;
-    Button swipeButton;
 
+    // UI elements
+    Button deleteAccountButton, deleteSecurityButton, updateAnswer2;
+    Button adminButton;
+    ExecutorService executorService;
+    TextView textGetResponse;
     EditText inputAnswer1;
     EditText inputAnswer2;
 
@@ -47,14 +49,51 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         // Map UI elements to XML elements
-        textGetResponse = findViewById(R.id.text_get_response);
+
         textGetUser = findViewById(R.id.text_get_user_ID);
         textGetEmail = findViewById(R.id.text_get_user_email);
+        executorService = Executors.newSingleThreadExecutor();
         deleteAccountButton = findViewById(R.id.button_delete_account);
         deleteSecurityButton = findViewById(R.id.button_delete_security);
+        textGetResponse = findViewById(R.id.text_get_response);
         updateAnswer2 = findViewById(R.id.button_answer_2_update);
         inputAnswer1 = findViewById(R.id.input_security_answer_1);
         inputAnswer2 = findViewById(R.id.input_security_answer_2);
+
+        adminButton = findViewById(R.id.button_admin);
+        adminButton.setVisibility(View.GONE);
+
+
+        /* METHOD FOR IF WE CHANGE THE RETURN FROM GET TO BE A JSON OBJECT OF USER INFO - IS CURRENTLY A STRING OF USER ID
+        try {
+            String result = sendRequest("GET", "/friends/" + user.getUserID(), null);
+            JSONObject json = new JSONObject(result);
+            int accountStatus = json.getInt("accountStatus");
+
+
+            if (accountStatus == 3) {
+                adminButton = findViewById(R.id.button_admin);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        */
+
+        /**
+         * This code is for the admin settings.
+         * currently, the page is accessed by a specific users id, (wwinterstein@iastate.edu / verysecurepassword)
+         */
+        if (user.getUserID() == 72) {
+            adminButton.setVisibility(View.VISIBLE);
+            adminButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ProfileActivity.this, AdminActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
         executorService = Executors.newSingleThreadExecutor();
 
@@ -101,6 +140,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                 }
             }
         });
+
 
         // Button to send DELETE request
         deleteSecurityButton.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +203,8 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                 });
             }
         });
+
+
     }
 
 }
