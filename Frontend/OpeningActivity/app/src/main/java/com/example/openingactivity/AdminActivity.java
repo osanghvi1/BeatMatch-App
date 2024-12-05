@@ -17,7 +17,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
 
     //XML elements
     TextView textViewAdminHeader;
-    Button button_admin_return, button_admin_delete_user, button_admin_update_user_status;
+    Button button_admin_return, button_admin_delete_user, button_admin_update_user_status, button_admin_force_leaderboard_refresh;
     EditText input_admin_delete_user;
     ExecutorService executorService;
 
@@ -34,6 +34,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
         Button button_admin_update_user_status = findViewById(R.id.button_admin_update_user_status);
         EditText input_admin_change_user_status = findViewById(R.id.textInput_admin_change_user_status);
         EditText input_admin_new_status = findViewById(R.id.textInput_admin_new_status);
+        Button button_admin_force_leaderboard_refresh = findViewById(R.id.button_admin_force_leaderboard_refresh);
 
         executorService = Executors.newSingleThreadExecutor();
 
@@ -51,12 +52,17 @@ public class AdminActivity extends AppCompatActivity implements Request {
 
         /**
          * This code is for the admin settings delete user button
+         * allows an admin to delete a user from the database
          */
         button_admin_delete_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ID = Integer.parseInt(input_admin_delete_user.getText().toString());
-                deleteUser(ID);
+                try {
+                    int ID = Integer.parseInt(input_admin_delete_user.getText().toString());
+                    deleteUser(ID);
+                }catch (Exception e){
+                    System.out.println("Invalid ID");
+                }
             }
 
             /**
@@ -82,15 +88,19 @@ public class AdminActivity extends AppCompatActivity implements Request {
         button_admin_update_user_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ID = Integer.parseInt(input_admin_change_user_status.getText().toString());
-                int newStatus = Integer.parseInt(input_admin_new_status.getText().toString());
-                updateUserStatus(ID, newStatus);
+                try {
+                    int ID = Integer.parseInt(input_admin_change_user_status.getText().toString());
+                    int newStatus = Integer.parseInt(input_admin_new_status.getText().toString());
+                    updateUserStatus(ID, newStatus);
+                } catch (Exception e) {
+                    System.out.println("Invalid ID");
+                }
             }
 
             /**
              * updates the user status in the database
-             * @param id
-             * @param newStatus
+             * @param id the users id
+             * @param newStatus the users new status (1, 2 or 3) all users default to 1.
              */
             private void updateUserStatus(int id, int newStatus) {
                 executorService.execute(new Runnable() {
@@ -103,5 +113,30 @@ public class AdminActivity extends AppCompatActivity implements Request {
                 });
             }
         });
+
+        /**
+         * This code is for the admin settings force leaderboard refresh button
+         * Upon pressing the button, the leaderboard will refresh its values to 0?
+         */
+        button_admin_force_leaderboard_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forceLeaderboardRefresh();
+            }
+
+            /**
+             * TODO fix this so it actually refreshes leaderboards
+             */
+            private void forceLeaderboardRefresh() {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = sendRequest("GET", "/leaderboard/refresh", null);
+                        //log the result
+                    }
+                });
+            }
+        });
+
     }
 }
