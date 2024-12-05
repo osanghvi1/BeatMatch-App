@@ -18,7 +18,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
     //XML elements
     TextView textViewAdminHeader;
     Button button_admin_return, button_admin_delete_user, button_admin_update_user_status, button_admin_force_leaderboard_refresh;
-    EditText input_admin_delete_user;
+    EditText input_admin_modify_user;
     ExecutorService executorService;
 
     @Override
@@ -30,9 +30,8 @@ public class AdminActivity extends AppCompatActivity implements Request {
         TextView textViewAdminHeader = findViewById(R.id.textViewAdminHeader);
         Button button_admin_return = findViewById(R.id.button_admin_return);
         Button button_admin_delete_user = findViewById(R.id.button_admin_delete_user);
-        EditText input_admin_delete_user = findViewById(R.id.textInput_admin_delete_user);
+        EditText input_admin_modify_user = findViewById(R.id.textInput_admin_modify_user);
         Button button_admin_update_user_status = findViewById(R.id.button_admin_update_user_status);
-        EditText input_admin_change_user_status = findViewById(R.id.textInput_admin_change_user_status);
         EditText input_admin_new_status = findViewById(R.id.textInput_admin_new_status);
         Button button_admin_force_leaderboard_refresh = findViewById(R.id.button_admin_force_leaderboard_refresh);
 
@@ -58,7 +57,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
             @Override
             public void onClick(View v) {
                 try {
-                    int ID = Integer.parseInt(input_admin_delete_user.getText().toString());
+                    int ID = Integer.parseInt(input_admin_modify_user.getText().toString());
                     deleteUser(ID);
                 }catch (Exception e){
                     System.out.println("Invalid ID");
@@ -89,7 +88,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
             @Override
             public void onClick(View v) {
                 try {
-                    int ID = Integer.parseInt(input_admin_change_user_status.getText().toString());
+                    int ID = Integer.parseInt(input_admin_modify_user.getText().toString());
                     int newStatus = Integer.parseInt(input_admin_new_status.getText().toString());
                     updateUserStatus(ID, newStatus);
                 } catch (Exception e) {
