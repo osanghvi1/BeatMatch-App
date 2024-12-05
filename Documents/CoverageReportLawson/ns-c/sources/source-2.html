@@ -1,0 +1,255 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ForgotPasswordController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.com.example.forgotpassword</a>
+</div>
+
+<h1>Coverage Summary for Class: ForgotPasswordController (database.com.example.forgotpassword)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ForgotPasswordController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14.3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.6%
+  </span>
+  <span class="absValue">
+    (3/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.com.example.forgotpassword;
+&nbsp;
+&nbsp;import database.User.User;
+&nbsp;import database.User.UserRepository;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;/**
+&nbsp; * Controller for managing forgot password operations.
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@Tag(name = &quot;Forgot Password API&quot;, description = &quot;Handles password recovery operations.&quot;)
+<b class="fc">&nbsp;public class ForgotPasswordController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private ForgotPasswordRepository forgotPasswordRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private UserRepository userRepository;
+&nbsp;
+<b class="fc">&nbsp;    private final String success = &quot;{\&quot;message\&quot;:\&quot;success\&quot;}&quot;;</b>
+<b class="fc">&nbsp;    private final String failure = &quot;{\&quot;message\&quot;:\&quot;failure\&quot;}&quot;;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get all forgot password records.
+&nbsp;     *
+&nbsp;     * @return A list of all `ForgotPassword` records.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get all forgot password records&quot;, description = &quot;Retrieve all forgot password records in the database.&quot;)
+&nbsp;    @GetMapping(path = &quot;/forgetPassword&quot;)
+&nbsp;    public List&lt;ForgotPassword&gt; getAllForgotPassword() {
+<b class="nc">&nbsp;        return forgotPasswordRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get a forgot password record by email.
+&nbsp;     *
+&nbsp;     * @param email The email of the user.
+&nbsp;     * @return The `ForgotPassword` record for the given email, or `null` if not found.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get forgot password record by email&quot;, description = &quot;Retrieve a specific forgot password record by the user&#39;s email.&quot;)
+&nbsp;    @GetMapping(path = &quot;/forgetPassword/{email}&quot;)
+&nbsp;    public ForgotPassword getForgetPasswordByID(@PathVariable String email) {
+<b class="nc">&nbsp;        Optional&lt;ForgotPassword&gt; forgotPassword = forgotPasswordRepository.findByemail(email);</b>
+<b class="nc">&nbsp;        return forgotPassword.orElse(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Validate security questions and return the user&#39;s password.
+&nbsp;     *
+&nbsp;     * @param forgotPasswordRequest The `ForgotPassword` request containing email and security answers.
+&nbsp;     * @return A success message with the user&#39;s password or an error message.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Validate security questions&quot;, description = &quot;Validate answers to security questions and retrieve the user&#39;s password.&quot;)
+&nbsp;    @PostMapping(path = &quot;/forgetPassword/validate&quot;)
+&nbsp;    public String validateSecurityQuestions(@RequestBody ForgotPassword forgotPasswordRequest) {
+<b class="nc">&nbsp;        Optional&lt;ForgotPassword&gt; forgotPasswordOptional = forgotPasswordRepository.findByemail(forgotPasswordRequest.getEmail());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!forgotPasswordOptional.isPresent()) {</b>
+<b class="nc">&nbsp;            return &quot;{\&quot;message\&quot;: \&quot;User not found\&quot;}&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        ForgotPassword forgotPassword = forgotPasswordOptional.get();</b>
+<b class="nc">&nbsp;        if (forgotPassword.getansSecurityQuestion1().equals(forgotPasswordRequest.getansSecurityQuestion1()) &amp;&amp;</b>
+<b class="nc">&nbsp;                forgotPassword.getansSecurityQuestion2().equals(forgotPasswordRequest.getansSecurityQuestion2())) {</b>
+&nbsp;
+<b class="nc">&nbsp;            User user = userRepository.findByemail(forgotPasswordRequest.getEmail());</b>
+<b class="nc">&nbsp;            if (user != null) {</b>
+<b class="nc">&nbsp;                return &quot;{\&quot;email\&quot;: \&quot;&quot; + forgotPasswordRequest.getEmail() + &quot;\&quot;, \&quot;password\&quot;: \&quot;&quot; + user.getPassword() + &quot;\&quot;}&quot;;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                return &quot;{\&quot;message\&quot;: \&quot;User not found\&quot;}&quot;;</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            return &quot;{\&quot;message\&quot;: \&quot;Security answers do not match\&quot;}&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a new forgot password record.
+&nbsp;     *
+&nbsp;     * @param forgotPassword The new `ForgotPassword` record to create.
+&nbsp;     * @return A success or failure message.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Create forgot password record&quot;, description = &quot;Create a new forgot password record in the database.&quot;)
+&nbsp;    @PostMapping(path = &quot;/forgetPassword&quot;)
+&nbsp;    public String createForgotPassword(@RequestBody ForgotPassword forgotPassword) {
+<b class="nc">&nbsp;        if (forgotPassword == null) {</b>
+<b class="nc">&nbsp;            return failure;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        forgotPasswordRepository.save(forgotPassword);</b>
+<b class="nc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update an existing forgot password record by email.
+&nbsp;     *
+&nbsp;     * @param email   The email of the user to update.
+&nbsp;     * @param request The updated `ForgotPassword` record.
+&nbsp;     * @return The updated `ForgotPassword` record or `null` if not found.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Update forgot password record&quot;, description = &quot;Update an existing forgot password record by the user&#39;s email.&quot;)
+&nbsp;    @PutMapping(path = &quot;/forgetPassword/{email}&quot;)
+&nbsp;    public ForgotPassword updatePassword(@PathVariable String email, @RequestBody ForgotPassword request) {
+<b class="nc">&nbsp;        Optional&lt;ForgotPassword&gt; forgotPasswordOptional = forgotPasswordRepository.findByemail(email);</b>
+<b class="nc">&nbsp;        if (!forgotPasswordOptional.isPresent()) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ForgotPassword forgotPassword = forgotPasswordOptional.get();</b>
+&nbsp;
+<b class="nc">&nbsp;        forgotPassword.setEmail(request.getEmail());</b>
+<b class="nc">&nbsp;        forgotPassword.setansSecurityQuestion1(request.getansSecurityQuestion1());</b>
+<b class="nc">&nbsp;        forgotPassword.setansSecurityQuestion2(request.getansSecurityQuestion2());</b>
+&nbsp;
+<b class="nc">&nbsp;        forgotPasswordRepository.save(forgotPassword);</b>
+<b class="nc">&nbsp;        return forgotPassword;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Delete a forgot password record by email.
+&nbsp;     *
+&nbsp;     * @param email The email of the user to delete.
+&nbsp;     * @return A success or failure message.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Delete forgot password record&quot;, description = &quot;Delete a forgot password record by the user&#39;s email.&quot;)
+&nbsp;    @DeleteMapping(path = &quot;/forgetPassword/{email}&quot;)
+&nbsp;    public String deleteForgetPasswordByID(@PathVariable String email) {
+<b class="nc">&nbsp;        Optional&lt;ForgotPassword&gt; forgotPassword = forgotPasswordRepository.findByemail(email);</b>
+<b class="nc">&nbsp;        if (!forgotPassword.isPresent()) {</b>
+<b class="nc">&nbsp;            return failure;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        forgotPasswordRepository.delete(forgotPassword.get());</b>
+<b class="nc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>

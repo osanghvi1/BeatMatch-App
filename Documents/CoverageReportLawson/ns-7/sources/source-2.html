@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LeaderboardController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.Leaderboard</a>
+</div>
+
+<h1>Coverage Summary for Class: LeaderboardController (database.Leaderboard)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LeaderboardController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.Leaderboard;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Controller for managing the leaderboard.
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/leaderboard&quot;)
+&nbsp;@Tag(name = &quot;Leaderboard API&quot;, description = &quot;Handles leaderboard retrieval and reset operations.&quot;)
+<b class="fc">&nbsp;public class LeaderboardController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private LeaderboardService leaderboardService;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private LeaderboardRepository leaderboardRepository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieve the current leaderboard.
+&nbsp;     *
+&nbsp;     * @return A list of `Leaderboard` entries.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get leaderboard&quot;, description = &quot;Retrieve the current leaderboard with all song rankings.&quot;)
+&nbsp;    @GetMapping
+&nbsp;    public List&lt;Leaderboard&gt; getLeaderboard() {
+<b class="nc">&nbsp;        return leaderboardRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reset and update the leaderboard.
+&nbsp;     *
+&nbsp;     * @return A success message indicating the leaderboard was reset.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Reset leaderboard&quot;, description = &quot;Resets the leaderboard and recalculates song rankings.&quot;)
+&nbsp;    @PostMapping(&quot;/reset&quot;)
+&nbsp;    public String resetLeaderboard() {
+<b class="nc">&nbsp;        leaderboardService.resetLeaderboard();</b>
+<b class="nc">&nbsp;        return &quot;{\&quot;message\&quot;: \&quot;Leaderboard reset successfully\&quot;}&quot;;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>
