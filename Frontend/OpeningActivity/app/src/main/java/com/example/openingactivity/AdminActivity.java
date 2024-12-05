@@ -17,8 +17,8 @@ public class AdminActivity extends AppCompatActivity implements Request {
 
     //XML elements
     TextView textViewAdminHeader;
-    Button button_admin_return, button_admin_delete_user, button_admin_update_user_status, button_admin_force_leaderboard_refresh;
-    EditText input_admin_modify_user;
+    Button button_admin_return, button_admin_delete_user, button_admin_update_user_status, button_admin_force_leaderboard_refresh, button_admin_delete_user_security;
+    EditText input_admin_modify_user, input_admin_new_status;
     ExecutorService executorService;
 
     @Override
@@ -27,13 +27,15 @@ public class AdminActivity extends AppCompatActivity implements Request {
         setContentView(R.layout.activity_admin);
 
         //map XML elements to UI elements
-        TextView textViewAdminHeader = findViewById(R.id.textViewAdminHeader);
-        Button button_admin_return = findViewById(R.id.button_admin_return);
-        Button button_admin_delete_user = findViewById(R.id.button_admin_delete_user);
-        EditText input_admin_modify_user = findViewById(R.id.textInput_admin_modify_user);
-        Button button_admin_update_user_status = findViewById(R.id.button_admin_update_user_status);
-        EditText input_admin_new_status = findViewById(R.id.textInput_admin_new_status);
-        Button button_admin_force_leaderboard_refresh = findViewById(R.id.button_admin_force_leaderboard_refresh);
+        textViewAdminHeader = findViewById(R.id.textViewAdminHeader);
+        button_admin_return = findViewById(R.id.button_admin_return);
+        button_admin_delete_user = findViewById(R.id.button_admin_delete_user);
+        input_admin_modify_user = findViewById(R.id.textInput_admin_modify_user);
+        button_admin_update_user_status = findViewById(R.id.button_admin_update_user_status);
+        input_admin_new_status = findViewById(R.id.textInput_admin_new_status);
+        button_admin_force_leaderboard_refresh = findViewById(R.id.button_admin_force_leaderboard_refresh);
+        button_admin_delete_user_security = findViewById(R.id.button_admin_delete_user_security);
+
 
         executorService = Executors.newSingleThreadExecutor();
 
@@ -134,6 +136,35 @@ public class AdminActivity extends AppCompatActivity implements Request {
                         //log the result
                     }
                 });
+            }
+        });
+
+        /**
+         * This code is for the admin settings delete user security button
+         * Allows an admin to delete the a users security questions
+         */
+        button_admin_delete_user_security.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    int ID = Integer.parseInt(input_admin_modify_user.getText().toString());
+                    deleteUserSecurity(ID);
+                }catch (Exception e) {
+                    System.out.println("Invalid ID");
+                }
+            }
+
+            /**
+             * deletes the user security from the database
+             * @param id user id youd like to delete the security questions from
+             *           TODO this may not work with id, current methods work using user email, will have to test and see
+             */
+            private void deleteUserSecurity(int id) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = sendRequest("DELETE", "/forgetPassword/" + id, null);
+                        //log the result
             }
         });
 
