@@ -18,8 +18,8 @@ public class AdminActivity extends AppCompatActivity implements Request {
     //XML elements
     TextView textViewAdminHeader;
     Button button_admin_return, button_admin_delete_user, button_admin_update_user_status, button_admin_force_leaderboard_refresh, button_admin_delete_user_security;
-    Button button_admin_update_user_name;
-    EditText input_admin_modify_user, input_admin_new_status, input_admin_new_name;
+    Button button_admin_update_user_name, button_admin_delete_event;
+    EditText input_admin_modify_user, input_admin_new_status, input_admin_new_name, input_admin_event_id;
     ExecutorService executorService;
 
     @Override
@@ -38,6 +38,8 @@ public class AdminActivity extends AppCompatActivity implements Request {
         button_admin_delete_user_security = findViewById(R.id.button_admin_delete_user_security);
         button_admin_update_user_name = findViewById(R.id.button_admin_update_user_name);
         input_admin_new_name = findViewById(R.id.textInput_admin_new_name);
+        button_admin_delete_event = findViewById(R.id.button_admin_delete_event);
+        input_admin_event_id = findViewById(R.id.textInput_admin_event_id);
 
 
         executorService = Executors.newSingleThreadExecutor();
@@ -193,6 +195,37 @@ public class AdminActivity extends AppCompatActivity implements Request {
                     @Override
                     public void run() {
                         String result = sendRequest("PUT", "/users/update/" + newUsername, null);
+                        //log the result
+                    }
+                });
+            }
+        });
+        
+        /**
+         * This code is for the admin settings delete event button
+         * Allows the admin to delete an event from the database
+         */
+        button_admin_delete_event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String eventID = input_admin_event_id.getText().toString();
+                    deleteEvent(eventID);
+                } catch (Exception e) {
+                    System.out.println("Invalid ID");
+                }
+            }
+
+            /**
+             * deletes the event from the database
+             * @param eventID the event id
+             *                TODO have a backend create the method for deleting the event
+             */
+            private void deleteEvent(String eventID) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = sendRequest("DELETE", "/events/delete/" + eventID, null);
                         //log the result
                     }
                 });
