@@ -61,7 +61,7 @@
         android:layout_marginEnd="6dp"
         android:text="Delete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textInput_admin_delete_user"
+        app:layout_constraintStart_toEndOf="@+id/textInput_admin_modify_user"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <Button
@@ -93,10 +93,20 @@
         android:id="@+id/button_admin_force_leaderboard_refresh"
         android:layout_width="131dp"
         android:layout_height="83dp"
-        android:layout_marginTop="33dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:text="Force Leaderboard Refresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_admin_update_user_status" />
+
+    <Button
+        android:id="@+id/button_admin_delete_user_security"
+        android:layout_width="123dp"
+        android:layout_height="84dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:text="delete user security"
+        app:layout_constraintEnd_toStartOf="@+id/button_admin_force_leaderboard_refresh"
+        app:layout_constraintTop_toBottomOf="@+id/textInput_admin_new_status" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
