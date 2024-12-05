@@ -9,19 +9,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class EventsActivity extends AppCompatActivity {
+public class EventsActivity extends AppCompatActivity implements Request {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
-
+        
+        /**
+         * Bottom navigation bar setup & functionality
+         */
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
         // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.events);
-
-        // Perform item selected listener
+        /**
+         * Functions as the listener for the bottom navigation bar as well as all of the functionality
+         * changes activities based on what item is pressed
+         */
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -53,5 +57,6 @@ public class EventsActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 }
