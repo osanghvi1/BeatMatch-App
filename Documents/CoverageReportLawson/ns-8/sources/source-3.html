@@ -1,0 +1,114 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LikedSongRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.LikedSongs</a>
+</div>
+
+<h1>Coverage Summary for Class: LikedSongRepository (database.LikedSongs)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">LikedSongRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.LikedSongs;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;/**
+&nbsp; * Repository interface for managing liked songs.
+&nbsp; * &lt;p&gt;
+&nbsp; * Provides methods for CRUD operations and custom queries on liked songs.
+&nbsp; */
+&nbsp;@Tag(name = &quot;Liked Songs Repository&quot;, description = &quot;Handles database operations for liked songs.&quot;)
+&nbsp;public interface LikedSongRepository extends JpaRepository&lt;LikedSongs, Long&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Find a liked song by its song ID.
+&nbsp;     *
+&nbsp;     * @param songID The ID of the song to retrieve.
+&nbsp;     * @return An `Optional&lt;LikedSongs&gt;` containing the liked song if found, or empty otherwise.
+&nbsp;     */
+&nbsp;    Optional&lt;LikedSongs&gt; findBySongID(Long songID);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Delete a liked song by its song ID.
+&nbsp;     *
+&nbsp;     * @param songID The ID of the song to delete.
+&nbsp;     */
+&nbsp;    @Transactional
+&nbsp;    void deleteBySongID(Long songID);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieve the top liked songs with their like counts.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Groups songs by their IDs and counts likes for each song. Results are ordered by like count in descending order, limited to the top 10.
+&nbsp;     *
+&nbsp;     * @return A list of objects, where each object is an array containing:
+&nbsp;     *         - `song_id` (Long): The ID of the song.
+&nbsp;     *         - `likes` (Long): The total number of likes the song has received.
+&nbsp;     */
+&nbsp;    @Query(value = &quot;SELECT song_id, COUNT(user_id) AS likes FROM user_like_song_mapping GROUP BY song_id ORDER BY likes DESC LIMIT 10&quot;, nativeQuery = true)
+&nbsp;    List&lt;Object[]&gt; findTopLikedSongs();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>

@@ -43,6 +43,9 @@ public class GenrePreferencesController {
                     content = @Content)})
     @GetMapping(path = "/userGenres/{id}")
     GenrePreferences getGenrePreferencesById(@PathVariable int id){
+        if(genrePreferencesRepository.findById(id) == null){
+            return null;
+        }
         return genrePreferencesRepository.findById(id);
     }
 

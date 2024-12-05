@@ -220,9 +220,9 @@ import java.util.Set;
             @ApiResponse(responseCode = "400", description = "Invalid user id",
                     content = @Content)})
     @DeleteMapping(path = "/users/delete/{id}")
-    public User deleteGenres(@PathVariable int id) {
+    public String deleteUser(@PathVariable int id) {
         User deletedUser = userRepository.findById(id);
         userRepository.deleteById(id);
-        return deletedUser;
+        return "User deleted Successfully";
     }
 }

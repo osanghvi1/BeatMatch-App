@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FriendsController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.Friends</a>
+</div>
+
+<h1>Coverage Summary for Class: FriendsController (database.Friends)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FriendsController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.6%
+  </span>
+  <span class="absValue">
+    (3/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.Friends;
+&nbsp;
+&nbsp;import database.User.User;
+&nbsp;import database.User.UserRepository;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Controller for managing friendships between users.
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@Tag(name = &quot;Friends API&quot;, description = &quot;Endpoints for managing friendships between users.&quot;)
+<b class="fc">&nbsp;public class FriendsController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private FriendsRepository friendsRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private UserRepository userRepository;
+&nbsp;
+<b class="fc">&nbsp;    private final String success = &quot;{\&quot;message\&quot;:\&quot;success\&quot;}&quot;;</b>
+<b class="fc">&nbsp;    private final String failure = &quot;{\&quot;message\&quot;:\&quot;failure\&quot;}&quot;;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get all friendships.
+&nbsp;     *
+&nbsp;     * @return A list of all friendships.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get all friendships&quot;, description = &quot;Retrieve a list of all friendships.&quot;)
+&nbsp;    @GetMapping(path = &quot;/friends&quot;)
+&nbsp;    public List&lt;Friends&gt; getAllFriendships() {
+<b class="nc">&nbsp;        return friendsRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get friendships by user ID.
+&nbsp;     *
+&nbsp;     * @param userID The ID of the user.
+&nbsp;     * @return A list of friendships associated with the user ID.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Get friendships by user ID&quot;, description = &quot;Retrieve friendships associated with a specific user ID.&quot;)
+&nbsp;    @GetMapping(path = &quot;/friends/{userID}&quot;)
+&nbsp;    public List&lt;Friends&gt; getFriendsByUserID(@PathVariable int userID) {
+<b class="nc">&nbsp;        return friendsRepository.findByUserID(userID);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a new friendship.
+&nbsp;     *
+&nbsp;     * @param friendship The friendship object to create.
+&nbsp;     * @return A success or failure message.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Create a new friendship&quot;, description = &quot;Create a new friendship between two users.&quot;)
+&nbsp;    @PostMapping(path = &quot;/friends/create&quot;)
+&nbsp;    public String createFriendship(@RequestBody Friends friendship) {
+<b class="nc">&nbsp;        if (friendship == null || friendship.getUserID() == 0 || friendship.getUserIDFriends() == 0) {</b>
+<b class="nc">&nbsp;            return failure;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Check if the user is trying to add themselves as a friend
+<b class="nc">&nbsp;        if (friendship.getUserID() == friendship.getUserIDFriends()) {</b>
+<b class="nc">&nbsp;            return &quot;{\&quot;message\&quot;:\&quot;failure: cannot add yourself as a friend\&quot;}&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Validate that both userID and userIDFriends exist in the user database
+<b class="nc">&nbsp;        User user = userRepository.findById(friendship.getUserID());</b>
+<b class="nc">&nbsp;        User friend = userRepository.findById(friendship.getUserIDFriends());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (user == null || friend == null) {</b>
+<b class="nc">&nbsp;            return &quot;{\&quot;message\&quot;:\&quot;failure: one or both user IDs are invalid\&quot;}&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Set user_name and user_name_friend before saving
+<b class="nc">&nbsp;        friendship.setUserName(user.getUserName());</b>
+<b class="nc">&nbsp;        friendship.setUserNameFriend(friend.getUserName());</b>
+&nbsp;
+<b class="nc">&nbsp;        friendsRepository.save(friendship);</b>
+<b class="nc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Delete a friendship by user IDs.
+&nbsp;     *
+&nbsp;     * @param userID        The ID of the main user.
+&nbsp;     * @param userIDFriends The ID of the friend.
+&nbsp;     * @return A success or failure message.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Delete a friendship&quot;, description = &quot;Delete a friendship by user IDs.&quot;)
+&nbsp;    @DeleteMapping(path = &quot;/friends/delete/{userID}/{userIDFriends}&quot;)
+&nbsp;    public String deleteFriendship(@PathVariable int userID, @PathVariable int userIDFriends) {
+<b class="nc">&nbsp;        Friends friendship = friendsRepository.findByUserIDAndUserIDFriends(userID, userIDFriends);</b>
+<b class="nc">&nbsp;        if (friendship != null) {</b>
+<b class="nc">&nbsp;            friendsRepository.delete(friendship);</b>
+<b class="nc">&nbsp;            return success;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            return failure;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>
