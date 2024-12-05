@@ -40,128 +40,122 @@
         app:layout_constraintTop_toBottomOf="@+id/text_get_user_ID" />
 
     <Button
-        android:id="@+id/button_delete_security"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="20dp"
-        android:text="Delete Security"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/button_delete_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="136dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="20dp"
         android:text="Delete Account"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+        app:layout_constraintBottom_toTopOf="@+id/text_update_security_questions"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/text_update_security_questions"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginTop="544dp"
         android:text="Update Security Questions"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/text_security_question_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_security_question_2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="192dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:text="What was your first job?"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/input_security_answer_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_security_answer_1" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/input_security_answer_1"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/custom_white_text_field"
+
+        android:hint="Answer Here"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/text_security_question_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_security_question_1" />
+
+    <Button
+        android:id="@+id/button_delete_security"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+
+        android:layout_marginBottom="16dp"
+        android:text="Delete Security"
+        app:layout_constraintBottom_toTopOf="@+id/button_answer_2_update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_update_security_questions"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/text_get_response"
+        android:layout_width="125dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="32dp"
+        android:text="Response will appear here"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_answer_2_update" />
 
     <Button
         android:id="@+id/button_answer_2_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Update"
+        app:layout_constraintBottom_toTopOf="@+id/text_get_response"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/input_security_answer_2"
-        app:layout_constraintTop_toBottomOf="@+id/text_security_question_2" />
+        app:layout_constraintTop_toBottomOf="@+id/text_update_security_questions" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/input_security_answer_2"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/custom_white_text_field"
+        android:hint="Answer Here"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_security_question_2"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/text_security_question_1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="372dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="212dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
         android:text="What city were you born in?"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/input_security_answer_1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/input_security_answer_2"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/custom_white_text_field"
-        android:hint="Answer Here"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/button_answer_2_update"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_security_question_2" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/input_security_answer_1"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="120dp"
-        android:background="@drawable/custom_white_text_field"
-        android:hint="Answer Here"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_security_question_1" />
-
-    <TextView
-        android:id="@+id/text_get_response"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:text="Response will appear here"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.453"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_security_answer_2" />
+        app:layout_constraintTop_toBottomOf="@+id/text_update_security_questions" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -176,5 +170,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_navigation"
         tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/button_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/custom_signup_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
