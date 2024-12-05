@@ -1,0 +1,92 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ForgotPasswordRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.com.example.forgotpassword</a>
+</div>
+
+<h1>Coverage Summary for Class: ForgotPasswordRepository (database.com.example.forgotpassword)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ForgotPasswordRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.com.example.forgotpassword;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;/**
+&nbsp; * Repository for managing `ForgotPassword` entities.
+&nbsp; * Provides methods for database operations like retrieving and managing forgot password records.
+&nbsp; */
+&nbsp;@Tag(name = &quot;Forgot Password Repository&quot;, description = &quot;Repository for forgot password database operations.&quot;)
+&nbsp;public interface ForgotPasswordRepository extends JpaRepository&lt;ForgotPassword, String&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Find a forgot password record by email.
+&nbsp;     *
+&nbsp;     * @param email The email to search for.
+&nbsp;     * @return An `Optional&lt;ForgotPassword&gt;` containing the record if found, or empty otherwise.
+&nbsp;     */
+&nbsp;    @Operation(summary = &quot;Find by email&quot;, description = &quot;Retrieve a forgot password record by the user&#39;s email.&quot;)
+&nbsp;    Optional&lt;ForgotPassword&gt; findByemail(String email);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package database.SimilarGenres;
 
+
 import database.GenrePreferences.GenrePreferences;
 import database.User.User;
 import database.User.UserRepository;
@@ -49,6 +50,8 @@ public class SimilarGenresController {
         }
         return similarGenres.getSimilarGenre1() + "," + similarGenres.getSimilarGenre2() + "," + similarGenres.getSimilarGenre3();
     }
+
+
     @Operation(summary = "create simliar genres by user id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "genres created",
