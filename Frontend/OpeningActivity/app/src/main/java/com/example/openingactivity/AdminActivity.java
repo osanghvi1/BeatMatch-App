@@ -18,8 +18,8 @@ public class AdminActivity extends AppCompatActivity implements Request {
     //XML elements
     TextView textViewAdminHeader;
     Button button_admin_return, button_admin_delete_user, button_admin_update_user_status, button_admin_force_leaderboard_refresh, button_admin_delete_user_security;
-    Button button_admin_update_user_name, button_admin_delete_event;
-    EditText input_admin_modify_user, input_admin_new_status, input_admin_new_name, input_admin_event_id;
+    Button button_admin_update_user_name, button_admin_delete_event, button_admin_delete_playlist;
+    EditText input_admin_modify_user, input_admin_new_status, input_admin_new_name, input_admin_event_id, input_admin_playlist_id;
     ExecutorService executorService;
 
     @Override
@@ -40,6 +40,8 @@ public class AdminActivity extends AppCompatActivity implements Request {
         input_admin_new_name = findViewById(R.id.textInput_admin_new_name);
         button_admin_delete_event = findViewById(R.id.button_admin_delete_event);
         input_admin_event_id = findViewById(R.id.textInput_admin_event_id);
+        button_admin_delete_playlist = findViewById(R.id.button_admin_delete_playlist);
+        input_admin_playlist_id = findViewById(R.id.textInput_admin_playlist_id);
 
 
         executorService = Executors.newSingleThreadExecutor();
@@ -200,7 +202,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
                 });
             }
         });
-        
+
         /**
          * This code is for the admin settings delete event button
          * Allows the admin to delete an event from the database
@@ -226,6 +228,37 @@ public class AdminActivity extends AppCompatActivity implements Request {
                     @Override
                     public void run() {
                         String result = sendRequest("DELETE", "/events/delete/" + eventID, null);
+                        //log the result
+                    }
+                });
+            }
+        });
+        
+        /**
+         * This code is for the admin settings delete playlist button
+         * Allows the admin to delete a playlist from the database
+         */
+        button_admin_delete_playlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String playlistID = input_admin_playlist_id.getText().toString();
+                    deletePlaylist(playlistID);
+                } catch (Exception e) {
+                    System.out.println("Invalid ID");
+                }
+            }
+
+            /**
+             * deletes the playlist from the database
+             * @param playlistID the playlist id
+             *                TODO have a backend create the method for deleting the playlist
+             */
+            private void deletePlaylist(String playlistID) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = sendRequest("DELETE", "/playlists/delete/" + playlistID, null);
                         //log the result
                     }
                 });
