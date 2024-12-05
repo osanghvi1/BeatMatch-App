@@ -101,4 +101,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
+    <Button
+        android:id="@+id/button_admin_force_leaderboard_refresh"
+        android:layout_width="131dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="6dp"
+        android:text="Force Leaderboard Refresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_admin_update_user_status" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
