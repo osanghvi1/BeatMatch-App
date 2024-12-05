@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Friends</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">database.Friends</a>
+</div>
+
+<h1>Coverage Summary for Class: Friends (database.Friends)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Friends</td>
+<td class="coverageStat">
+  <span class="percent">
+    9.1%
+  </span>
+  <span class="absValue">
+    (1/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    6.7%
+  </span>
+  <span class="absValue">
+    (1/15)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Friends$HibernateInstantiator$lvEwhT22</td>
+  </tr>
+  <tr>
+    <td class="name">Friends$HibernateProxy$CLPXIgrD</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    9.1%
+  </span>
+  <span class="absValue">
+    (1/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    6.7%
+  </span>
+  <span class="absValue">
+    (1/15)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package database.Friends;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import jakarta.persistence.Entity;
+&nbsp;import jakarta.persistence.GeneratedValue;
+&nbsp;import jakarta.persistence.GenerationType;
+&nbsp;import jakarta.persistence.Id;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a friendship between two users.
+&nbsp; */
+&nbsp;@Entity
+&nbsp;@Schema(description = &quot;Represents a friendship relationship between two users.&quot;)
+&nbsp;public class Friends {
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    @Schema(description = &quot;Unique identifier for the friendship.&quot;, example = &quot;1&quot;)
+&nbsp;    private Long id;
+&nbsp;
+&nbsp;    @Schema(description = &quot;The main user&#39;s ID.&quot;, example = &quot;1001&quot;)
+&nbsp;    private int userID;
+&nbsp;
+&nbsp;    @Schema(description = &quot;The friend&#39;s ID.&quot;, example = &quot;1002&quot;)
+&nbsp;    private int userIDFriends;
+&nbsp;
+&nbsp;    @Schema(description = &quot;The main user&#39;s name.&quot;, example = &quot;John Doe&quot;)
+&nbsp;    private String userName;
+&nbsp;
+&nbsp;    @Schema(description = &quot;The friend&#39;s name.&quot;, example = &quot;Jane Smith&quot;)
+&nbsp;    private String userNameFriend;
+&nbsp;
+<b class="fc">&nbsp;    public Friends() {}</b>
+&nbsp;
+<b class="nc">&nbsp;    public Friends(int userID, int userIDFriends, String userName, String userNameFriend) {</b>
+<b class="nc">&nbsp;        this.userID = userID;</b>
+<b class="nc">&nbsp;        this.userIDFriends = userIDFriends;</b>
+<b class="nc">&nbsp;        this.userName = userName;</b>
+<b class="nc">&nbsp;        this.userNameFriend = userNameFriend;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Long getId() {
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getUserID() {
+<b class="nc">&nbsp;        return userID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUserID(int userID) {
+<b class="nc">&nbsp;        this.userID = userID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getUserIDFriends() {
+<b class="nc">&nbsp;        return userIDFriends;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUserIDFriends(int userIDFriends) {
+<b class="nc">&nbsp;        this.userIDFriends = userIDFriends;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getUserName() {
+<b class="nc">&nbsp;        return userName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUserName(String userName) {
+<b class="nc">&nbsp;        this.userName = userName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getUserNameFriend() {
+<b class="nc">&nbsp;        return userNameFriend;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUserNameFriend(String userNameFriend) {
+<b class="nc">&nbsp;        this.userNameFriend = userNameFriend;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:31</div>
+</div>
+</body>
+</html>
