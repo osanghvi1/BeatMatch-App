@@ -77,6 +77,19 @@
         app:layout_constraintStart_toEndOf="@+id/textInput_admin_modify_user"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
+    <Button
+        android:id="@+id/button_admin_update_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="164dp"
+        android:layout_marginEnd="6dp"
+        android:text="Rename"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toEndOf="@+id/textInput_admin_modify_user"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/textInput_admin_new_status"
         android:layout_width="200dp"
@@ -89,12 +102,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInput_admin_new_name"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="164dp"
+        android:background="@drawable/edittext_background"
+        android:hint="new username"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
     <Button
         android:id="@+id/button_admin_force_leaderboard_refresh"
         android:layout_width="131dp"
         android:layout_height="83dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="4dp"
         android:text="Force Leaderboard Refresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_admin_update_user_status" />
@@ -103,7 +128,7 @@
         android:id="@+id/button_admin_delete_user_security"
         android:layout_width="123dp"
         android:layout_height="84dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="108dp"
         android:layout_marginEnd="20dp"
         android:text="delete user security"
         app:layout_constraintEnd_toStartOf="@+id/button_admin_force_leaderboard_refresh"

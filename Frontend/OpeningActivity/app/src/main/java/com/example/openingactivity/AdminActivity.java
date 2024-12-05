@@ -18,7 +18,8 @@ public class AdminActivity extends AppCompatActivity implements Request {
     //XML elements
     TextView textViewAdminHeader;
     Button button_admin_return, button_admin_delete_user, button_admin_update_user_status, button_admin_force_leaderboard_refresh, button_admin_delete_user_security;
-    EditText input_admin_modify_user, input_admin_new_status;
+    Button button_admin_update_user_name;
+    EditText input_admin_modify_user, input_admin_new_status, input_admin_new_name;
     ExecutorService executorService;
 
     @Override
@@ -35,6 +36,8 @@ public class AdminActivity extends AppCompatActivity implements Request {
         input_admin_new_status = findViewById(R.id.textInput_admin_new_status);
         button_admin_force_leaderboard_refresh = findViewById(R.id.button_admin_force_leaderboard_refresh);
         button_admin_delete_user_security = findViewById(R.id.button_admin_delete_user_security);
+        button_admin_update_user_name = findViewById(R.id.button_admin_update_user_name);
+        input_admin_new_name = findViewById(R.id.textInput_admin_new_name);
 
 
         executorService = Executors.newSingleThreadExecutor();
@@ -165,8 +168,35 @@ public class AdminActivity extends AppCompatActivity implements Request {
                     public void run() {
                         String result = sendRequest("DELETE", "/forgetPassword/" + id, null);
                         //log the result
+                    }
+                });
             }
         });
 
+        /**
+         * This code is for the admin settings update user name button
+         * Allows the admin to update a users name
+         */
+        button_admin_update_user_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newUsername = input_admin_new_name.getText().toString();
+                updateUsername(newUsername);
+            }
+
+            /**
+             * updates the user name in the database
+             * @param newUsername the new username
+             */
+            private void updateUsername(String newUsername) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = sendRequest("PUT", "/users/update/" + newUsername, null);
+                        //log the result
+                    }
+                });
+            }
+        });
     }
 }
