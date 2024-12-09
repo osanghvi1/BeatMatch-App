@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONObject;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -195,19 +197,29 @@ public class AdminActivity extends AppCompatActivity implements Request {
         button_admin_update_user_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String userID = input_admin_modify_user.getText().toString();
                 String newUsername = input_admin_new_name.getText().toString();
-                updateUsername(newUsername);
+                updateUsername(newUsername, userID);
             }
 
             /**
              * updates the user name in the database
              * @param newUsername the new username
              */
-            private void updateUsername(String newUsername) {
+            private void updateUsername(String newUsername, String userID) {
+                JSONObject json = new JSONObject();
+
+                try {
+                    json.put("newUsername", newUsername);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String result = sendRequest("PUT", "/users/update/" + newUsername, null);
+                        String result = sendRequest("PUT", "/user/edit/" + userID , json.toString());
                         //log the result
                     }
                 });
