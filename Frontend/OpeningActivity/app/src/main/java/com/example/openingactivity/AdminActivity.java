@@ -120,14 +120,23 @@ public class AdminActivity extends AppCompatActivity implements Request {
 
             /**
              * updates the user status in the database
-             * @param id the users id
+             * @param userID the users id
              * @param newStatus the users new status (1, 2 or 3) all users default to 1.
              */
-            private void updateUserStatus(int id, int newStatus) {
+            private void updateUserStatus(int userID, int newStatus) {
+
+                JSONObject json = new JSONObject();
+
+                try {
+                    json.put("accountStatus", newStatus);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String result = sendRequest("PUT", "/users/update/" + id + "/" + newStatus, null);
+                        String result = sendRequest("PUT", "/user/edit/" + userID , json.toString());
                         //log the result
                         System.out.println(result);
                     }
@@ -210,7 +219,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
                 JSONObject json = new JSONObject();
 
                 try {
-                    json.put("newUsername", newUsername);
+                    json.put("userName", newUsername);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
