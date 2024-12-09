@@ -6,14 +6,28 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class EventsActivity extends AppCompatActivity implements Request {
+    private ArrayList<Event> eventList;
+    private RecyclerView recyclerView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+        recyclerView = findViewById(R.id.EVENTVIEW);
+        eventList = new ArrayList<>();
+        
+        setEventInfo();
+        setAdapter();
         
         /**
          * Bottom navigation bar setup & functionality
@@ -59,6 +73,22 @@ public class EventsActivity extends AppCompatActivity implements Request {
         });
 
 
+
+
+    }
+
+    private void setAdapter() {
+        RecyclerAdapter adapter = new RecyclerAdapter(eventList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setEventInfo() {
+        eventList.add(new Event("Event 1", "Host 1", "Location 1", "Date 1"));
+        eventList.add(new Event("Event 2", "Host 2", "Location 2", "Date 2"));
+        eventList.add(new Event("Event 3", "Host 3", "Location 3", "Date 3"));
 
 
     }
