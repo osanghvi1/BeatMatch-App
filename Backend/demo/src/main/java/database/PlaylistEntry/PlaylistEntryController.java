@@ -26,17 +26,14 @@ public class PlaylistEntryController {
         int playlistId = entry.getPlaylistId();
 
         //Get info from potential entry already in database
-        int dbSongId = playlistEntryRepository.findByPlaylistIdAndSongEntryId(playlistId, songId).getSongEntryId();
-        int dbPlaylistId = playlistEntryRepository.findByPlaylistIdAndSongEntryId(playlistId, songId).getPlaylistId();
+        PlaylistEntry dbEntry = playlistEntryRepository.findByPlaylistIdAndSongEntryId(playlistId, songId);
 
         //if they don't send over an entry correctly
         if(entry == null){
             return "Invalid Playlist Entry";
         }
-        else if(songId == dbSongId && playlistId == dbPlaylistId){
-            //replace with some exception later
-            //about duplicate stuff
-            return "Entry already exists in playlist";
+        else if(dbEntry != null){
+            return "Entry already Exists in database";
         }
         else{
             playlistEntryRepository.save(entry);
