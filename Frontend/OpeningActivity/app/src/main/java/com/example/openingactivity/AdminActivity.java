@@ -334,7 +334,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        String result = sendRequest("PUT", "/users/" + ID + "/ban", null);
+                        String result = sendRequest("PUT", "/users/update/" + ID + "/-1", null);
                         //log the result
                         System.out.println(result);
                     }
