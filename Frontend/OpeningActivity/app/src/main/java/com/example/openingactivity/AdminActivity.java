@@ -18,7 +18,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
     //XML elements
     TextView textViewAdminHeader;
     Button button_admin_return, button_admin_delete_user, button_admin_update_user_status, button_admin_force_leaderboard_refresh, button_admin_delete_user_security;
-    Button button_admin_update_user_name, button_admin_delete_event, button_admin_delete_playlist;
+    Button button_admin_update_user_name, button_admin_delete_event, button_admin_delete_playlist, button_admin_ban_user;
     EditText input_admin_modify_user, input_admin_new_status, input_admin_new_name, input_admin_event_id, input_admin_playlist_id;
     ExecutorService executorService;
 
@@ -47,6 +47,7 @@ public class AdminActivity extends AppCompatActivity implements Request {
         input_admin_event_id = findViewById(R.id.textInput_admin_event_id);
         button_admin_delete_playlist = findViewById(R.id.button_admin_delete_playlist);
         input_admin_playlist_id = findViewById(R.id.textInput_admin_playlist_id);
+        button_admin_ban_user = findViewById(R.id.button_admin_ban_user);
 
         /* Commented out for now, may not be used in the future, tbd
         button_admin_delete_groupchat = findViewById(R.id.button_admin_delete_groupchat);
@@ -307,5 +308,38 @@ public class AdminActivity extends AppCompatActivity implements Request {
             }
         });
             */
+
+
+        /**
+         * This code is for the admin settings ban user button
+         * Allows an admin to ban a user by ID, banning prevents an account from logging in, but does
+         * NOT delete the account from the database
+         */
+        button_admin_ban_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    int ID = Integer.parseInt(input_admin_modify_user.getText().toString());
+                    banUser(ID);
+                } catch (Exception e) {
+                    System.out.println("Invalid ID");
+                    }
+            }
+
+            /**
+             * bans the user from the database
+             * @param ID of user to ban
+             */
+            private void banUser(int ID) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = sendRequest("PUT", "/users/" + ID + "/ban", null);
+                        //log the result
+                        System.out.println(result);
+                    }
+                });
+            }
+        });
     }
 }
