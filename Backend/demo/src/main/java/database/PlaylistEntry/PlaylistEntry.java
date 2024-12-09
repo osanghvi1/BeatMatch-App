@@ -1,12 +1,16 @@
 package database.PlaylistEntry;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class PlaylistEntry {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int tableEntryId;
     private int playlistId;
     private String playlistName;
     private String playlistDescription;
