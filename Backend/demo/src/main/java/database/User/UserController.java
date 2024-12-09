@@ -1,5 +1,6 @@
 package database.User;
 
+import database.GenrePreferences.GenrePreferences;
 import database.Notifications.NotificationService;
 import database.DislikedSongs.DislikedSongs;
 import database.DislikedSongs.DislikedSongsRepository;
@@ -13,12 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -210,6 +206,45 @@ import java.util.Set;
         }
         userRepository.save(user);
         return user.getUserID();
+    }
+
+
+    @PutMapping(path = "/user/edit/{uid}")
+    String editGenrePreferences(@PathVariable int uid, @RequestBody User userToModify){
+        User user = userRepository.findById(uid);
+        String newFirstname = userToModify.getFirstName();
+        String newLastname = userToModify.getLastName();
+        String newUsername = userToModify.getUserName();
+        String newPassword = userToModify.getPassword();
+        int newAccountVisibility = userToModify.getAccountVisibility();
+        int newAccountStatus = userToModify.getAccountStatus();
+
+
+        if (user == null){
+            return "Edit : Failure";
+        }
+        else{
+            if (newFirstname != null){
+                user.setFirstName(newFirstname);
+            }
+            if (newLastname != null){
+                user.setLastName(newLastname);
+            }
+            if (newUsername != null){
+                user.setUserName(newUsername);
+            }
+            if (newPassword != null){
+                user.setPassword(newPassword);
+            }
+            if(newAccountVisibility != user.getAccountVisibility()){
+                user.setAccountVisibility(newAccountVisibility);
+            }
+            if(newAccountStatus != user.getAccountStatus()){
+                user.setAccountStatus(newAccountStatus);
+            }
+            userRepository.save(user);
+            return "Edit : Success";
+        }
     }
 
     @Operation(summary = "Delete a user")
