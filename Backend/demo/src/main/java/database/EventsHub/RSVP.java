@@ -1,60 +1,64 @@
 package database.EventsHub;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import database.User.User;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "event_rsvp")
 public class RSVP {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rsvp_id")
-    private Long rsvpId;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id", nullable = false)
-    @JsonBackReference
-    private EventsHub event;
+    private String userName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private String email;
 
-    @Column(name = "rsvp_status", nullable = false)
-    private String rsvpStatus;
+    private String response;
 
-    // Default constructor
-    public RSVP() {}
+    private LocalDateTime rsvpTime;
 
-    // Parameterized constructor
-    public RSVP(EventsHub event, User user, String rsvpStatus) {
-        this.event = event;
-        this.user = user;
-        this.rsvpStatus = rsvpStatus;
+    public RSVP() {
+        this.rsvpTime = LocalDateTime.now();
     }
 
     // Getters and Setters
-    public Long getRsvpId() { return rsvpId; }
-    public void setRsvpId(Long rsvpId) { this.rsvpId = rsvpId; }
+    public Long getId() {
+        return id;
+    }
 
-    public EventsHub getEvent() { return event; }
-    public void setEvent(EventsHub event) { this.event = event; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public String getUserName() {
+        return userName;
+    }
 
-    public String getRsvpStatus() { return rsvpStatus; }
-    public void setRsvpStatus(String rsvpStatus) { this.rsvpStatus = rsvpStatus; }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-    @Override
-    public String toString() {
-        return "RSVP{" +
-                "rsvpId=" + rsvpId +
-                ", event=" + (event != null ? event.getEventId() : null) +
-                ", user=" + (user != null ? user.getUserID() : null) +
-                ", rsvpStatus='" + rsvpStatus + '\'' +
-                '}';
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public LocalDateTime getRsvpTime() {
+        return rsvpTime;
+    }
+
+    public void setRsvpTime(LocalDateTime rsvpTime) {
+        this.rsvpTime = rsvpTime;
     }
 }
