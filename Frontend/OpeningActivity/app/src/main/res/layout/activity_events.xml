@@ -27,10 +27,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/EVENTVIEW"
             android:layout_width="match_parent"
             android:layout_height="600dp"
+            android:background="#25757575"
             android:layout_marginTop="12dp"
-            android:background="#FFFFFF"
 
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
     </androidx.constraintlayout.widget.ConstraintLayout>
