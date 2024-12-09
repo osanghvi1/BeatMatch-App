@@ -1,26 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1C1C1C"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".LeaderboardActivity" >
+    android:background="@color/black"
+    tools:context=".LeaderboardActivity">
 
+    <!-- Title for Leaderboard -->
+    <TextView
+        android:id="@+id/leaderboardTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Top 10 Leaderboard"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <!-- Container for the leaderboard -->
+    <LinearLayout
+        android:id="@+id/leaderboard_container"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation"
-        app:labelVisibilityMode="labeled"
-        app:itemBackground="@android:color/transparent"
-        app:itemIconTint="@drawable/selector"
-        app:itemTextColor="@drawable/selector"
-        android:background="#7E484848" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:padding="16dp"
+        android:layout_gravity="center"
+        android:elevation="4dp"
+        android:layout_marginHorizontal="32dp"
+        android:clipToPadding="true"
+        android:backgroundTint="@android:color/black"
+        android:backgroundTintMode="add"
+        android:radius="15dp">
 
-</RelativeLayout>
+        <!-- RecyclerView for the leaderboard -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/leaderboard_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <!-- Bottom Navigation Bar -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/menu_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/black"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/menu_navigation" />
+
+</LinearLayout>
+
