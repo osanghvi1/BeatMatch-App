@@ -14,28 +14,28 @@ public class Event {
     }
 
     // Getters and setters for the event attributes
-    public String getName() {
+    public String getEventName() {
         return name;
     }
-    public String getHost() {
+    public String getEventHost() {
         return host;
     }
-    public String getLocation() {
+    public String getEventLocation() {
         return location;
         }
-    public String getDate() {
+    public String getEventDate() {
         return date;
     }
-    public void setName(String name) {
+    public void setEventName(String name) {
         this.name = name;
     }
-    public void setHost(String host) {
+    public void setEventHost(String host) {
         this.host = host;
     }
-    public void setLocation(String location) {
+    public void setEventLocation(String location) {
         this.location = location;
     }
-    public void setDate(String date) {
+    public void setEventDate(String date) {
         this.date = date;
     }
 }
