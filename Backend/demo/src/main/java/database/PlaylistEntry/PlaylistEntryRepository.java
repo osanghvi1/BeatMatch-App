@@ -7,10 +7,10 @@ import java.util.List;
 public interface PlaylistEntryRepository extends JpaRepository<PlaylistEntry, Integer> {
 
     //to check if an entry in a specific playlist has already been added
-    PlaylistEntry findEntryByPidAndSid(int pid, int sid);
+    PlaylistEntry findByPlaylistIdAndSongEntryId(int playlistId, int songEntryId);
 
     //get all the songs in a playlist
-    List<PlaylistEntry> getPlaylist(int pid);
+    List<PlaylistEntry> getPlaylistEntriesByPlaylistId(int playlistId);
 
 
 

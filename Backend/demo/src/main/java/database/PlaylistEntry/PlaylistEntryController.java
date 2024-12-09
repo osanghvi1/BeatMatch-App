@@ -1,6 +1,5 @@
 package database.PlaylistEntry;
 
-import database.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ public class PlaylistEntryController {
     //Will essentially return the songs in a playlist
     @GetMapping(path = "/playlistEntry/{pid}")
     public List<PlaylistEntry> getPlaylistEntry(@PathVariable int pid) {
-        return playlistEntryRepository.getPlaylist(pid);
+        return playlistEntryRepository.getPlaylistEntriesByPlaylistId(pid);
     }
 
     //create a song entry
@@ -27,8 +26,8 @@ public class PlaylistEntryController {
         int playlistId = entry.getPlaylistId();
 
         //Get info from potential entry already in database
-        int dbSongId = playlistEntryRepository.findEntryByPidAndSid(playlistId, songId).getSongEntryId();
-        int dbPlaylistId = playlistEntryRepository.findEntryByPidAndSid(playlistId, songId).getPlaylistId();
+        int dbSongId = playlistEntryRepository.findByPlaylistIdAndSongEntryId(playlistId, songId).getSongEntryId();
+        int dbPlaylistId = playlistEntryRepository.findByPlaylistIdAndSongEntryId(playlistId, songId).getPlaylistId();
 
         //if they don't send over an entry correctly
         if(entry == null){
@@ -49,13 +48,13 @@ public class PlaylistEntryController {
     //delete a song entry
     @DeleteMapping(path = "/playlistEntry/delete/{pid}/{sid}")
     String deleteSongEntry(@PathVariable int pid, @PathVariable int sid) {
-        PlaylistEntry entry = playlistEntryRepository.findEntryByPidAndSid(pid, sid);
+        PlaylistEntry entry = playlistEntryRepository.findByPlaylistIdAndSongEntryId(pid, sid);
         if (entry == null) {
             return "Playlist Entry does not exist";
         }
         else{
             playlistEntryRepository.delete(entry);
-            if(playlistEntryRepository.findEntryByPidAndSid(entry.getPlaylistId(), entry.getSongEntryId()) == null){
+            if(playlistEntryRepository.findByPlaylistIdAndSongEntryId(entry.getPlaylistId(), entry.getSongEntryId()) == null){
                 return "Deleted playlist entry";
             }
             return "Delete Failure";
