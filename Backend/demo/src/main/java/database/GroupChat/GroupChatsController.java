@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/groupchats")
@@ -80,17 +82,29 @@ public class GroupChatsController {
         return ResponseEntity.ok(groupChat);
     }
 
-    /**
-     * Get all group chats.
-     *
-     * @return List of all group chats.
-     */
     @GetMapping
-    @Operation(summary = "Get All Group Chats", description = "Retrieve all group chats.")
-    public ResponseEntity<List<GroupChats>> getAllGroupChats() {
+    @Operation(summary = "Get all group chats", description = "Retrieve all group chats with simplified user data.")
+    public ResponseEntity<List<Map<String, Object>>> getAllGroupChats() {
         List<GroupChats> groupChats = groupChatsRepository.findAll();
-        return ResponseEntity.ok(groupChats);
+
+        List<Map<String, Object>> response = groupChats.stream().map(groupChat -> {
+            Map<String, Object> groupChatMap = new HashMap<>();
+            groupChatMap.put("id", groupChat.getId());
+            groupChatMap.put("groupName", groupChat.getGroupName());
+            groupChatMap.put("groupImage", groupChat.getGroupImage());
+
+            // Simplify user details
+            List<String> simplifiedUsers = groupChat.getUsers().stream()
+                    .map(User::getUserName) // Only keep the username
+                    .toList();
+            groupChatMap.put("users", simplifiedUsers);
+
+            return groupChatMap;
+        }).toList();
+
+        return ResponseEntity.ok(response);
     }
+
 
     /**
      * Get a specific group chat by ID.
