@@ -204,8 +204,18 @@
         android:layout_width="123dp"
         android:layout_height="84dp"
         android:layout_marginTop="108dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="8dp"
         android:text="delete user security"
+        app:layout_constraintEnd_toStartOf="@+id/button_admin_force_leaderboard_refresh"
+        app:layout_constraintTop_toBottomOf="@+id/textInput_admin_new_status" />
+
+    <Button
+        android:id="@+id/button_admin_ban_user"
+        android:layout_width="99dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="136dp"
+        android:text="ban user"
         app:layout_constraintEnd_toStartOf="@+id/button_admin_force_leaderboard_refresh"
         app:layout_constraintTop_toBottomOf="@+id/textInput_admin_new_status" />
 
