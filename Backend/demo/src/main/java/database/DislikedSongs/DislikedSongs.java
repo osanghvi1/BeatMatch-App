@@ -1,5 +1,6 @@
 package database.DislikedSongs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import database.User.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
@@ -17,6 +18,7 @@ public class DislikedSongs {
 
     //collection of users who liked specific song
     @ManyToMany(mappedBy = "dislikedSongs")
+    @JsonIgnore
     private Set<User> dislikedUsers = new HashSet<>();
 
 
