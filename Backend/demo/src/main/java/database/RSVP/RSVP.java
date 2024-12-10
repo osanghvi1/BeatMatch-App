@@ -1,4 +1,4 @@
-package database.EventsHub;
+package database.RSVP;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
