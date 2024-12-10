@@ -41,6 +41,10 @@ public interface LikedSongRepository extends JpaRepository<LikedSongs, Long> {
      *         - `song_id` (Long): The ID of the song.
      *         - `likes` (Long): The total number of likes the song has received.
      */
-    @Query(value = "SELECT song_id, COUNT(user_id) AS likes FROM user_like_song_mapping GROUP BY song_id ORDER BY likes DESC LIMIT 10", nativeQuery = true)
-    List<Object[]> findTopLikedSongs();
+    @Query(value = "SELECT song_id, COUNT(user_id) AS likes " +
+            "FROM user_like_song_mapping " +
+            "GROUP BY song_id " +
+            "ORDER BY likes DESC " +
+            "LIMIT :limit", nativeQuery = true)
+    List<Object[]> findTopLikedSongs(int limit);
 }

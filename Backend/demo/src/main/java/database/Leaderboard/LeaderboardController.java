@@ -1,15 +1,12 @@
 package database.Leaderboard;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 
-/**
- * Controller for managing the leaderboard.
- */
 @RestController
 @RequestMapping("/leaderboard")
 @Tag(name = "Leaderboard API", description = "Handles leaderboard retrieval and reset operations.")
@@ -18,26 +15,19 @@ public class LeaderboardController {
     @Autowired
     private LeaderboardService leaderboardService;
 
-    @Autowired
-    private LeaderboardRepository leaderboardRepository;
-
-    /**
-     * Retrieve the current leaderboard.
-     *
-     * @return A list of `Leaderboard` entries.
-     */
-    @Operation(summary = "Get leaderboard", description = "Retrieve the current leaderboard with all song rankings.")
-    @GetMapping
-    public List<Leaderboard> getLeaderboard() {
-        return leaderboardRepository.findAll();
+    @Operation(summary = "Get top 10 leaderboard", description = "Retrieve the top 10 leaderboard entries.")
+    @GetMapping("/top/10")
+    public List<Leaderboard> getTop10Leaderboard() {
+        return leaderboardService.getLeaderboard(10);
     }
 
-    /**
-     * Reset and update the leaderboard.
-     *
-     * @return A success message indicating the leaderboard was reset.
-     */
-    @Operation(summary = "Reset leaderboard", description = "Resets the leaderboard and recalculates song rankings.")
+    @Operation(summary = "Get top 100 leaderboard", description = "Retrieve the top 100 leaderboard entries.")
+    @GetMapping("/top/100")
+    public List<Leaderboard> getTop100Leaderboard() {
+        return leaderboardService.getLeaderboard(100);
+    }
+
+    @Operation(summary = "Reset leaderboard", description = "Resets the leaderboard and updates it with the latest data.")
     @PostMapping("/reset")
     public String resetLeaderboard() {
         leaderboardService.resetLeaderboard();
