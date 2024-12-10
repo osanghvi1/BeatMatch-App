@@ -1,5 +1,6 @@
 package database.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import database.DislikedSongs.DislikedSongs;
 import database.GenrePreferences.GenrePreferences;
 import database.LikedSongs.LikedSongs;
@@ -34,6 +35,7 @@ public class User {
             name = "user_dislikeSong_mapping",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id"))
+    @JsonIgnore
     private Set<DislikedSongs> dislikedSongs = new HashSet<>();
 
     //collection holds liked songs
@@ -42,6 +44,7 @@ public class User {
             name = "user_likeSong_mapping",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id"))
+    @JsonIgnore
     private Set<LikedSongs> likedSongs = new HashSet<>();
 
     public User(String firstName, String lastName, String email, String username, String password, int accountVisibility, int accountStatus) {

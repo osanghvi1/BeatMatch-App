@@ -82,9 +82,8 @@ import java.util.Set;
             @ApiResponse(responseCode = "400", description = "Invalid id supplied",
                     content = @Content)})
     @GetMapping(path = "users/dislikedSongs/{id}")
-    public List<DislikedSongs> getDislikedSongsByUser(@PathVariable int id){
-        Set<DislikedSongs> dislikedSongs = userRepository.findById(id).getDislikedSongs();
-        return new ArrayList<>(dislikedSongs);
+    public Set<DislikedSongs> getDislikedSongsByUser(@PathVariable int id){
+        return userRepository.findById(id).getDislikedSongs();
     }
 
     @Operation(summary = "Get liked songs by user")
@@ -95,9 +94,8 @@ import java.util.Set;
             @ApiResponse(responseCode = "400", description = "Invalid id supplied",
                     content = @Content)})
     @GetMapping(path = "users/likedSongs/{id}")
-    public List<LikedSongs> getLikedSongsByUser(@PathVariable int id){
-        Set<LikedSongs> likedSongs = userRepository.findById(id).getLikedSongs();
-        return new ArrayList<>(likedSongs);
+    public Set<LikedSongs> getLikedSongsByUser(@PathVariable int id){
+        return userRepository.findById(id).getLikedSongs();
     }
 
 
