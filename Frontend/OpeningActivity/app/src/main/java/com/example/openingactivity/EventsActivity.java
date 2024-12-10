@@ -93,18 +93,27 @@ public class EventsActivity extends AppCompatActivity implements Request {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Sets the event info for the events
+     * Will have a GET method here to pull all events from the server
+     * for now it has 6 dummy events
+     */
     private void setEventInfo() {
-        Drawable thumbnail1 = ContextCompat.getDrawable(this, R.drawable.gradient_background3);
-        Drawable thumbnail2 = ContextCompat.getDrawable(this, R.drawable.gradient_background4);
-        Drawable thumbnail3 = ContextCompat.getDrawable(this, R.drawable.gradient_background2);
+        // Dummy Images to choose from
+        Drawable thumbnail1 = ContextCompat.getDrawable(this, R.mipmap.ic_concert1_foreground);
+        Drawable thumbnail2 = ContextCompat.getDrawable(this, R.mipmap.ic_concert2_foreground);
+        Drawable thumbnail3 = ContextCompat.getDrawable(this, R.mipmap.ic_concert3_foreground);
+        Drawable thumbnail4 = ContextCompat.getDrawable(this, R.mipmap.ic_concert4_foreground);
+        Drawable thumbnail5 = ContextCompat.getDrawable(this, R.mipmap.ic_concert5_foreground);
+        Drawable thumbnail6 = ContextCompat.getDrawable(this, R.mipmap.ic_concert6_foreground);
 
-
-        eventList.add(new Event("Event 1", "Host 1", "Location 1", "Date 1", thumbnail1, 10));
-        eventList.add(new Event("Event 2", "Host 2", "Location 2", "Date 2", thumbnail2, 20));
-        eventList.add(new Event("Event 3", "Host 3", "Location 3", "Date 3", thumbnail3, 45));
-        eventList.add(new Event("Event 4", "Host 4", "Location 4", "Date 4", thumbnail1, 15));
-        eventList.add(new Event("Event 5", "Host 5", "Location 5", "Date 5", thumbnail2, 35));
-        eventList.add(new Event("Event 6", "Host 6", "Location 6", "Date 6", thumbnail3, 70));
+        // Dummy Events
+        eventList.add(new Event("Windy City Music", "Kanye West", "Chicago, IL", "Jan 3 - 4, 2023", thumbnail1, 10));
+        eventList.add(new Event("Pablo's Epic Music", "Pablo Picasso", "Venice, Italy", "Jun 5, 2024", thumbnail2, 20));
+        eventList.add(new Event("DJ DRAMA HUB", "DJ DRAMA", "Palm Springs, FL", "May 10, 2024", thumbnail3, 45));
+        eventList.add(new Event("Lalapalooza 2024", "Good Morning America", "New York, NY", "July 15, 2025", thumbnail4, 15));
+        eventList.add(new Event("Kasson's bash", "Kasson, The Creator", "Omaha, NE", "Jan 31, 2025", thumbnail5, 35));
+        eventList.add(new Event("Om's Music Festival", "DJ OM", "Om's house", "Feb 15, 2025", thumbnail6, 70));
 
 
 

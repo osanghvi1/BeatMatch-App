@@ -45,7 +45,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             eventThumbnail = itemView.findViewById(R.id.imageView_event_thumbnail);
             joinButton = itemView.findViewById(R.id.button_event_join);
             cost = itemView.findViewById(R.id.textView_event_price);
-            
+
             executorService = Executors.newSingleThreadExecutor();
         }
     }
