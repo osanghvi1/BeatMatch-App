@@ -79,13 +79,10 @@ public class EventsActivity extends AppCompatActivity implements Request {
             }
         });
 
-        /*buttonAddEvent.setOnClickListener(v -> {
+        buttonAddEvent.setOnClickListener(v -> {
             // Handle add event button click
-            Intent myIntent = new Intent(this, AddEventActivity.class);
-            startActivity(myIntent);
+            // Create a popup menu or dialog to allow the user to add a new event
         });
-
-         */
     }
 
     private void setAdapter() {
