@@ -109,7 +109,10 @@ public class EventsActivity extends AppCompatActivity implements Request {
 
     }
 
-
+    /**
+     * Sets the adapter for the recycler view
+     * This is called AFTER the ArrayList is filled with Event information
+     */
     private void setAdapter() {
         RecyclerAdapter adapter = new RecyclerAdapter(eventList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -167,10 +170,6 @@ public class EventsActivity extends AppCompatActivity implements Request {
                 }
             }
         });
-
-
-
-
 
 
     }
