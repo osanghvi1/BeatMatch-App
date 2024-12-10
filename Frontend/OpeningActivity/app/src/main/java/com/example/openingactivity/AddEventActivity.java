@@ -41,6 +41,10 @@ public class AddEventActivity extends AppCompatActivity implements Request{
         editTextEventImage = findViewById(R.id.editText_event_image);
         executorService = Executors.newSingleThreadExecutor();
 
+        /**
+         * Create Event listener
+         * Takes all inputted text and fills a JSONObject to send as a POST to backend.
+         */
         buttonCreate.setOnClickListener(v -> {
             // Create a new event object
             String eventName = editTextEventName.getText().toString();
@@ -50,7 +54,7 @@ public class AddEventActivity extends AppCompatActivity implements Request{
             int eventCost = Integer.parseInt(editTextEventImage.getText().toString());
 
             Drawable eventImage;
-            // case switch for all image choices 1 through 6
+            // case switch for all image choices 1 through 6, this shit is obnoxiously complicated, need to fix later probs
             switch (editTextEventImage.getText().toString()) {
                 case "1":
                     eventImage = getDrawable(R.mipmap.ic_concert1_foreground);
@@ -74,9 +78,6 @@ public class AddEventActivity extends AppCompatActivity implements Request{
                     eventImage = getDrawable(R.mipmap.ic_concert1_foreground);
                     break;
             }
-                Event event = new Event(eventName, eventHost, eventLocation, eventDate, eventImage, eventCost);
-                // Add the event to the event list
-                //post method to add event to server
 
                 JSONObject eventJSON = new JSONObject();
 
@@ -104,6 +105,9 @@ public class AddEventActivity extends AppCompatActivity implements Request{
 
         });
 
+        /**
+         * Cancel button finishes activity
+         */
         buttonCancel.setOnClickListener(v -> {
             // Go back to the previous activity
             finish();
