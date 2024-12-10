@@ -29,7 +29,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/EVENTVIEW"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="550dp"
             android:background="#25757575"
             android:layout_marginTop="12dp"
 
@@ -39,11 +39,11 @@
             android:id="@+id/imageButton_event_add"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="35dp"
+            android:layout_marginEnd="156dp"
+            android:layout_marginBottom="16dp"
             android:background="#00FFFFFF"
-            android:scaleType="fitCenter"
             android:contentDescription="add new event"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_menu_add" />
