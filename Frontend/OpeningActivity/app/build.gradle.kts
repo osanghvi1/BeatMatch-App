@@ -43,6 +43,8 @@ dependencies {
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.google.android.material:material:1.0.0")
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation ("androidx.recyclerview:recyclerview:1.3.0")
 
     // GSON Converter for parsing JSON data
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
