@@ -15,22 +15,37 @@ public class LeaderboardController {
     @Autowired
     private LeaderboardService leaderboardService;
 
-    @Operation(summary = "Get top 10 leaderboard", description = "Retrieve the top 10 leaderboard entries.")
+    /**
+     * Retrieve the top 10 leaderboard.
+     *
+     * @return A list of top 10 `Leaderboard` entries.
+     */
+    @Operation(summary = "Get top 10 leaderboard", description = "Retrieve the top 10 songs from the leaderboard.")
     @GetMapping("/top/10")
     public List<Leaderboard> getTop10Leaderboard() {
-        return leaderboardService.getLeaderboard(10);
+        return leaderboardService.getTop10Leaderboard();
     }
 
-    @Operation(summary = "Get top 100 leaderboard", description = "Retrieve the top 100 leaderboard entries.")
+    /**
+     * Retrieve the top 100 leaderboard.
+     *
+     * @return A list of top 100 `Leaderboard` entries.
+     */
+    @Operation(summary = "Get top 100 leaderboard", description = "Retrieve the top 100 songs from the leaderboard.")
     @GetMapping("/top/100")
     public List<Leaderboard> getTop100Leaderboard() {
-        return leaderboardService.getLeaderboard(100);
+        return leaderboardService.getTop100Leaderboard();
     }
 
-    @Operation(summary = "Reset leaderboard", description = "Resets the leaderboard and updates it with the latest data.")
+    /**
+     * Reset and update the leaderboards.
+     *
+     * @return A success message indicating the leaderboards were reset.
+     */
+    @Operation(summary = "Reset leaderboards", description = "Resets the top 10 and top 100 leaderboards.")
     @PostMapping("/reset")
-    public String resetLeaderboard() {
+    public String resetLeaderboards() {
         leaderboardService.resetLeaderboard();
-        return "{\"message\": \"Leaderboard reset successfully\"}";
+        return "{\"message\": \"Leaderboards reset successfully\"}";
     }
 }
