@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,12 +22,15 @@ public class EventsActivity extends AppCompatActivity implements Request {
     private ArrayList<Event> eventList;
     private RecyclerView recyclerView;
 
+    private ImageButton buttonAddEvent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
         recyclerView = findViewById(R.id.EVENTVIEW);
+        buttonAddEvent = findViewById(R.id.imageButton_event_add);
         eventList = new ArrayList<>();
         
         setEventInfo();
@@ -74,9 +79,11 @@ public class EventsActivity extends AppCompatActivity implements Request {
             }
         });
 
-
-
-
+        buttonAddEvent.setOnClickListener(v -> {
+            // Handle add event button click
+            Intent myIntent = new Intent(this, AddEventActivity.class);
+            startActivity(myIntent);
+        });
     }
 
     private void setAdapter() {
@@ -96,6 +103,12 @@ public class EventsActivity extends AppCompatActivity implements Request {
         eventList.add(new Event("Event 1", "Host 1", "Location 1", "Date 1", thumbnail1));
         eventList.add(new Event("Event 2", "Host 2", "Location 2", "Date 2", thumbnail2));
         eventList.add(new Event("Event 3", "Host 3", "Location 3", "Date 3", thumbnail3));
+        eventList.add(new Event("Event 4", "Host 4", "Location 4", "Date 4", thumbnail1));
+        eventList.add(new Event("Event 5", "Host 5", "Location 5", "Date 5", thumbnail2));
+        eventList.add(new Event("Event 6", "Host 6", "Location 6", "Date 6", thumbnail3));
+
+
+
 
 
     }
