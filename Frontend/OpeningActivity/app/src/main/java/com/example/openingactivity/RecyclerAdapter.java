@@ -67,7 +67,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             @Override
             public void onClick(View v) {
                 // Make a toast saying which event was clicked
-                Toast.makeText(v.getContext(), "Joined " + eventName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "You've RSVP'd to " + eventName + "!", Toast.LENGTH_SHORT).show();
             }
         });
     }
