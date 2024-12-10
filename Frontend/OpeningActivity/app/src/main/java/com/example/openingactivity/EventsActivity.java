@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -30,20 +31,23 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class EventsActivity extends AppCompatActivity implements Request {
-    public ArrayList<Event> eventList;
+    public static ArrayList<Event> eventList;
     private RecyclerView recyclerView;
     private ImageButton buttonAddEvent;
 
     ExecutorService executorService;
+    private float currentRotation = 0f;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+        buttonAddEvent = findViewById(R.id.imageButton_event_add);
         buttonAddEvent.setVisibility(View.GONE);
         recyclerView = findViewById(R.id.EVENTVIEW);
-        buttonAddEvent = findViewById(R.id.imageButton_event_add);
+
 
         // If the user is an admin, show the add event button
         if (user.getUserID() == 72) {
@@ -102,6 +106,7 @@ public class EventsActivity extends AppCompatActivity implements Request {
                 }
             }
         });
+
     }
 
 
@@ -111,6 +116,7 @@ public class EventsActivity extends AppCompatActivity implements Request {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -142,8 +148,8 @@ public class EventsActivity extends AppCompatActivity implements Request {
             public void run() {
                 try {
                    String result = sendRequest("GET", "/events", null);
-                    // TODO ask om to return a sequence of events
-                    //parse the JSON body to return user IDS
+                    // TODO ask om to return all events
+                    //parse the JSON body to return event info
                     JSONArray json = new JSONArray(result);
                     for (int i = 0; i < json.length(); i++) {
                         JSONObject event = json.getJSONObject(i);
