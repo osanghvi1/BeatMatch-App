@@ -3,9 +3,15 @@ package com.example.openingactivity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,21 +22,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class EventsActivity extends AppCompatActivity implements Request {
-    private ArrayList<Event> eventList;
+    public ArrayList<Event> eventList;
     private RecyclerView recyclerView;
-
     private ImageButton buttonAddEvent;
+
+    ExecutorService executorService;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+        buttonAddEvent.setVisibility(View.GONE);
         recyclerView = findViewById(R.id.EVENTVIEW);
         buttonAddEvent = findViewById(R.id.imageButton_event_add);
+
+        // If the user is an admin, show the add event button
+        if (user.getUserID() == 72) {
+            buttonAddEvent.setVisibility(View.VISIBLE);
+            buttonAddEvent.setOnClickListener(v -> {
+                Intent intent = new Intent(EventsActivity.this, AddEventActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        executorService = Executors.newSingleThreadExecutor();
         eventList = new ArrayList<>();
         
         setEventInfo();
@@ -78,12 +102,8 @@ public class EventsActivity extends AppCompatActivity implements Request {
                 }
             }
         });
-
-        buttonAddEvent.setOnClickListener(v -> {
-            // Handle add event button click
-            // Create a popup menu or dialog to allow the user to add a new event
-        });
     }
+
 
     private void setAdapter() {
         RecyclerAdapter adapter = new RecyclerAdapter(eventList);
@@ -114,6 +134,34 @@ public class EventsActivity extends AppCompatActivity implements Request {
         eventList.add(new Event("Lalapalooza 2024", "Good Morning America", "New York, NY", "July 15, 2025", thumbnail4, 15));
         eventList.add(new Event("Kasson's bash", "Kasson, The Creator", "Omaha, NE", "Jan 31, 2025", thumbnail5, 35));
         eventList.add(new Event("Om's Music Festival", "DJ OM", "Om's house", "Feb 15, 2025", thumbnail6, 70));
+
+
+        // GET method to get events from server and add them to the eventList
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                   String result = sendRequest("GET", "/events", null);
+                    // TODO ask om to return a sequence of events
+                    //parse the JSON body to return user IDS
+                    JSONArray json = new JSONArray(result);
+                    for (int i = 0; i < json.length(); i++) {
+                        JSONObject event = json.getJSONObject(i);
+                        String eventName = event.getString("eventName");
+                        String eventHost = event.getString("eventHost");
+                        String eventLocation = event.getString("eventLocation");
+                        String eventDate = event.getString("eventDate");
+                        String eventThumbnail = event.getString("eventThumbnail");
+                        int eventCost = event.getInt("eventCost");
+                        eventList.add(new Event(eventName, eventHost, eventLocation, eventDate, thumbnail1, eventCost));
+                    }
+            }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
 
 
