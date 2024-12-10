@@ -1,11 +1,13 @@
 package com.example.openingactivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -86,9 +88,14 @@ public class EventsActivity extends AppCompatActivity implements Request {
     }
 
     private void setEventInfo() {
-        eventList.add(new Event("Event 1", "Host 1", "Location 1", "Date 1"));
-        eventList.add(new Event("Event 2", "Host 2", "Location 2", "Date 2"));
-        eventList.add(new Event("Event 3", "Host 3", "Location 3", "Date 3"));
+        Drawable thumbnail1 = ContextCompat.getDrawable(this, R.drawable.gradient_background3);
+        Drawable thumbnail2 = ContextCompat.getDrawable(this, R.drawable.gradient_background4);
+        Drawable thumbnail3 = ContextCompat.getDrawable(this, R.drawable.gradient_background2);
+
+
+        eventList.add(new Event("Event 1", "Host 1", "Location 1", "Date 1", thumbnail1));
+        eventList.add(new Event("Event 2", "Host 2", "Location 2", "Date 2", thumbnail2));
+        eventList.add(new Event("Event 3", "Host 3", "Location 3", "Date 3", thumbnail3));
 
 
     }
