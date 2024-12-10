@@ -99,12 +99,12 @@ public class EventsActivity extends AppCompatActivity implements Request {
         Drawable thumbnail3 = ContextCompat.getDrawable(this, R.drawable.gradient_background2);
 
 
-        eventList.add(new Event("Event 1", "Host 1", "Location 1", "Date 1", thumbnail1));
-        eventList.add(new Event("Event 2", "Host 2", "Location 2", "Date 2", thumbnail2));
-        eventList.add(new Event("Event 3", "Host 3", "Location 3", "Date 3", thumbnail3));
-        eventList.add(new Event("Event 4", "Host 4", "Location 4", "Date 4", thumbnail1));
-        eventList.add(new Event("Event 5", "Host 5", "Location 5", "Date 5", thumbnail2));
-        eventList.add(new Event("Event 6", "Host 6", "Location 6", "Date 6", thumbnail3));
+        eventList.add(new Event("Event 1", "Host 1", "Location 1", "Date 1", thumbnail1, 10));
+        eventList.add(new Event("Event 2", "Host 2", "Location 2", "Date 2", thumbnail2, 20));
+        eventList.add(new Event("Event 3", "Host 3", "Location 3", "Date 3", thumbnail3, 45));
+        eventList.add(new Event("Event 4", "Host 4", "Location 4", "Date 4", thumbnail1, 15));
+        eventList.add(new Event("Event 5", "Host 5", "Location 5", "Date 5", thumbnail2, 35));
+        eventList.add(new Event("Event 6", "Host 6", "Location 6", "Date 6", thumbnail3, 70));
 
 
 

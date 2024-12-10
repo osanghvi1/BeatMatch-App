@@ -8,13 +8,15 @@ public class Event {
     private String host;
     private String location;
     private String date;
+    private int cost;
 
-    public Event(String name, String host, String location, String date, Drawable thumbnail) {
+    public Event(String name, String host, String location, String date, Drawable thumbnail, int cost) {
         this.name = name;
         this.host = host;
         this.location = location;
         this.date = date;
         this.thumbnail = thumbnail;
+        this.cost = cost;
     }
 
     // Getters and setters for the event attributes
@@ -47,5 +49,11 @@ public class Event {
     }
     public void setEventThumbnail(Drawable thumbnail) {
         this.thumbnail = thumbnail;
+    }
+    public int getEventCost() {
+        return cost;
+    }
+    public void setEventCost(int cost) {
+        this.cost = cost;
     }
 }
