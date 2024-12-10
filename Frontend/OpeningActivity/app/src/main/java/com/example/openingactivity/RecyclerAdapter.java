@@ -29,6 +29,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         private TextView eventDate;
         private ImageView eventThumbnail;
         private Button joinButton;
+        private TextView cost;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -38,6 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             eventDate = itemView.findViewById(R.id.textView_event_date);
             eventThumbnail = itemView.findViewById(R.id.imageView_event_thumbnail);
             joinButton = itemView.findViewById(R.id.button_event_join);
+            cost = itemView.findViewById(R.id.textView_event_price);
 
         }
     }
@@ -57,12 +59,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         String eventDate = eventList.get(position).getEventDate();
         Drawable eventThumbnail = eventList.get(position).getEventThumbnail();
         Button joinButton = holder.joinButton;
+        int cost = eventList.get(position).getEventCost();
 
         holder.eventName.setText(eventName);
         holder.eventHost.setText(eventHost);
         holder.eventLocation.setText(eventLocation);
         holder.eventDate.setText(eventDate);
         holder.eventThumbnail.setImageDrawable(eventThumbnail);
+        holder.cost.setText("$" + String.valueOf(cost));
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
