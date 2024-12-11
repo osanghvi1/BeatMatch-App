@@ -61,7 +61,8 @@ public class PlaylistEntryController {
     @DeleteMapping(path = "/playlistEntry/deletePlaylist/{pid}")
     public String deletePlaylist(@PathVariable int pid) {
         List<PlaylistEntry> playlist = playlistEntryRepository.getPlaylistEntriesByPlaylistId(pid);
-        playlistEntryRepository.deleteAllById(pid);
+        playlistEntryRepository.deleteAllInBatch(playlist);
+        return "Deleted playlist";
     }
 
 }
