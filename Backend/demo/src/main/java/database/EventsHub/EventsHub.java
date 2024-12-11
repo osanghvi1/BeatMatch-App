@@ -12,21 +12,37 @@ public class EventsHub {
     private Long id;
 
     @Column(nullable = false)
-    private String title;
+    private String eventName;
 
     @Column(nullable = false)
-    private String description;
+    private String eventHost;
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDateTime eventDate;
+
+    @Column
+    private String eventLocation;
+
+    @Column(nullable = false)
+    private int eventThumbnail;
+
+    @Column(nullable = false)
+    private int eventCost;
+
+
+
+
 
     // Constructors
     public EventsHub() {}
 
-    public EventsHub(String title, String description, LocalDateTime date) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
+    public EventsHub(String eventName, String eventHost, LocalDateTime eventDate, String eventLocation, int eventThumbnail, int eventCost) {
+        this.eventName = eventName;
+        this.eventHost = eventHost;
+        this.eventDate = eventDate;
+        this.eventLocation = eventLocation;
+        this.eventThumbnail = eventThumbnail;
+        this.eventCost = eventCost;
     }
 
     // Getters and Setters
@@ -38,27 +54,43 @@ public class EventsHub {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setEventName(String title) {
+        this.eventName = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getEventHost() {
+        return eventHost;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEventHost(String description) {
+        this.eventHost = description;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getEventDate() {
+        return eventDate;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setEventDate(LocalDateTime date) {
+        this.eventDate = date;
     }
+
+public String getEventLocation() {return eventLocation;}
+
+    public void setEventLocation(String eventLocation) {
+        this.eventLocation = eventLocation;
+    }
+
+
+    public int getEventThumbnail() {return eventThumbnail;}
+
+    public void setEventThumbnail(int eventThumbnail) {this.eventThumbnail = eventThumbnail;}
+
+
+    public int getEventCost() {return eventCost;}
+
+    public void setEventCost(int eventCost) {this.eventCost = eventCost;}
 }
