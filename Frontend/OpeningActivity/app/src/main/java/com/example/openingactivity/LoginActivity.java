@@ -143,5 +143,6 @@ public class LoginActivity extends AppCompatActivity implements Request {
         //Change intent to Profile
         Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
         startActivity(intent);
+        finish();
     }
 }

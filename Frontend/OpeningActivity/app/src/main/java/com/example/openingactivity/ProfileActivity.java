@@ -36,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity implements Request {
     TextView textGetUser, textGetEmail;
 
     // UI elements
-    Button deleteAccountButton, deleteSecurityButton, updateAnswer2;
+    Button deleteAccountButton, deleteSecurityButton, updateAnswer2, logoutButton;
     Button adminButton;
     ExecutorService executorService;
     TextView textGetResponse;
@@ -62,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity implements Request {
 
         adminButton = findViewById(R.id.button_admin);
         adminButton.setVisibility(View.GONE);
+
+        logoutButton = findViewById(R.id.button_profile_logout);
 
 
         /* METHOD FOR IF WE CHANGE THE RETURN FROM GET TO BE A JSON OBJECT OF USER INFO - IS CURRENTLY A STRING OF USER ID
@@ -138,6 +140,16 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                 } else {
                     return false;
                 }
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Set view back to startup activity
+                Intent intent = new Intent(ProfileActivity.this, StartupActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
