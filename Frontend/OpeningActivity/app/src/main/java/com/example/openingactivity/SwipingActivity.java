@@ -143,10 +143,14 @@ public class SwipingActivity extends AppCompatActivity implements Request {
      * Helper method to create mutliple Deezer song objects and add them to the queue
      */
     public void createSongQueue() {
-        int k=0;
-        while(k<=5){
-            addDeezerSong();
-            k++;
+        if (songData.size() < 15) {
+            int k = 0;
+            while (k <= 5) {
+                addDeezerSong();
+                k++;
+            }
+        } else {
+            System.out.println("Song queue is full");
         }
     }
 
