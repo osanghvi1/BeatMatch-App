@@ -136,6 +136,17 @@ public class LoginActivity extends AppCompatActivity implements Request {
             }
         });
 
+        inputPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+                    buttonLogin.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
     }
 
