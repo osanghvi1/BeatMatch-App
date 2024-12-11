@@ -131,6 +131,7 @@ public class SwipingActivity extends AppCompatActivity implements Request {
                     Song song = new Song(title, artist, album, preview, id);
                     songData.add(song);
 
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
