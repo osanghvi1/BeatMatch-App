@@ -7,10 +7,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -43,11 +45,27 @@ public class ProfileActivity extends AppCompatActivity implements Request {
     EditText inputAnswer1;
     EditText inputAnswer2;
 
+
     // Initialize onCreate Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        // Map UI elements to XML elements
+        Button openPlaylistsButton = findViewById(R.id.button_playlists);
+
+        // Set button text dynamically
+        openPlaylistsButton.setText("Open Playlists");
+
+        // Button click to navigate to PlaylistsActivity
+        openPlaylistsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, PlaylistsActivity.class);
+                startActivity(intent);
+            }
+        });
         // Map UI elements to XML elements
 
         textGetUser = findViewById(R.id.text_get_user_ID);
@@ -62,6 +80,8 @@ public class ProfileActivity extends AppCompatActivity implements Request {
 
         adminButton = findViewById(R.id.button_admin);
         adminButton.setVisibility(View.GONE);
+
+
 
 
         /* METHOD FOR IF WE CHANGE THE RETURN FROM GET TO BE A JSON OBJECT OF USER INFO - IS CURRENTLY A STRING OF USER ID
@@ -94,6 +114,8 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                 }
             });
         }
+
+
 
         executorService = Executors.newSingleThreadExecutor();
 
@@ -203,8 +225,5 @@ public class ProfileActivity extends AppCompatActivity implements Request {
                 });
             }
         });
-
-
     }
-
 }
