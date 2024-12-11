@@ -20,7 +20,7 @@ public class PlaylistEntryController {
 
     //create a song entry
     @PostMapping(path = "/playlistEntry/addSong")
-    String addSong(@RequestBody PlaylistEntry entry){
+    public String addSong(@RequestBody PlaylistEntry entry){
         //Get entry to add info
         int songId = entry.getSongEntryId();
         int playlistId = entry.getPlaylistId();
@@ -44,7 +44,7 @@ public class PlaylistEntryController {
 
     //delete a song entry
     @DeleteMapping(path = "/playlistEntry/delete/{pid}/{sid}")
-    String deleteSongEntry(@PathVariable int pid, @PathVariable int sid) {
+    public String deleteSongEntry(@PathVariable int pid, @PathVariable int sid) {
         PlaylistEntry entry = playlistEntryRepository.findByPlaylistIdAndSongEntryId(pid, sid);
         if (entry == null) {
             return "Playlist Entry does not exist";
@@ -58,5 +58,10 @@ public class PlaylistEntryController {
         }
     }
 
+    @DeleteMapping(path = "/playlistEntry/deletePlaylist/{pid}")
+    public String deletePlaylist(@PathVariable int pid) {
+        List<PlaylistEntry> playlist = playlistEntryRepository.getPlaylistEntriesByPlaylistId(pid);
+        playlistEntryRepository.deleteAllById(pid);
+    }
 
 }
