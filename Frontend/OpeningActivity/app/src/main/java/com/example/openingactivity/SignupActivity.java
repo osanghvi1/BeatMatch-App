@@ -171,8 +171,8 @@ public class SignupActivity extends AppCompatActivity implements Request {
 
     private void login() {
         Intent intent = new Intent(SignupActivity.this, ForgotPasswordActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
 
 

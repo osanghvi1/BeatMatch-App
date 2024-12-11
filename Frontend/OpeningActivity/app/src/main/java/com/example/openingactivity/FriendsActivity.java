@@ -135,9 +135,8 @@ public class FriendsActivity extends AppCompatActivity implements Request {
                     for (int i = 0; i < json.length(); i++) {
                         JSONObject friend = json.getJSONObject(i);
                         int userIDFriends = friend.getInt("userIDFriends");
-                        //String username = friend.getString("username");
-                        friendsList.add(new Friend(("user " + userIDFriends), userIDFriends));
-                        // hello jackson
+                        String username = friend.getString("userNameFriend");
+                        friendsList.add(new Friend((username), userIDFriends));
                     }
 
                 } catch (Exception e) {
