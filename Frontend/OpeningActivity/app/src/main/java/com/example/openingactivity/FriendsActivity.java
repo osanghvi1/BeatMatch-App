@@ -137,6 +137,7 @@ public class FriendsActivity extends AppCompatActivity implements Request {
                         int userIDFriends = friend.getInt("userIDFriends");
                         //String username = friend.getString("username");
                         friendsList.add(new Friend(("user " + userIDFriends), userIDFriends));
+                        // hello jackson
                     }
 
                 } catch (Exception e) {
