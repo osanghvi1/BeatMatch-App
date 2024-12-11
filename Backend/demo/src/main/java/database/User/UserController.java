@@ -67,6 +67,10 @@ import java.util.Set;
     public int getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
         if (userRepository.findByEmailAndPassword(email, password) != null) {
             notificationService.sendNotification("Getting Specific User");
+            if(userRepository.findByEmailAndPassword(email, password).getAccountStatus() == -1) {
+                return -2;
+            }
+
             return userRepository.findByEmailAndPassword(email, password).getUserID();
         }
         else{
@@ -206,9 +210,8 @@ import java.util.Set;
         return user.getUserID();
     }
 
-
     @PutMapping(path = "/user/edit/{uid}")
-    String editGenrePreferences(@PathVariable int uid, @RequestBody User userToModify){
+    public String editUser(@PathVariable int uid, @RequestBody User userToModify){
         User user = userRepository.findById(uid);
         String newFirstname = userToModify.getFirstName();
         String newLastname = userToModify.getLastName();
