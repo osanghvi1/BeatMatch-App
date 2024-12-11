@@ -100,8 +100,8 @@ public class ProfileActivity extends AppCompatActivity implements Request {
         executorService = Executors.newSingleThreadExecutor();
 
         // Set the user information in the TextViews
-        textGetUser.setText("" + user.getUserID());
-        textGetEmail.setText("" + user.getUserEmail());
+        textGetUser.setText("ID: " + user.getUserID());
+        textGetEmail.setText("Email: " + user.getUserEmail());
 
 
         // Initialize and assign variable
