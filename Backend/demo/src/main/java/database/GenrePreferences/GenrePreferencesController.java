@@ -30,7 +30,7 @@ public class GenrePreferencesController {
             @ApiResponse(responseCode = "400", description = "bad request",
                     content = @Content)})
     @GetMapping(path = "/userGenres")
-    List<GenrePreferences> getAllGenrePreferences(){
+    public List<GenrePreferences> getAllGenrePreferences(){
        return genrePreferencesRepository.findAll();
     }
 
@@ -42,7 +42,7 @@ public class GenrePreferencesController {
             @ApiResponse(responseCode = "400", description = "invalid user id",
                     content = @Content)})
     @GetMapping(path = "/userGenres/{id}")
-    GenrePreferences getGenrePreferencesById(@PathVariable int id){
+    public GenrePreferences getGenrePreferencesById(@PathVariable int id){
         if(genrePreferencesRepository.findById(id) == null){
             return null;
         }
@@ -57,7 +57,7 @@ public class GenrePreferencesController {
             @ApiResponse(responseCode = "400", description = "invalid user id",
                     content = @Content)})
     @PostMapping(path = "/userGenres/create")
-    String createGenrePreferences(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+    public String createGenrePreferences(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "genre preferences to create", required = true,
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = GenrePreferences.class),
@@ -83,7 +83,7 @@ public class GenrePreferencesController {
             @ApiResponse(responseCode = "400", description = "invalid user id",
                     content = @Content)})
     @PutMapping(path = "/userGenres/edit/{id}")
-    String editGenrePreferences(@PathVariable int id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+    public String editGenrePreferences(@PathVariable int id, @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "genre preferences to create", required = true,
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = GenrePreferences.class),
@@ -120,7 +120,7 @@ public class GenrePreferencesController {
             @ApiResponse(responseCode = "400", description = "invalid user id",
                     content = @Content)})
     @DeleteMapping(path = "/userGenres/delete/{id}")
-    String deleteGenres(@PathVariable int id) {
+    public String deleteGenres(@PathVariable int id) {
         genrePreferencesRepository.deleteById(id);
         return "Delete : Success";
     }
