@@ -1,11 +1,13 @@
 package database.API;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
+@Service
 public class ApiService {
 
     // Deezer API base URL
@@ -13,23 +15,16 @@ public class ApiService {
 
     // Method to search for a track by name and return the track ID of the first result
     public long searchTrack(String trackName) throws JSONException {
-        // Create a RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
-
-        // Construct the full URL for the API request
         String searchUrl = API_BASE_URL + "/search/track?q=" + trackName;
 
-        // Make a GET request to the Deezer API
         ResponseEntity<String> response = restTemplate.getForEntity(searchUrl, String.class);
-
-        // Parse the response JSON and extract the first track ID (songID)
         JSONObject responseJson = new JSONObject(response.getBody());
         JSONArray dataArray = responseJson.getJSONArray("data");
 
         if (dataArray.length() > 0) {
-            // Get the first track from the search results
             JSONObject track = dataArray.getJSONObject(0);
-            return track.getLong("id");  // Change to long to handle large numbers
+            return track.getLong("id");
         } else {
             throw new JSONException("No tracks found for the search query.");
         }
@@ -40,10 +35,34 @@ public class ApiService {
         RestTemplate restTemplate = new RestTemplate();
         String trackDetailsUrl = API_BASE_URL + "/track/" + trackID;
 
-        // Make a GET request to fetch track details
         ResponseEntity<String> trackResponse = restTemplate.getForEntity(trackDetailsUrl, String.class);
-
-        // Parse and return the track details as a JSON object
         return new JSONObject(trackResponse.getBody());
+    }
+
+    // Method to fetch album details by albumID
+    public JSONObject getAlbumDetailsById(long albumID) throws JSONException {
+        RestTemplate restTemplate = new RestTemplate();
+        String albumDetailsUrl = API_BASE_URL + "/album/" + albumID;
+
+        ResponseEntity<String> albumResponse = restTemplate.getForEntity(albumDetailsUrl, String.class);
+        return new JSONObject(albumResponse.getBody());
+    }
+
+    // Method to fetch artist details by artistID
+    public JSONObject getArtistDetailsById(long artistID) throws JSONException {
+        RestTemplate restTemplate = new RestTemplate();
+        String artistDetailsUrl = API_BASE_URL + "/artist/" + artistID;
+
+        ResponseEntity<String> artistResponse = restTemplate.getForEntity(artistDetailsUrl, String.class);
+        return new JSONObject(artistResponse.getBody());
+    }
+
+    // Method to fetch genre details by genreID
+    public JSONObject getGenreDetailsById(long genreID) throws JSONException {
+        RestTemplate restTemplate = new RestTemplate();
+        String genreDetailsUrl = API_BASE_URL + "/genre/" + genreID;
+
+        ResponseEntity<String> genreResponse = restTemplate.getForEntity(genreDetailsUrl, String.class);
+        return new JSONObject(genreResponse.getBody());
     }
 }
