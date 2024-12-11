@@ -65,4 +65,10 @@ public class ApiService {
         ResponseEntity<String> genreResponse = restTemplate.getForEntity(genreDetailsUrl, String.class);
         return new JSONObject(genreResponse.getBody());
     }
+
+    //Method to fetch AlbumCoverImage
+    public String getAlbumCoverImage(long albumID) throws JSONException {
+        JSONObject albumDetails = getAlbumDetailsById(albumID);
+        return albumDetails.getString("cover");
+    }
 }
