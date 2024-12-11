@@ -9,16 +9,15 @@ public class RSVP {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userName;
+    private int userID;
 
-    private String email;
+    private String eventName;
 
-    private String response;
 
-    private LocalDateTime rsvpTime;
 
     public RSVP() {
-        this.rsvpTime = LocalDateTime.now();
+
+
     }
 
     // Getters and Setters
@@ -30,35 +29,21 @@ public class RSVP {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
-    public String getResponse() {
-        return response;
-    }
 
-    public void setResponse(String response) {
-        this.response = response;
-    }
-
-    public LocalDateTime getRsvpTime() {
-        return rsvpTime;
-    }
-
-    public void setRsvpTime(LocalDateTime rsvpTime) {
-        this.rsvpTime = rsvpTime;
-    }
 }
