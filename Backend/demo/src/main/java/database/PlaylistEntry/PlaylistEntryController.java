@@ -20,23 +20,20 @@ public class PlaylistEntryController {
 
     //create a song entry
     @PostMapping(path = "/playlistEntry/addSong")
-    String addSong(@RequestBody PlaylistEntry entry){
+    public String addSong(@RequestBody PlaylistEntry entry){
         //Get entry to add info
         int songId = entry.getSongEntryId();
         int playlistId = entry.getPlaylistId();
 
         //Get info from potential entry already in database
-        int dbSongId = playlistEntryRepository.findByPlaylistIdAndSongEntryId(playlistId, songId).getSongEntryId();
-        int dbPlaylistId = playlistEntryRepository.findByPlaylistIdAndSongEntryId(playlistId, songId).getPlaylistId();
+        PlaylistEntry dbEntry = playlistEntryRepository.findByPlaylistIdAndSongEntryId(playlistId, songId);
 
         //if they don't send over an entry correctly
         if(entry == null){
             return "Invalid Playlist Entry";
         }
-        else if(songId == dbSongId && playlistId == dbPlaylistId){
-            //replace with some exception later
-            //about duplicate stuff
-            return "Entry already exists in playlist";
+        else if(dbEntry != null){
+            return "Entry already Exists in database";
         }
         else{
             playlistEntryRepository.save(entry);
@@ -47,7 +44,7 @@ public class PlaylistEntryController {
 
     //delete a song entry
     @DeleteMapping(path = "/playlistEntry/delete/{pid}/{sid}")
-    String deleteSongEntry(@PathVariable int pid, @PathVariable int sid) {
+    public String deleteSongEntry(@PathVariable int pid, @PathVariable int sid) {
         PlaylistEntry entry = playlistEntryRepository.findByPlaylistIdAndSongEntryId(pid, sid);
         if (entry == null) {
             return "Playlist Entry does not exist";
@@ -61,5 +58,11 @@ public class PlaylistEntryController {
         }
     }
 
+    @DeleteMapping(path = "/playlistEntry/deletePlaylist/{pid}")
+    public String deletePlaylist(@PathVariable int pid) {
+        List<PlaylistEntry> playlist = playlistEntryRepository.getPlaylistEntriesByPlaylistId(pid);
+        playlistEntryRepository.deleteAllInBatch(playlist);
+        return "Deleted playlist";
+    }
 
 }
