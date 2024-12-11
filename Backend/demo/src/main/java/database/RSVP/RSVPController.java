@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rsvps")
+@RequestMapping("/events/rsvps")
 public class RSVPController {
 
     @Autowired
@@ -40,9 +40,8 @@ public class RSVPController {
     public ResponseEntity<RSVP> updateRSVP(@PathVariable Long id, @RequestBody RSVP updatedRSVP) {
         return rsvpRepository.findById(id)
                 .map(existingRSVP -> {
-                    existingRSVP.setUserName(updatedRSVP.getUserName());
-                    existingRSVP.setEmail(updatedRSVP.getEmail());
-                    existingRSVP.setResponse(updatedRSVP.getResponse());
+                    existingRSVP.setUserID(updatedRSVP.getUserID());
+                    existingRSVP.setEventName(updatedRSVP.getEventName());
                     RSVP savedRSVP = rsvpRepository.save(existingRSVP);
                     return ResponseEntity.ok(savedRSVP);
                 })
@@ -59,5 +58,4 @@ public class RSVPController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
