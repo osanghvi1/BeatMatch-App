@@ -69,9 +69,12 @@ public class EventsHubController {
 
         return eventRepository.findById(id)
                 .map(event -> {
-                    event.setTitle(updatedEvent.getTitle());
-                    event.setDescription(updatedEvent.getDescription());
-                    event.setDate(updatedEvent.getDate());
+                    event.setEventName(updatedEvent.getEventName());
+                    event.setEventHost(updatedEvent.getEventHost());
+                    event.setEventDate(updatedEvent.getEventDate());
+                    event.setEventLocation(updatedEvent.getEventLocation());
+                    event.setEventThumbnail(updatedEvent.getEventThumbnail());
+                    event.setEventCost(updatedEvent.getEventCost());
                     EventsHub savedEvent = eventRepository.save(event);
                     return ResponseEntity.ok(savedEvent);
                 })
@@ -93,5 +96,3 @@ public class EventsHubController {
         }
     }
 }
-
-
