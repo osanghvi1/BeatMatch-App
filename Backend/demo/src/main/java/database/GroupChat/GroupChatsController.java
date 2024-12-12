@@ -123,6 +123,36 @@ public class GroupChatsController {
     }
 
     /**
+     * Get all group chats a user is part of.
+     *
+     * @param userId The ID of the user.
+     * @return List of group chats the user is part of.
+     */
+    @GetMapping("/user/{userId}")
+    @Operation(summary = "Get Group Chats for User", description = "Retrieve all group chats a specific user is part of.")
+    public ResponseEntity<List<Map<String, Object>>> getGroupChatsForUser(@PathVariable int userId) {
+        User user = userRepository.findById(userId); // Simplified
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<GroupChats> userGroupChats = groupChatsRepository.findAll().stream()
+                .filter(groupChat -> groupChat.getUsers().contains(user))
+                .toList();
+
+        List<Map<String, Object>> response = userGroupChats.stream().map(groupChat -> {
+            Map<String, Object> groupChatMap = new HashMap<>();
+            groupChatMap.put("id", groupChat.getId());
+            groupChatMap.put("groupName", groupChat.getGroupName());
+            groupChatMap.put("groupImage", groupChat.getGroupImage());
+            return groupChatMap;
+        }).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    /**
      * Remove a user from a group chat.
      *
      * @param groupId The ID of the group chat.
