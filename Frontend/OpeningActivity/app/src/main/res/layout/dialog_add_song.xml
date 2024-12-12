@@ -1,0 +1,18 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#1C1C1C"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/songNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Song Name"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#AAAAAA"
+        android:background="@drawable/custom_edit_text"
+        android:padding="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
