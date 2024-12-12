@@ -11,13 +11,14 @@
         android:id="@+id/createPlaylistButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_button"
         android:text="Create Playlist"
         android:textColor="#FFFFFF"
-        android:background="@drawable/custom_button"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/viewPlaylistsButton"
@@ -30,6 +31,18 @@
         app:layout_constraintTop_toBottomOf="@id/createPlaylistButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="548dp"
+        android:background="@drawable/custom_button"
+        android:text="Back"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/viewPlaylistsButton"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
