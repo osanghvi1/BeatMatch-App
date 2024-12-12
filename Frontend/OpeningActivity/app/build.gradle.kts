@@ -45,6 +45,7 @@ dependencies {
     implementation("com.google.android.material:material:1.0.0")
     implementation ("com.google.android.material:material:1.9.0")
     implementation ("androidx.recyclerview:recyclerview:1.3.0")
+    implementation ("org.java-websocket:Java-WebSocket:1.5.2")
 
 
     // GSON Converter for parsing JSON data
