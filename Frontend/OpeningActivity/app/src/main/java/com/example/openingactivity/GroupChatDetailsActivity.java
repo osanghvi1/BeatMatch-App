@@ -1,6 +1,7 @@
 package com.example.openingactivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,11 +33,11 @@ public class GroupChatDetailsActivity extends AppCompatActivity {
         messageInput = findViewById(R.id.messageInput);
         sendButton = findViewById(R.id.sendButton);
         addFriendsButton = findViewById(R.id.addFriendsButton);
+        Button backButton = findViewById(R.id.backButton);
 
         // Dummy data
         messages.add("Welcome to " + groupName);
-        friends.add("Friend 1");
-        friends.add("Friend 2");
+        friends.add("user 70");
 
         messagesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, messages);
         friendsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, friends);
@@ -60,5 +61,7 @@ public class GroupChatDetailsActivity extends AppCompatActivity {
             // Logic to add selected friends
             Toast.makeText(this, "Friends added to " + groupName, Toast.LENGTH_SHORT).show();
         });
+
+        backButton.setOnClickListener(v -> finish());
     }
 }
