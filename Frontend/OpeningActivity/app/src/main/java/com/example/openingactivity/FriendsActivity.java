@@ -60,6 +60,18 @@ public class FriendsActivity extends AppCompatActivity implements Request {
         buttonBack = findViewById(R.id.button_friends_back);
         buttonFindFriends = findViewById(R.id.button_find_friends);
         buttonRefreshFriends = findViewById(R.id.button_refresh_friends);
+        Button buttonGroupChat = findViewById(R.id.button_group_chat);
+
+        buttonGroupChat.setOnClickListener(v -> {
+            Intent intent = new Intent(FriendsActivity.this, GroupchatsActivity.class);
+            ArrayList<String> friendsNames = new ArrayList<>();
+            for (Friend friend : friendsList) {
+                friendsNames.add(friend.username);
+            }
+            intent.putStringArrayListExtra("friends", friendsNames);
+            startActivity(intent);
+        });
+
 
 
         // Initialize the ExecutorService
@@ -157,6 +169,12 @@ public class FriendsActivity extends AppCompatActivity implements Request {
             Intent myIntent = new Intent(this, FriendFinderActivity.class);
             startActivity(myIntent);
         });
+
+        buttonGroupChat.setOnClickListener(v -> {
+            Intent intent = new Intent(FriendsActivity.this, GroupchatsActivity.class);
+            startActivity(intent);
+        });
+
 
         buttonRefreshFriends.setOnClickListener(new View.OnClickListener() {
             @Override
