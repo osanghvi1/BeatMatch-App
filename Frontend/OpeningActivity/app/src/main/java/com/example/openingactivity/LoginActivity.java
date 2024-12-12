@@ -69,7 +69,14 @@ public class LoginActivity extends AppCompatActivity implements Request {
                         public void run() {
                             //sendGetRequest(GET_URL + "/users/" + email + "/" + password); // old method
                             String result = sendRequest("GET", "/users/" + email + "/" + password, null);
-                            if (Integer.parseInt(result) != -1) {
+                            if (Integer.parseInt(result) == -2) {
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        textGetResponse.setText("YOU ARE BANNED IDIOT");
+                                    }
+                                });
+                            } else if (Integer.parseInt(result) != -1 && Integer.parseInt(result) != 404) {
                                 try {
                                     int userID = Integer.parseInt(result);
                                     new user(Integer.valueOf(userID));
@@ -136,6 +143,17 @@ public class LoginActivity extends AppCompatActivity implements Request {
             }
         });
 
+        inputPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+                    buttonLogin.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
     }
 
@@ -143,5 +161,6 @@ public class LoginActivity extends AppCompatActivity implements Request {
         //Change intent to Profile
         Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
         startActivity(intent);
+        finish();
     }
 }

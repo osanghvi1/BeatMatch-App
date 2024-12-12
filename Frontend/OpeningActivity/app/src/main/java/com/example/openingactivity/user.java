@@ -11,7 +11,6 @@ public class user {
         this.userID = UserID;
     }
 
-
     //getters and setters
     public static int getUserID() {
         return userID;
@@ -28,6 +27,4 @@ public class user {
     public static String getUserEmail() {
         return userEmail;
     }
-
-
 }
