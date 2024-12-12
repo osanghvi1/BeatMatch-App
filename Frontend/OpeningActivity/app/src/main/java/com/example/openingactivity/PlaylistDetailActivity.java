@@ -29,6 +29,7 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         ListView songsListView = findViewById(R.id.songsListView);
         Button addSongButton = findViewById(R.id.addSongButton);
+        Button backButton = findViewById(R.id.backButton);
 
         // Retrieve playlist name and songs from intent
         playlistName = getIntent().getStringExtra("playlistName");
@@ -40,6 +41,9 @@ public class PlaylistDetailActivity extends AppCompatActivity {
 
         // Listener for the Add Song button
         addSongButton.setOnClickListener(v -> showAddSongDialog());
+
+        // Listener for the Back button
+        backButton.setOnClickListener(v -> finish());
     }
 
     // Show a dialog to add a new song to the playlist

@@ -29,13 +29,18 @@ public class PlaylistsActivity extends AppCompatActivity {
 
         createPlaylistButton = findViewById(R.id.createPlaylistButton);
         viewPlaylistsButton = findViewById(R.id.viewPlaylistsButton);
+        Button backButton = findViewById(R.id.backButton);
 
         // Listener to create a new playlist
         createPlaylistButton.setOnClickListener(v -> showCreatePlaylistDialog());
 
         // Listener to view existing playlists
         viewPlaylistsButton.setOnClickListener(v -> showPlaylistsDialog());
+
+        // Listener for the Back button
+        backButton.setOnClickListener(v -> finish());
     }
+
 
     // Show a dialog to create a new playlist
     private void showCreatePlaylistDialog() {
