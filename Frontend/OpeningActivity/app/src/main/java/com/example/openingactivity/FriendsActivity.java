@@ -170,6 +170,12 @@ public class FriendsActivity extends AppCompatActivity implements Request {
             startActivity(myIntent);
         });
 
+        buttonGroupChat.setOnClickListener(v -> {
+            Intent intent = new Intent(FriendsActivity.this, GroupchatsActivity.class);
+            startActivity(intent);
+        });
+
+
         buttonRefreshFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
