@@ -37,7 +37,7 @@ public class GroupChatDetailsActivity extends AppCompatActivity {
 
         // Dummy data
         messages.add("Welcome to " + groupName);
-        friends.add("user 70");
+        friends.add("griffinurbs");
 
         messagesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, messages);
         friendsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, friends);

@@ -65,7 +65,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         // Create dummy leaderboard items
         List<LeaderboardItem> leaderboardItems = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
-            leaderboardItems.add(new LeaderboardItem(i, "Song " + i, 100 + i));
+            leaderboardItems.add(new LeaderboardItem(i, "Song " + i, 0 + i));
         }
 
         // Set adapter
