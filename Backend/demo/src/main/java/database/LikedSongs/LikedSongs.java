@@ -1,5 +1,6 @@
 package database.LikedSongs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import database.User.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ public class LikedSongs {
 
     @ManyToMany(mappedBy = "likedSongs")
     @Schema(description = "Collection of users who liked this song.")
+    @JsonIgnore
     private Set<User> likedUsers = new HashSet<>();
 
     // Constructors
