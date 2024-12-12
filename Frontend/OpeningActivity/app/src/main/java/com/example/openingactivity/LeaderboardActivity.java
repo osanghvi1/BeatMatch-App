@@ -3,26 +3,30 @@ package com.example.openingactivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LeaderboardActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
 
         // Initialize and assign variable
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationView menuNavigationView = findViewById(R.id.menu_navigation);
 
-        // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.leaderboard);
+        // Set Leaderboard selected
+        menuNavigationView.setSelectedItemId(R.id.leaderboard);
 
         // Perform item selected listener
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        menuNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -53,5 +57,19 @@ public class LeaderboardActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Setup RecyclerView
+        RecyclerView recyclerView = findViewById(R.id.leaderboard_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Create dummy leaderboard items
+        List<LeaderboardItem> leaderboardItems = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            leaderboardItems.add(new LeaderboardItem(i, "Song " + i, 100 + i));
+        }
+
+        // Set adapter
+        LeaderboardAdapter adapter = new LeaderboardAdapter(leaderboardItems);
+        recyclerView.setAdapter(adapter);
     }
 }
